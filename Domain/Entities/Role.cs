@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Role : BaseEntity
+    public sealed class Role : Entity<int>
     {
-        public Role()
+        //public int Id { get; private set; }
+
+        private readonly List<User> _users=new();
+
+        public string? Title { get; private set; }
+
+        public IReadOnlyCollection<User>? Users => _users;
+
+        private Role(int id) : base(id)
         {
-            Users = new HashSet<User>();
         }
 
-        public int Id { get; set; }
-
-        public string? Title { get; set; }
-
-        public virtual ICollection<User>? Users { get; private set; }
     }
 }

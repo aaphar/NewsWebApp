@@ -1,18 +1,20 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class Hashtag : BaseEntity
+    public sealed class Hashtag : Entity<int>
     {
-        public Hashtag()
+        //public int Id { get; private set; }
+
+        private readonly List<PostHashtag>? _postHashtags = new();
+
+        public string? Title { get; private set; }
+
+        public IReadOnlyCollection<PostHashtag>? PostHashtags => _postHashtags;
+
+        private Hashtag(int id) : base(id)
         {
-            PostHashtags = new List<PostHashtag>();
         }
-
-        public int Id { get; set; }
-
-        public string? Title { get; set; }
-
-        public virtual ICollection<PostHashtag>? PostHashtags { get; private set; }
     }
 }

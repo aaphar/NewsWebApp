@@ -1,15 +1,20 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class PostHashtag : BaseEntity
+    public sealed class PostHashtag : Entity<long>
     {
-        public long NewsId { get; set; }
+        public long NewsId { get; private set; }
 
-        public int HashtagId { get; set; }
+        public int HashtagId { get; private set; }
 
-        public virtual PostTranslation? PostTranslation { get; set; }
+        public PostTranslation? PostTranslation { get; private set; }
 
-        public virtual Hashtag? Hashtag { get; set; }
+        public Hashtag? Hashtag { get; private set; }
+
+        private PostHashtag(long id) : base(id)
+        {
+        }
     }
 }

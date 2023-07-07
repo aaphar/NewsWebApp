@@ -1,22 +1,25 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class Post : BaseEntity
+    public sealed class Post : Entity<long>
     {
-        public Post()
+        //public long Id { get; private set; }
+
+        private readonly List<PostTranslation> _postTranslations=new();
+
+        public string? ImagePath { get; private set; }
+
+        public short CategoryId { get; private set; }
+
+        public Category? Category { get; private set; }
+
+        public ICollection<PostTranslation>? PostTranslations => _postTranslations; 
+
+        private Post(long id) : base(id)
         {
-            PostTranslations = new HashSet<PostTranslation>();
         }
 
-        public long Id { get; set; }
-
-        public string? ImagePath { get; set; }
-
-        public short CategoryId { get; set; }
-
-        public virtual Category? Category { get; set; }
-
-        public virtual ICollection<PostTranslation>? PostTranslations { get; private set; }
     }
 }

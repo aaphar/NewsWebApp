@@ -1,21 +1,25 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class Category:BaseEntity
+    public sealed class Category : Entity<short>
     {
-        public Category()
+        //public short Id { get; private set; }
+
+        private readonly List<CategoryTranslation> _categoryTranslations = new();
+
+        private readonly List<Post> _posts = new();
+
+        public string? Description { get; private set; }
+
+        public IReadOnlyCollection<CategoryTranslation>? CategoryTranslations => _categoryTranslations;
+
+        public IReadOnlyCollection<Post>? Posts => _posts;
+
+        private Category(short id) : base(id)
         {
-            CategoryTranslations = new HashSet<CategoryTranslation>();
-            Posts = new HashSet<Post>();
         }
 
-        public short Id { get; set; }
-
-        public string? Description { get; set; }
-
-        public virtual ICollection<CategoryTranslation>? CategoryTranslations { get; private set; }
-
-        public virtual ICollection<Post>? Posts { get; private set; }
     }
 }

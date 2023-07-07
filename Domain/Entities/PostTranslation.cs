@@ -1,42 +1,44 @@
 ﻿using Domain.Common;
 using Domain.Enums;
+using Domain.Primitive;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
-    public class PostTranslation : BaseEntity
+    public sealed class PostTranslation : Entity<long>
     {
-        public PostTranslation()
+        //public long Id { get; private set; }
+
+        private readonly List<PostHashtag> _postHashtags = new();
+
+        public PostTitle? Title { get; private set; }
+
+        public string? Context { get; private set; }
+
+        public DateTime InsertDate { get; private set; }
+
+        public DateTime PublishDate { get; private set; }
+
+        public Status Status { get; private set; }
+
+        public long ViewCount { get; private set; }
+
+        public short LanguageId { get; private set; }
+
+        public long NewsId { get; private set; }
+
+        public int AuthorId { get; private set; }
+
+        public Language? Language { get; private set; }
+
+        public Post? Post { get; private set; }
+
+        public User? Author { get; private set; }
+
+        public IReadOnlyCollection<PostHashtag>? PostHashtags => _postHashtags;
+
+        private PostTranslation(long id) : base(id)
         {
-            PostHashtags = new HashSet<PostHashtag>();
         }
-
-        public long Id { get; set; }
-
-        public PostTitle? Title { get; set; }
-
-        public string? Context { get; set; }
-
-        public DateTime InsertDate { get; set; } = DateTime.Now;
-
-        public DateTime PublishDate { get; set; } = DateTime.Now;
-
-        public Status Status { get; set; }
-
-        public long ViewCount { get; set; }
-
-        public short LanguageId { get; set; }
-
-        public long NewsId { get; set; }
-
-        public int AuthorId { get; set; }
-
-        public virtual Language? Language { get; set; }
-
-        public virtual Post? Post { get; set; }
-
-        public virtual User? Author { get; set; }
-
-        public virtual ICollection<PostHashtag>? PostHashtags { get; private set; }
     }
 }

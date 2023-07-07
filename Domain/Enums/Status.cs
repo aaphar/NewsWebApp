@@ -10,8 +10,8 @@ namespace Domain.Enums
     {
         Draft,
         Published,
+        Pending,
         Archived,
         Deleted
     }
-
 }

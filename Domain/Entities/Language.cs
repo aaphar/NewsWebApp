@@ -1,23 +1,25 @@
 ﻿using Domain.Common;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class Language : BaseEntity
+    public sealed class Language : Entity<short>
     {
-        public Language()
+        //public short Id { get; private set; }
+        
+        private readonly List<CategoryTranslation> _categories=new();
+        private readonly List<PostTranslation> _postTranslations= new();
+
+        public string? Name { get; private set; }
+
+        public string? LanguageCode { get; private set; }
+
+        public IReadOnlyCollection<CategoryTranslation>? CategoryTranslations => _categories;
+
+        public IReadOnlyCollection<PostTranslation>? PostTranslations => _postTranslations;
+
+        private Language(short id) : base(id)
         {
-            CategoryTranslations = new HashSet<CategoryTranslation>();
-            PostTranslations = new HashSet<PostTranslation>();
         }
-
-        public short Id { get; set; }
-
-        public string? Name { get; set; }
-
-        public string? LanguageCode { get; set; }
-
-        public virtual ICollection<CategoryTranslation>? CategoryTranslations { get; private set; }
-
-        public virtual ICollection<PostTranslation>? PostTranslations { get; private set; }
     }
 }

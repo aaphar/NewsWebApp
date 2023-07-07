@@ -1,26 +1,31 @@
 ﻿using Domain.Common;
 using Domain.Enums;
+using Domain.Primitive;
 
 namespace Domain.Entities
 {
-    public class CategoryTranslation : BaseEntity
+    public sealed class CategoryTranslation : Entity<short>
     {
-        public short Id { get; set; }
+        //public short Id { get; private set; }
 
-        public string? Title { get; set; }
+        public string? Title { get; private set; }
 
-        public Status Status { get; set; }
+        public Status Status { get; private set; }
 
-        public DateTime InsertDate { get; set; } = DateTime.Now;
+        public DateTime InsertDate { get; private set; }
 
-        public DateTime PublishDate { get; set; } = DateTime.Now;
+        public DateTime PublishDate { get; private set; }
 
-        public short LanguageId { get; set; }
+        public short LanguageId { get; private set; }
 
-        public short CategoryId { get; set; }
+        public short CategoryId { get; private set; }
 
-        public virtual Language? Language { get; set; }
+        public Language? Language { get; private set; }
 
-        public virtual Category? Category { get; set; }
+        public Category? Category { get; private set; }
+
+        private CategoryTranslation(short id) : base(id)
+        {
+        }
     }
 }
