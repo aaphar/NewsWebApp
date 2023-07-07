@@ -6,9 +6,9 @@ namespace Domain.Entities
     public sealed class Language : Entity<short>
     {
         //public short Id { get; private set; }
-        
-        private readonly List<CategoryTranslation> _categories=new();
-        private readonly List<PostTranslation> _postTranslations= new();
+
+        private readonly List<CategoryTranslation> _categories = new();
+        private readonly List<PostTranslation> _postTranslations = new();
 
         public string? Name { get; private set; }
 

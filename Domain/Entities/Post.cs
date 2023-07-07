@@ -7,7 +7,7 @@ namespace Domain.Entities
     {
         //public long Id { get; private set; }
 
-        private readonly List<PostTranslation> _postTranslations=new();
+        private readonly List<PostTranslation> _postTranslations = new();
 
         public string? ImagePath { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Domain.Entities
 
         public Category? Category { get; private set; }
 
-        public ICollection<PostTranslation>? PostTranslations => _postTranslations; 
+        public ICollection<PostTranslation>? PostTranslations => _postTranslations;
 
         private Post(long id) : base(id)
         {
