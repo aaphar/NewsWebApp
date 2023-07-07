@@ -12,7 +12,7 @@ namespace Domain.Entities
     {
         //public int Id { get; private set; }
 
-        private readonly List<User> _users=new();
+        private readonly List<User> _users = new();
 
         public string? Title { get; private set; }
 

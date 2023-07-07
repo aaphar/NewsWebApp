@@ -3,6 +3,7 @@ using Domain.Primitive;
 
 namespace Domain.Entities
 {
+    // sealed prevent inherited by other classes
     public sealed class Post : Entity<long>
     {
         //public long Id { get; private set; }

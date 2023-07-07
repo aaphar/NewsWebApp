@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public class EmptyPostTitleException : Exception
+    public sealed class EmptyPostTitleException : DomainException
     {
         public EmptyPostTitleException() : base("Post title cannot be empty")
         {

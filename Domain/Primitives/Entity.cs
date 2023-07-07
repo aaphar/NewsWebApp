@@ -6,7 +6,7 @@ public abstract class Entity<T> : IEquatable<Entity<T>>
         Id = id;
     }
 
-    public T Id { get; private init; }
+    public T Id { get; private init; }  // init can be set only once
 
     public static bool operator ==(Entity<T>? first, Entity<T>? second)
     {
