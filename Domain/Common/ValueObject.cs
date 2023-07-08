@@ -8,7 +8,7 @@ namespace Domain.Common
 {
     public abstract class ValueObject : IEquatable<ValueObject>
     {
-        public abstract IEnumerable<object> Values { get; }
+        public abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object? obj)
         {
@@ -22,7 +22,7 @@ namespace Domain.Common
 
         public override int GetHashCode()
         {
-            return Values
+            return GetEqualityComponents()
                 .Aggregate(
                 default(int),
                 HashCode.Combine);
@@ -30,7 +30,7 @@ namespace Domain.Common
 
         private bool ValuesAreEqual(ValueObject other)
         {
-            return Values.SequenceEqual(other.Values);
+            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
         }
     }
 }

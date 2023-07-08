@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities;
 using Domain.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,14 @@ namespace Domain.ValueObjects
 {
     public sealed class PostTitle : ValueObject
     {
-        public string Value { get; }
+        public string Value { get; } // make Value object immutabele
 
-        public override IEnumerable<object> Values { yield return Value; }
+        public override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Value;
+        }
 
-        public PostTitle(string value)
+        private PostTitle(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -27,12 +31,17 @@ namespace Domain.ValueObjects
         }
 
         public static implicit operator string(PostTitle title)
-        {
-            return title.ToString();
-        }
+            => title.Value;
 
         public static implicit operator PostTitle(string title)
             => new(title);
 
+        public static void ValidateUniqueness(IEnumerable<PostTranslation> postTranslations, PostTitle title)
+        {
+            if (postTranslations.Any(pt => pt.Title == title))
+            {
+                throw new PostTitleAlreadyExistException();
+            }
+        }
     }
 }
