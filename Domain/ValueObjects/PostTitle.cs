@@ -40,7 +40,7 @@ namespace Domain.ValueObjects
         {
             if (postTranslations.Any(pt => pt.Title == title))
             {
-                throw new PostTitleAlreadyExistException();
+                throw new PostTitleAlreadyExistException(title);
             }
         }
     }

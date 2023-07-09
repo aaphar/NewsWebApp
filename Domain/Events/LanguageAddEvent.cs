@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Entities;
+using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Domain.Events
 {
-    public class LanguageAddEvent:BaseEvent
+    public sealed record LanguageAddEvent(int id, string languageName, string LanguageCode) : IDomainEvent
     {
-        public LanguageAddEvent(Language language)
-        {
-            Language=language;            
-        }
+        //public LanguageAddEvent(Language language)
+        //{
+        //    Language = language;
+        //}
 
-        public Language Language { get; }
+        //public Language Language { get; }
     }
 }

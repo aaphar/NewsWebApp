@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{60035CAF-B5BA-4A3B-9C1C-CC5E72D2B1F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{60035CAF-B5BA-4A3B-9C1C-CC5E72D2B1F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{41C0AD94-0098-4114-8576-6463511EB087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{41C0AD94-0098-4114-8576-6463511EB087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{D353B2FD-80A1-430B-8B98-64FFC9C8A84E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{D353B2FD-80A1-430B-8B98-64FFC9C8A84E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EA1C5A53-D04D-4A50-8EB2-6BFF8A431039}"
 EndProject
@@ -31,8 +31,8 @@ Global
 		{D353B2FD-80A1-430B-8B98-64FFC9C8A84E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D353B2FD-80A1-430B-8B98-64FFC9C8A84E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D353B2FD-80A1-430B-8B98-64FFC9C8A84E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28C6DE3A-84C5-4E10-BDFE-D47CD1E7F4CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
