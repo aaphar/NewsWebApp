@@ -11,11 +11,5 @@ namespace Domain.Events
 {
     public sealed record LanguageAddEvent(int id, string languageName, string LanguageCode) : IDomainEvent
     {
-        //public LanguageAddEvent(Language language)
-        //{
-        //    Language = language;
-        //}
-
-        //public Language Language { get; }
     }
 }

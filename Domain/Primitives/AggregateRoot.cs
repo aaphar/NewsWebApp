@@ -9,8 +9,14 @@ namespace Domain.Primitives
 {
     public abstract class AggregateRoot<T> : Entity<T>
     {
+        private readonly List<IDomainEvent> _domainEvents = new();
         protected AggregateRoot(T id) : base(id)
         {
+        }
+
+        protected void RaiseDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Add(domainEvent);
         }
     }
 }
