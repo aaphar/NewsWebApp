@@ -15,16 +15,21 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(l => l.Id);
 
-            builder.Property(l => l.Name);
+            builder.Property(l => l.Name)
+                .IsRequired()
+                .HasMaxLength(50);
 
-            builder.Property(l => l.LanguageCode);
+            builder.Property(l => l.LanguageCode)
+                .IsRequired()
+                .HasMaxLength(10);
 
-            builder.OwnsMany(l => l.CategoryTranslations)
-                .HasOne(c => c.Language);
+            builder.HasMany(l => l.CategoryTranslations)
+                .WithOne(ct => ct.Language)
+                .HasForeignKey(ct => ct.LanguageId);
 
-            builder.OwnsMany(l => l.PostTranslations)
-                .HasOne(p => p.Language);
-                        
+            builder.HasMany(l => l.PostTranslations)
+                .WithOne(pt => pt.Language)
+                .HasForeignKey(pt => pt.LanguageId);
         }
     }
 }

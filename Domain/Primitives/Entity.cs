@@ -55,6 +55,6 @@ public abstract class Entity<T> : IEquatable<Entity<T>>
 
     public override int GetHashCode()
     {
-        return EqualityComparer<T>.Default.GetHashCode(Id) * 41;
+        return EqualityComparer<T>.Default.GetHashCode(Id!) * 41;
     }
 }
