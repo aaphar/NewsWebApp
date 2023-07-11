@@ -1,10 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Primitive;
+using Domain.Primitives;
 
 namespace Domain.Entities
 {
     // sealed prevent inherited by other classes
-    public sealed class Post : Entity<long>
+    public sealed class Post : AggregateRoot<long>
     {
         //public long Id { get; private set; }
 

@@ -1,9 +1,10 @@
 ﻿using Domain.Common;
 using Domain.Primitive;
+using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class User : Entity<int>
+    public sealed class User : AggregateRoot<int>
     {
         //public int Id { get; private set; }
 

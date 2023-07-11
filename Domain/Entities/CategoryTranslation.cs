@@ -1,10 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Enums;
 using Domain.Primitive;
+using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class CategoryTranslation : Entity<short>
+    public sealed class CategoryTranslation : AggregateRoot<short>
     {
         //public short Id { get; private set; }
 

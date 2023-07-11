@@ -1,9 +1,10 @@
 ﻿using Domain.Common;
 using Domain.Primitive;
+using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class PostHashtag : Entity<long>
+    public sealed class PostHashtag : AggregateRoot<long>
     {
         public long NewsId { get; private set; }
 

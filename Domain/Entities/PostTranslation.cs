@@ -1,11 +1,12 @@
 ﻿using Domain.Common;
 using Domain.Enums;
 using Domain.Primitive;
+using Domain.Primitives;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
-    public sealed class PostTranslation : Entity<long>
+    public sealed class PostTranslation : AggregateRoot<long>
     {
         //public long Id { get; private set; }
 

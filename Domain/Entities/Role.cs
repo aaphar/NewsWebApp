@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Primitive;
+using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public sealed class Role : Entity<int>
+    public sealed class Role : AggregateRoot<int>
     {
         //public int Id { get; private set; }
 

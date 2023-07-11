@@ -1,9 +1,10 @@
 ﻿using Domain.Common;
 using Domain.Primitive;
+using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class Category : Entity<short>
+    public sealed class Category : AggregateRoot<short>
     {
         //public short Id { get; private set; }
 
