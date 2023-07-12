@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Infrastructure.Persistence.Configurations
 {
@@ -26,7 +27,10 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.PublishDate);
 
-            builder.Property(p => p.Status);
+            builder.Property(p => p.Status)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (Status)Enum.Parse(typeof(Status), v)); ;
 
             builder.Property(p => p.ViewCount);
 

@@ -12,7 +12,7 @@ namespace Domain.Entities
 
         private readonly List<PostHashtag> _postHashtags = new();
 
-        public PostTitle? Title { get; private set; }
+        public string? Title { get; private set; }
 
         public string? Context { get; private set; }
 

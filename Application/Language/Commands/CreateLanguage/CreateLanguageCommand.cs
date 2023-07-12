@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Language.Commands.CreateLanguage
 {
-    internal class CreateLanguageCommand
+    public record CreateLanguageCommand : IRequest<int>
     {
+        public string? Name { get; set; }
+        public string? LanguageCode { get; set; }
     }
+
 }

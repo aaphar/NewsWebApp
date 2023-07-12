@@ -1,9 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using Infrastructure.Persistence.Configurations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,9 +32,30 @@ namespace Infrastructure.Persistence
 
         public DbSet<PostHashtag> PostHashtags { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        private IConfiguration? Configuration { get; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
         {
+            Configuration = configuration;
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                string? connectionString = Configuration?.GetConnectionString("DefaultConnection");
+
+                if (connectionString != null)
+                {
+                    optionsBuilder.UseSqlServer(connectionString);
+                }
+                else
+                {
+                    throw new Exception("Connection string is null");
+                }
+            }
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

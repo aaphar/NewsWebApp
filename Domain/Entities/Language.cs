@@ -11,15 +11,20 @@ namespace Domain.Entities
         private readonly List<CategoryTranslation> _categories = new();
         private readonly List<PostTranslation> _postTranslations = new();
 
-        public string? Name { get; private set; }
+        public string? Name { get; set; }
 
-        public string? LanguageCode { get; private set; }
+        public string? LanguageCode { get; set; }
 
         public IReadOnlyCollection<CategoryTranslation>? CategoryTranslations => _categories;
 
         public IReadOnlyCollection<PostTranslation>? PostTranslations => _postTranslations;
 
-        private Language(short id) : base(id)
+        public Language() : base(default)
+        {
+
+        }
+
+        public Language(short id) : base(id)
         {
         }
     }

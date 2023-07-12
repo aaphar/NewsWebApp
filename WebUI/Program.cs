@@ -1,3 +1,6 @@
+using Infrastructure;
+using Application;
+
 namespace WebUI
 {
     public class Program
@@ -8,6 +11,9 @@ namespace WebUI
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            builder.Services.AddApplicationServices();
+            builder.Services.AddInfrastructureServices(builder.Configuration);
 
             var app = builder.Build();
 

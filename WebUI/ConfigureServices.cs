@@ -1,4 +1,6 @@
-﻿using Infrastructure;
+﻿using Application.Common.Interfaces;
+using Infrastructure;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI
@@ -10,7 +12,7 @@ namespace WebUI
             // Register application services
             //services.AddScoped<IUserService, UserService>();
             //services.AddScoped<IPostService, PostService>();
-
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             // Other dependencies specific to the presentation layer
             services.AddHttpContextAccessor();
 

@@ -1,5 +1,5 @@
 ﻿@page
-@model WebUI.Pages.admin.language.IndexModel
+@model WebUI.Pages.admin.language.LanguageModel
 @{
 }
 
@@ -221,7 +221,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
 
-            <div id="newListModalTemplate">
+            <form id="languageForm" method="post" asp-controller="Language" asp-action="Create">
                 <div class="modal-header">
                     <h4 class="modal-title pull-left">New language</h4>
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse" onclick="toggleModalSection()">
@@ -232,10 +232,10 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="title">Name</label>
-                            <input type="text" class="form-control" id="title" placeholder="Language name..." />
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Language name..." required>
 
                             <label for="code">Language code</label>
-                            <input type="text" class="form-control" id="code" placeholder="Language code..." />
+                            <input type="text" class="form-control" id="code" name="languageCode" placeholder="Language code..." required>
 
                             <div id="error" class="invalid-feedback"></div>
                         </div>
@@ -243,11 +243,12 @@
                     <div class="modal-footer clearfix">
                         <div class="float-end">
                             <button class="btn btn-default" onclick="newLanguageCancelled()">Cancel</button>
-                            <button class="btn btn-primary" onclick="addList()">Create</button>
+                            <button class="btn btn-primary" type="submit">Create</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
+
 
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -328,7 +329,7 @@
                                             Delete
                                         </a>
                                     </td>
-                                </tr>                               
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -365,9 +366,48 @@
     <script src="~/admin/dist/js/demo.js"></script>
 
     <script>
+        document.getElementById("languageForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form data
+            var name = document.getElementById("name").value;
+            var languageCode = document.getElementById("code").value;
+
+            var data = {
+                Name: name,
+                LanguageCode: languageCode
+            };
+
+            fetch('/admin/Language/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Handle success response, e.g., display a success message or redirect to another page
+                        console.log('Language created successfully');
+                    } else {
+                        // Handle error response, e.g., display an error message
+                        console.error('Error creating language:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    // Handle fetch error, e.g., network connection issues
+                    console.error('Error creating language:', error);
+                });
+
+            // Optional: Clear the form inputs after submission
+            document.getElementById("name").value = '';
+            document.getElementById("code").value = '';
+        });
+
+
         function toggleModalSection() {
             var modalSection = document.getElementById("modalSection");
-            var collapseButton = document.querySelector("#newListModalTemplate .btn-tool");
+            var collapseButton = document.querySelector("#languageForm .btn-tool");
             var icon = collapseButton.querySelector("i");
 
             if (modalSection.style.display === "none") {
@@ -382,6 +422,7 @@
                 icon.classList.add("fa-plus");
             }
         }
+
     </script>
 </body>
 </html>
