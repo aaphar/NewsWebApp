@@ -1,4 +1,4 @@
-﻿using Application.Language.Commands.CreateLanguage;
+﻿using Application.CommandQueries.Language.Commands.CreateLanguage;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,7 @@ namespace Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddScoped<IRequestHandler<CreateLanguageCommand>, CreateLanguageCommandHandler>();
+            services.AddScoped<IRequestHandler<CreateLanguageCommand>, CreateLanguageCommandValidator>();
 
             return services;
         }

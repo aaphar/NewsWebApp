@@ -1,14 +1,10 @@
 ﻿using Domain.Common;
 using Domain.Enums;
-using Domain.Primitive;
-using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class CategoryTranslation : AggregateRoot<short>
+    public sealed class CategoryTranslation : BaseAuditableEntity
     {
-        //public short Id { get; private set; }
-
         public string? Title { get; private set; }
 
         public Status Status { get; private set; }
@@ -24,9 +20,5 @@ namespace Domain.Entities
         public Language? Language { get; private set; }
 
         public Category? Category { get; private set; }
-
-        private CategoryTranslation(short id) : base(id)
-        {
-        }
     }
 }

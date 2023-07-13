@@ -375,8 +375,8 @@
                 Name: name,
                 LanguageCode: languageCode
             };
-
-            fetch('/api/language', {
+            // http 
+            fetch('/api/languages/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

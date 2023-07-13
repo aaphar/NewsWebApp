@@ -5,10 +5,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common
-{
-    public abstract class BaseEvent : INotification
-    {
-
-    }
-}
+namespace Application.CommandQueries.Language.Commands.DeleteLanguage;
+public record DeleteLanguageCommand(short Id) : IRequest;

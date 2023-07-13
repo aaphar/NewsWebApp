@@ -18,4 +18,21 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations\Categories\Commands\" />
+    <Folder Include="Operations\Categories\Queries\" />
+    <Folder Include="Operations\CategoryTranslations\Commands\" />
+    <Folder Include="Operations\CategoryTranslations\Queries\" />
+    <Folder Include="Operations\Hashtags\Commands\" />
+    <Folder Include="Operations\Hashtags\Queries\" />
+    <Folder Include="Operations\Posts\Commands\" />
+    <Folder Include="Operations\Posts\Queries\" />
+    <Folder Include="Operations\PostTranslations\Commands\" />
+    <Folder Include="Operations\PostTranslations\Queries\" />
+    <Folder Include="Operations\Roles\Commands\" />
+    <Folder Include="Operations\Roles\Queries\" />
+    <Folder Include="Operations\Users\Commands\" />
+    <Folder Include="Operations\Users\Queries\" />
+  </ItemGroup>
+
 </Project>

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Common
 {
-    public abstract class BaseEvent : INotification
+    public interface IDomainEvent : INotification
     {
-
     }
 }

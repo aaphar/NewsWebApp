@@ -1,15 +1,12 @@
 ﻿using Domain.Common;
 using Domain.Enums;
 using Domain.Primitive;
-using Domain.Primitives;
 using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
-    public sealed class PostTranslation : AggregateRoot<long>
+    public sealed class PostTranslation : BaseAuditableEntity
     {
-        //public long Id { get; private set; }
-
         private readonly List<PostHashtag> _postHashtags = new();
 
         public string? Title { get; private set; }
@@ -37,9 +34,5 @@ namespace Domain.Entities
         public User? Author { get; private set; }
 
         public IReadOnlyCollection<PostHashtag>? PostHashtags => _postHashtags;
-
-        private PostTranslation(long id) : base(id)
-        {
-        }
     }
 }
