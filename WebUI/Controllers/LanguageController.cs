@@ -9,7 +9,7 @@ namespace WebUI.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]s")]
     public class LanguageController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;

@@ -376,7 +376,7 @@
                 LanguageCode: languageCode
             };
 
-            fetch('/admin/Language/', { // Modify the endpoint URL to match your controller action route
+            fetch('/api/language', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -385,16 +385,16 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        // Handle success response, e.g., display a success message or redirect to another page
-                        console.log('Language created successfully');
+                        return response.json();
                     } else {
-                        // Handle error response, e.g., display an error message
-                        console.error('Error creating language:', response.statusText);
+                        throw new Error('Error creating language');
                     }
                 })
+                .then(languageId => {
+                    console.log('Language created successfully with ID:', languageId);
+                })
                 .catch(error => {
-                    // Handle fetch error, e.g., network connection issues
-                    console.error('Error creating language:', error);
+                    console.error('Error creating language:', error.message);
                 });
 
             // Optional: Clear the form inputs after submission
