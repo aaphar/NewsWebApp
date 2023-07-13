@@ -4,28 +4,32 @@ using Domain.Primitives;
 
 namespace Domain.Entities
 {
-    public sealed class Language : AggregateRoot<short>
+    public sealed class Language
     {
-        //public short Id { get; private set; }
+        public short Id { get; private set; }
 
         private readonly List<CategoryTranslation> _categories = new();
         private readonly List<PostTranslation> _postTranslations = new();
 
-        public string? Name { get; set; }
+        public string? Name { get; private set; }
 
-        public string? LanguageCode { get; set; }
+        public string? LanguageCode { get; private set; }
 
         public IReadOnlyCollection<CategoryTranslation>? CategoryTranslations => _categories;
 
         public IReadOnlyCollection<PostTranslation>? PostTranslations => _postTranslations;
 
-        public Language() : base(default)
+        public Language(short id, string? name, string? languageCode)
         {
-
+            Id = id;
+            Name = name;
+            LanguageCode = languageCode;
         }
 
-        public Language(short id) : base(id)
+        public void Update(string name, string languageCode)
         {
+            Name = name;
+            LanguageCode = languageCode;
         }
     }
 }

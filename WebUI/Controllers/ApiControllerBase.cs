@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebUI.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("admin/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {
-    private ISender? _mediator;
+    protected IMediator Mediator { get; }
 
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    public ApiControllerBase(IMediator mediator)
+    {
+        Mediator = mediator;
+    }
 }

@@ -1,16 +1,8 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Language.Commands.CreateLanguage
-{
-    public record CreateLanguageCommand : IRequest<int>
-    {
-        public string? Name { get; set; }
-        public string? LanguageCode { get; set; }
-    }
+namespace Application.Language.Commands.CreateLanguage;
+public record CreateLanguageCommand(
+    short Id,
+    string Name,
+    string LanguageCode) : IRequest;
 
-}

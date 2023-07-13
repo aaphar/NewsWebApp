@@ -11,12 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Language\Commands\DeleteLanguage\" />
-    <Folder Include="Language\Commands\UpdateLanguage\" />
-    <Folder Include="Language\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.6.0" />

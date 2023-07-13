@@ -243,7 +243,7 @@
                     <div class="modal-footer clearfix">
                         <div class="float-end">
                             <button class="btn btn-default" onclick="newLanguageCancelled()">Cancel</button>
-                            <button class="btn btn-primary" type="submit">Create</button>
+                            <button class="btn btn-primary" type="submit" onclick="addLanguage()">Create</button>
                         </div>
                     </div>
                 </div>
@@ -366,9 +366,7 @@
     <script src="~/admin/dist/js/demo.js"></script>
 
     <script>
-        document.getElementById("languageForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
+        function addLanguage() {
             // Get the form data
             var name = document.getElementById("name").value;
             var languageCode = document.getElementById("code").value;
@@ -378,7 +376,7 @@
                 LanguageCode: languageCode
             };
 
-            fetch('/admin/Language/', {
+            fetch('/admin/Language/', { // Modify the endpoint URL to match your controller action route
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -402,7 +400,7 @@
             // Optional: Clear the form inputs after submission
             document.getElementById("name").value = '';
             document.getElementById("code").value = '';
-        });
+        }
 
 
         function toggleModalSection() {
