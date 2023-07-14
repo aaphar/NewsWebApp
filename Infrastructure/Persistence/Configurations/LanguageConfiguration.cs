@@ -15,7 +15,7 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(l => l.Id);
 
-            builder.Property(l => l.Name)
+            builder.Property(l => l.Title)
                 .IsRequired()
                 .HasMaxLength(50);
 

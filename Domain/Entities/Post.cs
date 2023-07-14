@@ -5,19 +5,17 @@ namespace Domain.Entities
     // sealed prevent inherited by other classes
     public sealed class Post : BaseAuditableEntity
     {
-        private readonly List<PostTranslation> _postTranslations = new();
+        public string? Title { get; set; }
 
-        public string? Title { get; private set; }
+        public DateTime? PublishDate { get; set; }
 
-        public short CategoryId { get; private set; }
+        public DateTime? InsertDate { get; set; }
 
-        public Category? Category { get; private set; }
+        public int CategoryId { get; set; }
 
-        public DateTime? PublishDate { get; private set; }
+        public Category? Category { get; set; }
 
-        public DateTime? InsertDate { get; private set; }
-
-        public ICollection<PostTranslation>? PostTranslations => _postTranslations;
-
+        public ICollection<PostTranslation>? PostTranslations { get; set; }
     }
+
 }

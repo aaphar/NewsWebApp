@@ -18,6 +18,10 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(h => h.Title)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            builder.HasMany(c => c.PostHashtags)
+                .WithOne(p => p.Hashtag)
+                .HasForeignKey(p => p.HashtagId);
         }
     }
 }

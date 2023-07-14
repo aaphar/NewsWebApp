@@ -1,9 +1,4 @@
 ﻿using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Common.Models
 {
@@ -23,9 +18,9 @@ namespace Application.Common.Models
 
         public long ViewCount { get; set; }
 
-        public short LanguageId { get; set; }
+        public int LanguageId { get; set; }
 
-        public long NewsId { get; set; }
+        public int NewsId { get; set; }
 
         public int AuthorId { get; set; }
     }

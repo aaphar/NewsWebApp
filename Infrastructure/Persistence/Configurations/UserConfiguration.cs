@@ -15,6 +15,14 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(u => u.Id);
 
+            builder.Property(u => u.Name)
+                .IsRequired()
+                .HasMaxLength(50);
+            
+            builder.Property(u => u.Surname)
+                .IsRequired()
+                .HasMaxLength(50);
+            
             builder.Property(u => u.UserName)
                 .IsRequired()
                 .HasMaxLength(50);

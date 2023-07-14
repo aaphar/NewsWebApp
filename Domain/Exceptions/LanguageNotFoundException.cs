@@ -8,7 +8,7 @@ namespace Domain.Exceptions
 {
     public sealed class LanguageNotFoundException : Exception
     {
-        public LanguageNotFoundException(short id)
+        public LanguageNotFoundException(int id)
             : base($"The Language with the ID = {id} was not found")
         {
         }

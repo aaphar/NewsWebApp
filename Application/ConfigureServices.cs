@@ -15,8 +15,9 @@ namespace Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-            services.AddScoped<IRequestHandler<CreateLanguageCommand>, CreateLanguageCommandValidator>();
 
+            // command validators
+            services.AddScoped<IValidator<CreateLanguageCommand>, CreateLanguageCommandValidator>();
             return services;
         }
     }

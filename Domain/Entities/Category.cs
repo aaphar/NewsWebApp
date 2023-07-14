@@ -4,14 +4,10 @@ namespace Domain.Entities
 {
     public sealed class Category : BaseAuditableEntity
     {  
-        public string? Description { get; private set; }
+        public string? Description { get; set; }
 
-        private readonly List<CategoryTranslation> _categoryTranslations = new();
-
-        private readonly List<Post> _posts = new();
-
-        public IReadOnlyCollection<CategoryTranslation>? CategoryTranslations => _categoryTranslations;
-
-        public IReadOnlyCollection<Post>? Posts => _posts;
+        public ICollection<CategoryTranslation>? CategoryTranslations { get; set; }
+        
+        public ICollection<Post>? Posts { get; set; }
     }
 }

@@ -1,10 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Enums;
 
 namespace Application.Common.Models
 {
@@ -20,8 +14,8 @@ namespace Application.Common.Models
 
         public DateTime PublishDate { get; set; }
 
-        public short LanguageId { get; set; }
+        public int LanguageId { get; set; }
 
-        public short CategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
