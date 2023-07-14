@@ -5,7 +5,6 @@ namespace Application.Common.Models
     public class CategoryTranslationDto
     {
         public int Id { get; set; }
-
         public string? Title { get; set; }
 
         public Status Status { get; set; }
@@ -14,8 +13,8 @@ namespace Application.Common.Models
 
         public DateTime PublishDate { get; set; }
 
-        public int LanguageId { get; set; }
+        public short LanguageId { get; set; }
 
-        public int CategoryId { get; set; }
+        public short CategoryId { get; set; }
     }
 }

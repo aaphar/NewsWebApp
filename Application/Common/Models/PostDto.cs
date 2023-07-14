@@ -2,14 +2,13 @@
 {
     public class PostDto
     {
-        public int Id { get; set; }
-
+        public long Id { get; set; }
         public string? Title { get; set; }
 
         public DateTime? PublishDate { get; set; }
 
         public DateTime? InsertDate { get; set; }
 
-        public int CategoryId { get; set; }
+        public short CategoryId { get; set; }
     }
 }

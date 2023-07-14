@@ -2,8 +2,8 @@
 {
     public class PostHashtagDto
     {
-        public int NewsId { get; set; }
+        public long NewsId { get; set; }
 
-        public int HashtagId { get; set; }
+        public long HashtagId { get; set; }
     }
 }

@@ -3,7 +3,8 @@
 namespace Domain.Entities
 {
     public sealed class Category : BaseAuditableEntity
-    {  
+    {
+        public short Id { get; set; }
         public string? Description { get; set; }
 
         public ICollection<CategoryTranslation>? CategoryTranslations { get; set; }

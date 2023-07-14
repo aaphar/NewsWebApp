@@ -5,6 +5,7 @@ namespace Domain.Entities
 {
     public sealed class CategoryTranslation : BaseAuditableEntity
     {
+        public int Id { get; set; }
         public string? Title { get; set; }
 
         public Status Status { get; set; }
@@ -13,9 +14,9 @@ namespace Domain.Entities
 
         public DateTime PublishDate { get; set; }
 
-        public int LanguageId { get; set; }
+        public short LanguageId { get; set; }
 
-        public int CategoryId { get; set; }
+        public short CategoryId { get; set; }
 
         public Language? Language { get; set; }
 

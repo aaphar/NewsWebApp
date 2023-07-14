@@ -4,8 +4,7 @@ namespace Application.Common.Models
 {
     public class PostTranslationDto
     {
-        public int Id { get; set; }
-
+        public long Id { get; set; }
         public string? Title { get; set; }
 
         public string? Context { get; set; }
@@ -18,9 +17,9 @@ namespace Application.Common.Models
 
         public long ViewCount { get; set; }
 
-        public int LanguageId { get; set; }
+        public short LanguageId { get; set; }
 
-        public int NewsId { get; set; }
+        public long NewsId { get; set; }
 
         public int AuthorId { get; set; }
     }

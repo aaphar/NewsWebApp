@@ -11,7 +11,3 @@ public record UpdateLanguageCommand(
     string Name,
     string LanguageCode) : IRequest;
 
-public record UpdateLanguageRequest(
-    string Name,
-    string LanguageCode) : IRequest;
-

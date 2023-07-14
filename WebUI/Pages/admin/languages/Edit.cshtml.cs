@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.language
 {
-    public class LanguageModel : PageModel
+    public class EditModel : PageModel
     {
         public void OnGet()
         {

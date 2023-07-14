@@ -4,6 +4,7 @@ namespace Domain.Entities
 {
     public sealed class User : BaseAuditableEntity
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
 
         public string? Surname { get; set; }
@@ -14,7 +15,7 @@ namespace Domain.Entities
 
         public string? Password { get; set; }
 
-        public int RoleId { get; set; }
+        public short RoleId { get; set; }
 
         public Role? Role { get; set; }
 

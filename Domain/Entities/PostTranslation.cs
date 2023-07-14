@@ -1,12 +1,11 @@
 ﻿using Domain.Common;
 using Domain.Enums;
-using Domain.Primitive;
-using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
     public sealed class PostTranslation : BaseAuditableEntity
     {
+        public long Id { get; set; }
         public string? Title { get; set; }
 
         public string? Context { get; set; }
@@ -19,9 +18,9 @@ namespace Domain.Entities
 
         public long ViewCount { get; set; }
 
-        public int LanguageId { get; set; }
+        public short LanguageId { get; set; }
 
-        public int NewsId { get; set; }
+        public long NewsId { get; set; }
 
         public int AuthorId { get; set; }
 

@@ -3,7 +3,8 @@
 namespace Domain.Entities
 {
     public sealed class Language : BaseAuditableEntity
-    {        
+    {
+        public short Id { get; set; }
         public string? Title { get; set; }
 
         public string? LanguageCode { get; set; }
