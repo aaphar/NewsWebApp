@@ -1,3 +1,4 @@
+using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Language.Queries.GetLanguageById;
 using MediatR;
@@ -10,21 +11,22 @@ namespace WebUI.Pages.admin.languages
     {
         private readonly IMediator _mediator;
 
-        public LanguageDto? Language { get; set; } = new();
+        public LanguageDto? Language { get; set; }
 
         public DetailModel(IMediator mediator)
         {
             _mediator = mediator;
         }
 
-        public async void OnGetAsync(short id)
+        public async Task OnGetAsync(short id)
         {
-            GetLanguageByIdQuery getLanguageByIdQuery=new GetLanguageByIdQuery() 
-            { 
-                Id = id 
+
+            GetLanguageByIdQuery getLanguageByIdQuery = new()
+            {
+                Id = id
             };
 
-            Language= await _mediator.Send(getLanguageByIdQuery);
+            Language = await _mediator.Send(getLanguageByIdQuery);
         }
     }
 }

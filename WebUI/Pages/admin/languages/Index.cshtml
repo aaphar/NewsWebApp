@@ -193,24 +193,32 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
-                        <li class="nav-item menu-open">
+                        <li class="nav-item">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Pages
+                                    Langugae
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
+
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="Language" class="nav-link active">
+                                    <a asp-page="/admin/languages/index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Language</p>
+                                        <p>List of Languages</p>
                                     </a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a asp-page="/admin/languages/add" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Language</p>
+                                    </a>
+                                </li>
+
                             </ul>
+
                         </li>
                     </ul>
                 </nav>
@@ -222,26 +230,42 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
 
-            <div class="card-body">
-                <form method="post">
-                    <div class="form-group">
-                        <label for="inputDescription">Title</label>
-                        <input type="text" class="form-control" asp-for="Title" placeholder="Language name...">
-                        <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">New Language Add</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="inputName">Code</label>
-                        <input type="text" id="inputName" class="form-control" asp-for="Code" placeholder="Language Code">
-                        <span asp-validation-for="Code" class="text-danger"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="submit" value="Cancel" class="btn btn-default">
-                            <input type="submit" value="Save Changes" class="btn btn-primary float-right">
+                </div>
+
+                <div class="card-body p-3 ">
+                    <!-- Adjust the padding (p-3) as needed -->
+                    <form method="post" id="languageForm">
+                        <div class="form-group">
+                            <label for="inputDescription">Title</label>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Language name...">
+                            <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
-                    </div>
-                </form>
-                <!-- /.card-body -->
+                        <div class="form-group">
+                            <label for="inputName">Code</label>
+                            <input type="text" id="inputName" class="form-control" asp-for="Code" placeholder="Language Code">
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-12 col-sm-auto">
+                                <input type="submit" value="Cancel" class="btn btn-default">
+                            </div>
+                            <div class="col-12 col-sm-auto">
+                                <input type="submit" value="Save Changes" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
 
 
@@ -283,23 +307,23 @@
                         <table class="table table-striped projects">
                             <thead>
                                 <tr>
-                                    @foreach (var property in typeof(LanguageDto).GetProperties())
-                                    {
+                        @foreach (var property in typeof(LanguageDto).GetProperties())
+                        {
                                         <th>@property.Name</th>
-                                    }
+                        }
                                     <th style="width: 30%"></th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (LanguageDto language in Model.Languages)
-                                {
+                        @foreach (LanguageDto language in Model.Languages)
+                        {
                                     <tr>
-                                        @foreach (var property in typeof(LanguageDto).GetProperties())
-                                        {
+                                @foreach (var property in typeof(LanguageDto).GetProperties())
+                                {
                                             <td>@property.GetValue(language)</td>
 
-                                        }
+                                }
 
                                         <td class="project-actions text-right">
                                             <form method="post">
@@ -316,8 +340,7 @@
                                                     Edit
                                                 </a>
                                                 <button class="btn btn-danger btn-sm"
-                                                        type="submit"
-                                                        asp-page-handler="Delete"
+                                                        type="submit"                                                        
                                                         asp-route-id="@language.Id">
                                                     <i class="fas fa-trash">
                                                     </i>
@@ -326,7 +349,7 @@
                                             </form>
                                         </td>
                                     </tr>
-                                }
+                        }
                             </tbody>
                         </table>
                     </div>
@@ -362,26 +385,6 @@
     <!-- AdminLTE for demo purposes -->
     <script src="~/admin/dist/js/demo.js"></script>
 
-    <script>
-        function toggleModalSection() {
-            var modalSection = document.getElementById("modalSection");
-            var collapseButton = document.querySelector("#languageForm .btn-tool");
-            var icon = collapseButton.querySelector("i");
-
-            if (modalSection.style.display === "none") {
-                modalSection.style.display = "block";
-                collapseButton.classList.remove("collapsed");
-                icon.classList.remove("fa-plus");
-                icon.classList.add("fa-minus");
-            } else {
-                modalSection.style.display = "none";
-                collapseButton.classList.add("collapsed");
-                icon.classList.remove("fa-minus");
-                icon.classList.add("fa-plus");
-            }
-        }
-
-    </script>
 </body>
 </html>
 

@@ -9,7 +9,7 @@ using System.Linq;
 namespace Application.Operations.Language.Queries.GetLanguageById;
 public record GetLanguageByIdQuery : IRequest<LanguageDto>
 {
-    public int Id { get; init; }
+    public short Id { get; init; }
 }
 
 public class GetLanguageByIdQueryHandler : IRequestHandler<GetLanguageByIdQuery, LanguageDto>
