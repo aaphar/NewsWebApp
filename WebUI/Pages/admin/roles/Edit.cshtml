@@ -1,5 +1,5 @@
 ﻿@page
-@model WebUI.Pages.admin.language.EditModel
+@model WebUI.Pages.admin.roles.EditModel
 @{
 }
 
@@ -260,12 +260,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Languages</h1>
+                            <h1>Roles</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Languages</li>
+                                <li class="breadcrumb-item active">Roles</li>
                             </ol>
                         </div>
                     </div>
@@ -292,20 +292,15 @@
                         <div class="card-body">
                             <form method="post" id="languageForm">
                                 <div class="form-group">
-                                    <label for="inputName">Language Title</label>
-                                    <input type="text" id="inputName" class="form-control" asp-for="LanguageDto.Title" value="@Model?.LanguageDto?.Title">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="inputClientCompany">Language Code</label>
-                                    <input type="text" id="inputClientCompany" class="form-control" asp-for="LanguageDto.LanguageCode" value="@Model?.LanguageDto?.LanguageCode">
+                                    <label for="inputName">Role Title</label>
+                                    <input type="text" id="inputName" class="form-control" asp-for="RoleDto.Title" value="@Model?.RoleDto?.Title">
                                 </div>
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <a asp-page="/admin/languages/detail"
-                                           asp-route-id="@Model?.LanguageDto?.Id" class="btn btn-secondary">Cancel</a>
-                                        <input type="submit"  value="Save Changes" class="btn btn-success float-right">
+                                        <a asp-page="/admin/roles/detail"
+                                           asp-route-id="@Model?.RoleDto?.Id" class="btn btn-secondary">Cancel</a>
+                                        <input type="submit" value="Save Changes" class="btn btn-success float-right">
                                     </div>
                                 </div>
                             </form>

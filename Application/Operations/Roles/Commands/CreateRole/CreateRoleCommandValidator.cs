@@ -2,21 +2,17 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.CommandQueries.Language.Commands.CreateLanguage
+namespace Application.Operations.Roles.Commands.CreateRole
 {
-    public class CreateLanguageCommandValidator : AbstractValidator<CreateLanguageCommand>
+    public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     {
         private readonly IApplicationDbContext _context;
 
-        public CreateLanguageCommandValidator(IApplicationDbContext context)
+        public CreateRoleCommandValidator(IApplicationDbContext context)
         {
             _context = context;
 
-            RuleFor(v => v.Code)
-                .MaximumLength(5)
-                .NotEmpty();
-
-            RuleFor(v => v.Title)
+           RuleFor(r=>r.Title)
                 .MaximumLength(25)
                 .NotEmpty()
                 .MustAsync(BeUniqueTitle)

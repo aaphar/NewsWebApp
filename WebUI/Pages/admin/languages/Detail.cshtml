@@ -200,7 +200,7 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Langugae
+                                    Language
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -220,7 +220,32 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
 
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Role
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-page="/admin/roles/index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>List of Roles</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a asp-page="/admin/roles/add" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Role</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -271,23 +296,41 @@
                                 }
                                 <td class="project-actions text-right">
                                     <form method="post">
-
                                         <a class="btn btn-info btn-sm"
                                            asp-page="/admin/languages/edit"
                                            asp-route-id="@Model?.Language?.Id">
                                             <i class="fas fa-pencil-alt"></i>
                                             Edit
                                         </a>
-                                        <button class="btn btn-danger btn-sm"
-                                                type="submit"
-                                                asp-page-handler="Delete"
-                                                asp-route-id="@Model?.Language?.Id">
-                                            <i class="fas fa-trash">
-                                            </i>
+
+                                        <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('@Model?.Language?.Id')">
+                                            <i class="fas fa-trash"></i>
                                             Delete
-                                        </button>
-                                        
+                                        </a>
+
+                                        <div class="modal" id="deleteConfirmationModal_@Model?.Language?.Id" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Confirm Deletion</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@Model?.Language?.Id">
+                                                            Yes
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
+
                                 </td>
                             </dl>
                         </div>
@@ -323,6 +366,14 @@
     <script src="~/admin/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/admin/dist/js/demo.js"></script>
+
+    <script>
+
+        function confirmDelete(roleId) {
+            $('#deleteConfirmationModal_' + roleId).modal('show');
+        }
+
+    </script>
 </body>
 </html>
 

@@ -29,8 +29,6 @@
     <Folder Include="Operations\Posts\Queries\" />
     <Folder Include="Operations\PostTranslations\Commands\" />
     <Folder Include="Operations\PostTranslations\Queries\" />
-    <Folder Include="Operations\Roles\Commands\" />
-    <Folder Include="Operations\Roles\Queries\" />
     <Folder Include="Operations\Users\Commands\" />
     <Folder Include="Operations\Users\Queries\" />
   </ItemGroup>

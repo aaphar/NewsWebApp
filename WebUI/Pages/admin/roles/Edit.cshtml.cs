@@ -1,19 +1,19 @@
 using Application.CommandQueries.Language.Commands.UpdateLanguage;
 using Application.Common.Models;
-using Application.Operations.Language.Queries.GetLanguageById;
-using Domain.Entities;
+using Application.Operations.Roles.Commands.UpdateRole;
+using Application.Operations.Roles.Queries.GetRoleById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebUI.Pages.admin.language
+namespace WebUI.Pages.admin.roles
 {
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;
 
         [BindProperty]
-        public LanguageDto? LanguageDto { get; set; }
+        public RoleDto? RoleDto { get; set; }
 
         public EditModel(IMediator mediator)
         {
@@ -23,25 +23,24 @@ namespace WebUI.Pages.admin.language
 
         public async Task OnGetAsync(short id)
         {
-            LanguageDto = await _mediator.Send(new GetLanguageByIdQuery() { Id = id });   // burda id=0;
-        
+            RoleDto = await _mediator.Send(new GetRoleByIdQuery() { Id = id });   // burda id=0;
+
         }
 
         public async Task<ActionResult> OnPostAsync(short id)
         {
-            UpdateLanguageCommand updateLanguageCommand = new()
+            UpdateRoleCommand updateRoleCommand = new()
             {
                 Id = id,
-                Title = LanguageDto?.Title,
-                Code = LanguageDto?.LanguageCode
+                Title = RoleDto?.Title,
             };
 
 
-             await _mediator.Send(updateLanguageCommand);
-            string _message = $"Language with ID = {id} was successfully updated";
+            await _mediator.Send(updateRoleCommand);
+            string _message = $"Role with ID = {id} was successfully updated";
             await Console.Out.WriteLineAsync(_message);
 
-            return RedirectToPage("/admin/languages/detail", new { id });
+            return RedirectToPage("/admin/roles/detail", new { id });
         }
 
     }
