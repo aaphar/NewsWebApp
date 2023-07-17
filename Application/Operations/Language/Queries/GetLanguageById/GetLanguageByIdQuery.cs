@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Exceptions;
 using MediatR;
 using System.Linq;
@@ -28,12 +29,13 @@ public class GetLanguageByIdQueryHandler : IRequestHandler<GetLanguageByIdQuery,
 
     public async Task<LanguageDto> Handle(GetLanguageByIdQuery request, CancellationToken cancellationToken)
     {
-        var language = await _context.Languages.FindAsync(new object[] { request.Id }, cancellationToken);
+        var language = await _context.Languages
+            .FindAsync(new object[] { request.Id }, cancellationToken);
 
 
         if (language is null)
         {
-            throw new LanguageNotFoundException(request.Id);
+            throw new LanguageNotFoundException(request.Id); //3984
         }
 
         var languageDto = _mapper.Map<LanguageDto>(language);

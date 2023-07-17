@@ -21,7 +21,10 @@ namespace WebUI.Pages.admin.language
         public string? Title { get; init; }
         [BindProperty]
         public string? Code { get; init; }
-        public List<LanguageDto>? Languages { get; set; } 
+        public List<LanguageDto>? Languages { get; set; }
+
+        public LanguageDto? LanguageDto { get; set; }
+
 
         public LanguagesModel(
             IMediator mediator,
@@ -61,7 +64,8 @@ namespace WebUI.Pages.admin.language
             Languages = await _mediator.Send(new GetLanguagesQuery());
         }
 
-        public async void OnPostDeleteAsync(short Id)
+
+        public async Task OnPostDeleteAsync(short Id)
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));
 

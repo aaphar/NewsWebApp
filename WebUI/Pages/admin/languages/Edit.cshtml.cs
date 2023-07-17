@@ -12,32 +12,36 @@ namespace WebUI.Pages.admin.language
     {
         private readonly IMediator _mediator;
 
+        [BindProperty]
         public LanguageDto? LanguageDto { get; set; }
 
         public EditModel(IMediator mediator)
         {
             _mediator = mediator;
+
         }
 
         public async Task OnGetAsync(short id)
         {
-            LanguageDto = await _mediator.Send(new GetLanguageByIdQuery() { Id = id }); ;
+            LanguageDto = await _mediator.Send(new GetLanguageByIdQuery() { Id = id });   // burda id=0;
+        
         }
 
-        public async Task<ActionResult> OnPutAsync()
+        public async Task<ActionResult> OnPostAsync(short id)
         {
             UpdateLanguageCommand updateLanguageCommand = new()
             {
+                Id = id,
                 Title = LanguageDto?.Title,
                 Code = LanguageDto?.LanguageCode
             };
 
 
-            short id = await _mediator.Send(updateLanguageCommand);
+             await _mediator.Send(updateLanguageCommand);
             string _message = $"Language with ID = {id} was successfully created";
             await Console.Out.WriteLineAsync(_message);
 
-            return RedirectToPage("/admin/languages/detail", new { LanguageDto?.Id });
+            return RedirectToPage("/admin/languages/detail", new { id });
         }
 
     }

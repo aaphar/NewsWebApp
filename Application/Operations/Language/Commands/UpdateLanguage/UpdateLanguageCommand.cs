@@ -1,23 +1,16 @@
-﻿using Application.CommandQueries.Language.Commands.CreateLanguage;
-using Application.Common.Interfaces;
-using Domain.Events;
+﻿using Application.Common.Interfaces;
 using Domain.Exceptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.CommandQueries.Language.Commands.UpdateLanguage;
-public record UpdateLanguageCommand : IRequest<short>
+public record UpdateLanguageCommand : IRequest<Unit>
 {
-    public short Id { get; set; }
+    public short Id { get; init; }
     public string? Title { get; init; }
     public string? Code { get; init; }
 }
 
-public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageCommand, short>
+public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
 
@@ -26,7 +19,8 @@ public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageComman
         _context = context;
     }
 
-    public async Task<short> Handle(UpdateLanguageCommand request, CancellationToken cancellationToken)
+
+    public async Task<Unit> Handle(UpdateLanguageCommand request, CancellationToken cancellationToken)
     {
         var language = await _context.Languages
             .FindAsync(new object[] { request.Id }, cancellationToken);
@@ -41,6 +35,6 @@ public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageComman
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return language.Id;
+        return Unit.Value;
     }
 }

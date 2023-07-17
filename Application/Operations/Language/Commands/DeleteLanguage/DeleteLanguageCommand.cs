@@ -22,7 +22,7 @@ public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageComman
             .Where(l => l.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
-        if(language is null)
+        if (language is null)
         {
             throw new LanguageNotFoundException(request.Id);
         }

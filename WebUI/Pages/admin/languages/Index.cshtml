@@ -307,49 +307,52 @@
                         <table class="table table-striped projects">
                             <thead>
                                 <tr>
-                        @foreach (var property in typeof(LanguageDto).GetProperties())
-                        {
+                                    @foreach (var property in typeof(LanguageDto).GetProperties())
+                                    {
                                         <th>@property.Name</th>
-                        }
+                                    }
                                     <th style="width: 30%"></th>
 
                                 </tr>
                             </thead>
+
                             <tbody>
-                        @foreach (LanguageDto language in Model.Languages)
-                        {
-                                    <tr>
-                                @foreach (var property in typeof(LanguageDto).GetProperties())
+                                @if (Model.Languages != null)
                                 {
-                                            <td>@property.GetValue(language)</td>
+                                    @foreach (LanguageDto language in Model.Languages)
+                                    {
+                                        <tr>
+                                            @foreach (var property in typeof(LanguageDto).GetProperties())
+                                            {
+                                                <td>@property.GetValue(language)</td>
 
-                                }
+                                            }
 
-                                        <td class="project-actions text-right">
-                                            <form method="post">
-                                                <a class="btn btn-primary btn-sm" asp-page="/admin/languages/detail"
-                                                   asp-route-id="@language.Id">
-                                                    <i class="fas fa-folder">
-                                                    </i>
-                                                    View
-                                                </a>
-                                                <a class="btn btn-info btn-sm" asp-page="/admin/languages/edit"
-                                                   asp-route-id="@language.Id">
-                                                    <i class="fas fa-pencil-alt">
-                                                    </i>
-                                                    Edit
-                                                </a>
-                                                <button class="btn btn-danger btn-sm"
-                                                        type="submit"                                                        
-                                                        asp-route-id="@language.Id">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                                    Delete
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                        }
+                                            <td class="project-actions text-right">
+                                                <form method="post">
+                                                    <a class="btn btn-primary btn-sm" asp-page="/admin/languages/detail"
+                                                       asp-route-id="@language.Id">
+                                                        <i class="fas fa-folder">
+                                                        </i>
+                                                        View
+                                                    </a>
+                                                    <a class="btn btn-info btn-sm" asp-page="/admin/languages/edit"
+                                                       asp-route-id="@language.Id">
+                                                        <i class="fas fa-pencil-alt">
+                                                        </i>
+                                                        Edit
+                                                    </a>
+                                                    <button class="btn btn-danger btn-sm"
+                                                            type="submit"
+                                                            asp-route-id="@language.Id">
+                                                        <i class="fas fa-trash">
+                                                        </i>
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }}
                             </tbody>
                         </table>
                     </div>
