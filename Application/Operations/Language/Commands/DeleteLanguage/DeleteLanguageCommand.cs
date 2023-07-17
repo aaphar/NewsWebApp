@@ -1,12 +1,12 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Exceptions;
 using MediatR;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.CommandQueries.Language.Commands.DeleteLanguage;
-public record DeleteLanguageCommand(short Id) : IRequest;
+public record DeleteLanguageCommand(short Id) : IRequest<Unit>;
 
-public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageCommand>
+public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
 
@@ -15,12 +15,11 @@ public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageComman
         _context = context;
     }
 
-   
-    public async Task Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
     {
         var language = await _context.Languages
-            .Where(l => l.Id == request.Id)
-            .SingleOrDefaultAsync(cancellationToken);
+                    .Where(l => l.Id == request.Id)
+                    .SingleOrDefaultAsync(cancellationToken);
 
         if (language is null)
         {
@@ -31,5 +30,6 @@ public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageComman
 
         await _context.SaveChangesAsync(cancellationToken);
 
+        return Unit.Value;
     }
 }

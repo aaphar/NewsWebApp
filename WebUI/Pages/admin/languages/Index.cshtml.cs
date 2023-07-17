@@ -2,7 +2,6 @@ using Application.CommandQueries.Language.Commands.CreateLanguage;
 using Application.CommandQueries.Language.Commands.DeleteLanguage;
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
-using Application.Operations.Language.Queries.GetLanguageById;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -46,8 +45,6 @@ namespace WebUI.Pages.admin.language
 
             if (!result.IsValid)
             {
-                //result.AddToModelState(this.ModelState);
-
                 return Page();
             }
 
@@ -63,15 +60,16 @@ namespace WebUI.Pages.admin.language
         {
             Languages = await _mediator.Send(new GetLanguagesQuery());
         }
-
-
-        public async Task OnPostDeleteAsync(short Id)
+        public async Task<IActionResult> OnPostDeleteAsync(short Id)
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));
 
             string _message = $"Language with Id = {Id} was successfully deleted";
 
             await Console.Out.WriteLineAsync(_message);
+
+            return RedirectToPage("/admin/languages");
+
         }
     }
 }
