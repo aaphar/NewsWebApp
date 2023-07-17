@@ -60,6 +60,7 @@ namespace WebUI.Pages.admin.language
         {
             Languages = await _mediator.Send(new GetLanguagesQuery());
         }
+
         public async Task<IActionResult> OnPostDeleteAsync(short Id)
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));
@@ -68,8 +69,7 @@ namespace WebUI.Pages.admin.language
 
             await Console.Out.WriteLineAsync(_message);
 
-            return RedirectToPage("/admin/languages");
-
+            return RedirectToPage("/admin/languages/index"); 
         }
     }
 }
