@@ -12,8 +12,7 @@ namespace Application.Operations.Categories.Commands.UpdateCategory
             _context = context;
 
             RuleFor(c => c.Description)
-                .MaximumLength(100)
-                .NotEmpty();
+                .MaximumLength(50);
         }
     }
 }

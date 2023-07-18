@@ -24,10 +24,11 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         {
             Description = request.Description,
         };
+               
+        _context.Categories.Add(category);
 
         category.AddDomainEvent(new CategoryCreatedEvent(category));
-       
-        _context.Categories.Add(category);
+
         await _context.SaveChangesAsync(cancellationToken);
 
         return category.Id;

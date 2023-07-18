@@ -41,9 +41,10 @@ public class CreateCategoryTranslationCommandHandler : IRequestHandler<CreateCat
             CategoryId = request.CategoryId,
         };
 
+        _context.CategoryTranslations.Add(categoryTranslation);
+
         categoryTranslation.AddDomainEvent(new CategoryTranslationCreatedEvent(categoryTranslation));
 
-        _context.CategoryTranslations.Add(categoryTranslation);
         await _context.SaveChangesAsync(cancellationToken);
 
         return categoryTranslation.Id;

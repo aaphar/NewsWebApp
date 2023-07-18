@@ -29,6 +29,7 @@ namespace WebUI.Pages.admin.languages
 
             Language = await _mediator.Send(getLanguageByIdQuery);
         }
+
         public async Task<IActionResult> OnPostDeleteAsync(short Id)
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));

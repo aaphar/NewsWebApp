@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\admin\category\" />
     <Folder Include="Pages\admin\hashtag\" />
     <Folder Include="Pages\admin\user\" />
     <Folder Include="Pages\admin\post\" />
