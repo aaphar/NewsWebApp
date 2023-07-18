@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Operations\Categories\Commands\" />
-    <Folder Include="Operations\Categories\Queries\" />
-    <Folder Include="Operations\CategoryTranslations\Commands\" />
-    <Folder Include="Operations\CategoryTranslations\Queries\" />
     <Folder Include="Operations\Hashtags\Commands\" />
     <Folder Include="Operations\Hashtags\Queries\" />
     <Folder Include="Operations\Posts\Commands\" />

@@ -37,7 +37,8 @@ namespace Infrastructure.Persistence
         {
             if (!optionsBuilder.IsConfigured)
             {
-                string? connectionString = Configuration?.GetConnectionString("DefaultConnection");
+                string? connectionString = Configuration?
+                    .GetConnectionString("Server=DESKTOP-N56OGLT\\SQLEXPRESS;Database=NewsCleanArch;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True");
 
                 if (connectionString != null)
                 {

@@ -18,7 +18,7 @@ public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
                 .WithMessage("The specified title already exists.");
     }
 
-    public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+    private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
     {
         return await _context.Languages
             .AllAsync(l => l.Title != title, cancellationToken);
