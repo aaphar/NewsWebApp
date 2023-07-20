@@ -1,4 +1,5 @@
 ﻿using Application.CommandQueries.Language.Commands.CreateLanguage;
+using Application.Operations.Roles.Commands.CreateRole;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace Application
 
             // command validators
             services.AddScoped<IValidator<CreateLanguageCommand>, CreateLanguageCommandValidator>();
+            services.AddScoped<IValidator<CreateRoleCommand>, CreateRoleCommandValidator>();
             return services;
         }
     }

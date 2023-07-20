@@ -195,7 +195,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Languages
@@ -247,7 +247,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Roles
@@ -316,28 +316,15 @@
                                     @foreach (LanguageDto language in Model.Languages)
                                     {
                                         <li class="nav-item">
-                                            <a class="nav-link active" asp-page="/admin/languages/detail"
-                                               asp-route-id="@language.Id" data-toggle="tab">@language.LanguageCode</a>
+                                            <a class="nav-link active" href="@language.LanguageCode" data-toggle="tab">@language.Title</a>
                                         </li>
                                     }
 
-                                    @*<li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                    Dropdown <span class="caret"></span>
-                                    </a>
-                                    <div class="dropdown-menu">
-                                    <a class="dropdown-item" tabindex="-1" href="#">Action</a>
-                                    <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
-                                    <a class="dropdown-item" tabindex="-1" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" tabindex="-1" href="#">Separated link</a>
-                                    </div>
-                                    </li>*@
                                 </ul>
                             </div><!-- /.card-header -->
 
                             <div class="card-body">
-                                <table class="table table-striped projects">
+                                <table class="table table-striped projects" id="">
                                     <thead>
                                         <tr>
                                             @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
