@@ -21,11 +21,11 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
             RuleFor(c => c.InsertDate)
                 .NotEmpty()
-                .GreaterThanOrEqualTo(DateTime.UtcNow); // Assuming you don't want past dates
+                .GreaterThanOrEqualTo(DateTime.Now); // Assuming you don't want past dates
 
-            RuleFor(c => c.PublishDate)
-                .NotEmpty()
-                .GreaterThanOrEqualTo(DateTime.UtcNow); // Assuming you don't want past dates
+            //RuleFor(c => c.PublishDate)
+            //    .NotNull()
+            //    .GreaterThanOrEqualTo(DateTime.Today);  // Assuming you don't want past dates
 
             RuleFor(c => c.LanguageId)
                 .NotEmpty()
