@@ -1,5 +1,6 @@
 using Application.CommandQueries.Language.Commands.CreateLanguage;
 using Application.CommandQueries.Language.Queries.GetLanguages;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.Operations.Categories.Commands.CreateCategory;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
@@ -9,6 +10,8 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
+using System.Transactions;
 
 namespace WebUI.Pages.admin.categories
 {
@@ -21,7 +24,7 @@ namespace WebUI.Pages.admin.categories
         [BindProperty]
         public CategoryDto? Category { get; set; }
 
-        // category translation
+        // category lang
         public string? Title { get; set; }
 
         public Status Status { get; set; }
@@ -30,15 +33,15 @@ namespace WebUI.Pages.admin.categories
 
         public DateTime PublishDate { get; set; }
 
-        public short LanguageId { get; set; }
+        public string? Code { get; set; } // dilin id yox kodu ile isle, code uygun id tap onu menimsed
 
         public short CategoryId { get; set; }
 
-        [BindProperty]
-        public List<CategoryTranslationDto> Translations { get; set; }
-
         // languages
+        [BindProperty]
         public List<LanguageDto>? Languages { get; set; }
+
+        private readonly IApplicationDbContext _context;
 
         private readonly IMediator _mediator;
 
@@ -47,15 +50,15 @@ namespace WebUI.Pages.admin.categories
         private readonly IValidator<CreateCategoryTranslationCommand> _validator;
 
         public AddModel(
+            IApplicationDbContext context,
             IMediator mediator,
             IValidator<CreateCategoryCommand> categoryValidator,
             IValidator<CreateCategoryTranslationCommand> validator)
         {
+            _context = context;
             _mediator = mediator;
             _categoryValidator = categoryValidator;
             _validator = validator;
-
-            Translations = new List<CategoryTranslationDto>();
         }
 
         public async Task OnGetAsync()
@@ -63,44 +66,65 @@ namespace WebUI.Pages.admin.categories
             Languages = await _mediator.Send(new GetLanguagesQuery());
         }
 
-        public async Task<ActionResult> OnPostAsync()
+        public async Task OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                return Page();
-            }
-
-            CreateCategoryCommand createCategoryCommand = new()
-            {
-                Description = Category.Description,
-            };
-
-            short categoryId = await _mediator.Send(createCategoryCommand);
-
-
-            // Save translations for each language
-            foreach (var translation in Translations)
-            {
-                var createCategoryTranslationCommand = new CreateCategoryTranslationCommand
+                try
                 {
-                    Title = translation.Title,
-                    Status = translation.Status,
-                    InsertDate = DateTime.UtcNow,
-                    PublishDate = translation.PublishDate,
-                    LanguageId = translation.LanguageId,
-                    CategoryId = categoryId
-                };
+                    CreateCategoryCommand createCategoryCommand = new()
+                    {
+                        Description = "",
+                    };
 
-                ValidationResult result = await _validator.ValidateAsync(createCategoryTranslationCommand);
+                    short categoryId = await _mediator.Send(createCategoryCommand);
 
-                if (!result.IsValid)
-                {
-                    // If any translation fails validation, return to the page and display errors
-                    return Page();
+                    // Find the default language based on the language code (assuming default language code is stored in 'Code' variable)
+                    LanguageDto? defaultLanguage = Languages?.FirstOrDefault(lang => lang.LanguageCode == "az");
+
+                    foreach (LanguageDto lang in Languages)
+                    {
+                        short id = 0;
+
+                        if (lang.LanguageCode == Code)
+                        {
+                            id = lang.Id;
+                        }
+
+                        CreateCategoryTranslationCommand createCategoryTranslationCommand = new()
+                        {
+                            Title = Title,
+                            Status = Status,
+                            InsertDate = DateTime.Now,
+                            PublishDate = PublishDate,
+                            LanguageId = id,
+                            CategoryId = categoryId
+                        };
+
+                        ValidationResult result = await _validator.ValidateAsync(createCategoryTranslationCommand);
+                        await _mediator.Send(createCategoryTranslationCommand);
+
+                        if (!result.IsValid)
+                        {
+                            transactionScope.Dispose(); // Rollback the transaction if translation creation fails
+                        }
+
+                        if (lang.Id == defaultLanguage?.Id)
+                        {
+                            createCategoryCommand.Description = Title;
+                            ValidationResult cResult = await _categoryValidator.ValidateAsync(createCategoryCommand);
+                            await _mediator.Send(createCategoryCommand);
+                        }
+                    }
                 }
-            }
+                catch (Exception)
+                {
+                    transactionScope.Dispose();
+                    throw;
+                }
 
-            return RedirectToPage("/admin/categories/detail", new { categoryId });
+                transactionScope.Complete(); // Commit the transaction
+            }
         }
     }
 }

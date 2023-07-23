@@ -6,7 +6,7 @@ using MediatR;
 namespace Application.Operations.Categories.Commands.CreateCategory;
 public record CreateCategoryCommand : IRequest<short>
 {
-    public string? Description { get; init; }
+    public string? Description { get; set; }
 }
 
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, short>
