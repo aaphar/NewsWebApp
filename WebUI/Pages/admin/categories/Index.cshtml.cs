@@ -1,8 +1,11 @@
+using Application.CommandQueries.Language.Commands.DeleteLanguage;
 using Application.Common.Models;
 using Application.Operations.Categories.Commands.CreateCategory;
+using Application.Operations.Categories.Commands.DeleteCategory;
 using Application.Operations.Categories.Queries.GetCategories;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories
@@ -31,5 +34,15 @@ namespace WebUI.Pages.admin.categories
             Categories = await _mediator.Send(new GetCategoriesQuery());
         }
 
+        public async Task<IActionResult> OnPostDeleteAsync(short Id)
+        {
+            await _mediator.Send(new DeleteCategoryCommand(Id));
+
+            string _message = $"Category with Id = {Id} was successfully deleted";
+
+            await Console.Out.WriteLineAsync(_message);
+
+            return RedirectToPage("/admin/categories/index");
+        }
     }
 }
