@@ -11,8 +11,6 @@ public record CreateCategoryTranslationCommand : IRequest<int>
 
     public Status Status { get; init; }
 
-    public DateTime InsertDate { get; init; }
-
     public DateTime PublishDate { get; init; }
 
     public short LanguageId { get; init; }
@@ -35,7 +33,7 @@ public class CreateCategoryTranslationCommandHandler : IRequestHandler<CreateCat
         {
             Title = request.Title,
             Status = request.Status,
-            InsertDate = request.InsertDate,
+            InsertDate = DateTime.Now,
             PublishDate = request.PublishDate,
             LanguageId = request.LanguageId,
             CategoryId = request.CategoryId,

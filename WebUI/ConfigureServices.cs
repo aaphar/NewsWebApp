@@ -20,6 +20,7 @@ namespace WebUI
             services.Configure<ApiBehaviorOptions>(options =>
                 options.SuppressModelStateInvalidFilter = true);
 
+
             services.AddControllers();
 
             return services;

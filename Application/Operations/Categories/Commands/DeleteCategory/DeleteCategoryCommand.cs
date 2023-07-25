@@ -26,6 +26,17 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
             throw new CategoryNotFoundException(request.Id);
         }
 
+        var translations = _context.CategoryTranslations
+            .Where(c => c.CategoryId == request.Id).ToList();
+
+        if (translations.Any())
+        {
+            foreach (var translation in translations)
+            {
+                _context.CategoryTranslations.Remove(translation);
+            }
+        }
+
         _context.Categories.Remove(category);
 
         await _context.SaveChangesAsync(cancellationToken);

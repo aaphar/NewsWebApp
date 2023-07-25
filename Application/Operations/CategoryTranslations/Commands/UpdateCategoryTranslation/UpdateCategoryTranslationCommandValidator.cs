@@ -18,10 +18,6 @@ public class UpdateCategoryTranslationCommandValidator : AbstractValidator<Updat
         RuleFor(c => c.Status)
             .IsInEnum();
 
-        RuleFor(c => c.InsertDate)
-            .NotEmpty()
-            .GreaterThanOrEqualTo(DateTime.UtcNow); // Assuming you don't want past dates
-
         RuleFor(c => c.PublishDate)
             .NotEmpty()
             .GreaterThanOrEqualTo(DateTime.UtcNow); // Assuming you don't want past dates

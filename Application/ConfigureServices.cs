@@ -1,4 +1,6 @@
 ﻿using Application.CommandQueries.Language.Commands.CreateLanguage;
+using Application.Operations.Categories.Commands.CreateCategory;
+using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
 using Application.Operations.Roles.Commands.CreateRole;
 using FluentValidation;
 using MediatR;
@@ -20,6 +22,9 @@ namespace Application
             // command validators
             services.AddScoped<IValidator<CreateLanguageCommand>, CreateLanguageCommandValidator>();
             services.AddScoped<IValidator<CreateRoleCommand>, CreateRoleCommandValidator>();
+            services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
+            services.AddScoped<IValidator<CreateCategoryTranslationCommand>, CreateCategoryTranslationCommandValidator>();
+
             return services;
         }
     }

@@ -18,10 +18,7 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
             RuleFor(c => c.Status)
                 .IsInEnum();
-
-            RuleFor(c => c.InsertDate)
-                .NotEmpty()
-                .GreaterThanOrEqualTo(DateTime.Now); // Assuming you don't want past dates
+                 
 
             //RuleFor(c => c.PublishDate)
             //    .NotNull()
