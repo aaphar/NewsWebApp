@@ -64,22 +64,20 @@ namespace WebUI.Pages.admin.categories
         {
             Debug.WriteLine("This message will appear in the server-side debugging console.");
 
-            CategoryId = id;
-
             Languages = await _mediator.Send(new GetLanguagesQuery());
 
             Translations = await _mediator.Send(new GetCategoryTranslationsByCategoryIdQuery() { CategoryId = id });
 
         }
 
-        public async Task<ActionResult> OnPostAsync()
+        public async Task<ActionResult> OnPostAsync(short id)
         {
             UpdateCategoryTranslationCommand updateTranslation = new()
             {
                 Title = TranslationDto.Title,
                 Status = TranslationDto.Status,
                 PublishDate = TranslationDto.PublishDate,
-                CategoryId = TranslationDto.CategoryId,
+                CategoryId = id,
                 LanguageId = TranslationDto.LanguageId,
             };
 
@@ -87,7 +85,7 @@ namespace WebUI.Pages.admin.categories
 
             await _mediator.Send(updateTranslation);
 
-            return RedirectToPage("/admin/categories/AddOrEdit", new { Id = TranslationDto.CategoryId });
+            return RedirectToPage("/admin/categories/AddOrEdit", new { Id = id });
 
         }
     }

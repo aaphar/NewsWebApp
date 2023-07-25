@@ -78,19 +78,20 @@
                                     <div class="form-group">
                                         <label for="inputName">Title</label>
                                         <input type="text" id="inputName" class="form-control"
-                                               asp-for="TranslationTitle" placeholder="Category name...">
-                                        <span asp-validation-for="TranslationTitle" class="text-danger"></span>
+                                               asp-for="@Model.TranslationDto.Title" placeholder="Category name..."
+                                               >
+                                        <span asp-validation-for="@Model.TranslationDto.Title" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="Status">Status</label>
-                                        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()">
+                                        <select asp-for="@Model.TranslationDto.Status" class="form-control" asp-items="Html.GetEnumSelectList<Status>()">
                                             <option value="">Select Status</option>
                                         </select>
-                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                        <span asp-validation-for="@Model.TranslationDto.Status" class="text-danger"></span>
                                     </div>
 
-                                    <input type="hidden" asp-for="LanguageId" value="@language.Id" />
+                                    <input type="hidden" asp-for="@Model.TranslationDto.LanguageId" value="@language.Id" />
 
                                     <div class="form-group">
                                         <label for="PublishDate">Publish date</label>
@@ -99,13 +100,14 @@
                                         <span asp-validation-for="PublishDate" class="text-danger"></span>
                                     </div>
 
-
                                     <div class="row float-right">
                                         <div class="col-12">
                                             <input type="submit" value="Cancel" class="btn btn-default ">
                                             <input type="submit" value="Save Changes" class="btn btn-primary ">
                                         </div>
                                     </div>
+
+                                    
                                 }
                             }
 
