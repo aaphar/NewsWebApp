@@ -6,7 +6,6 @@ namespace Domain.Entities
     public sealed class Post : BaseAuditableEntity
     {
         public long Id { get; set; }
-        public string? Title { get; set; }
 
         public DateTime? PublishDate { get; set; }
 

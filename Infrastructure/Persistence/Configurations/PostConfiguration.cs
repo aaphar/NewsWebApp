@@ -15,10 +15,6 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Title)
-                .IsRequired()
-                .HasMaxLength(80);
-
             builder.Property(p => p.InsertDate);
 
             builder.Property(p => p.PublishDate);

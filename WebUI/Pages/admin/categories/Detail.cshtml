@@ -6,30 +6,28 @@
 
 <!-- Main content -->
 <section class="content">
-    <!-- END ALERTS AND CALLOUTS -->
     <h5 class="mt-4 mb-2">Category Translations</h5>
 
     <div class="row">
         <div class="col-12">
-            <!-- Custom Tabs -->
             <div class="card">
-                <div class="card-header d-flex p-0">
-                    <h3 class="card-title p-3">Languages</h3>
-                    <ul class="nav nav-pills ml-auto p-2">
-
-                        @*body ve dil arasinda elaqe problemi var *@
-
-                        @foreach (LanguageDto language in Model.Languages)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link active" href="@language.LanguageCode" data-toggle="tab">@language.Title</a>
-                            </li>
-                        }
-
-                    </ul>
-                </div><!-- /.card-header -->
-
+                
                 <div class="card-body">
+
+
+                    <div class="form-group">
+                        <label for="Status">Language</label>
+                        <form method="post">
+                            <select asp-for="@Model.LanguageId" class="form-control" asp-page-handler="OnPost">
+                                <option value="">Select Language</option>
+                                @foreach (LanguageDto language in Model.Languages)
+                                {
+                                    <option value="@language.Id">@language.LanguageCode</option>
+                                }
+                            </select>
+                        </form>
+                    </div>
+
                     <table class="table table-striped projects" id="">
                         <thead>
                             <tr>

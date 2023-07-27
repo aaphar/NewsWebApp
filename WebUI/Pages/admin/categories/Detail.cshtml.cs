@@ -1,6 +1,7 @@
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategoryById;
+using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationByCategoryId;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationById;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslations;
 using MediatR;
@@ -14,6 +15,8 @@ public class DetailModel : PageModel
 
     public CategoryDto? Category { get; set; }
 
+    public short LanguageId { get; set; }
+
     public List<CategoryTranslationDto>? CategoryTranslations { get; set; }
 
     public List<LanguageDto>? Languages { get; set; }
@@ -25,27 +28,15 @@ public class DetailModel : PageModel
 
     public async Task OnGetAsync(short id)
     {
-        // get category bu id
-        GetCategoryByIdQuery getCategoryByIdQuery = new()
-        {
-            Id = id
-        };
-
-        Category = await _mediator.Send(getCategoryByIdQuery);
+        // get category by id
+        Category = await _mediator.Send(new GetCategoryByIdQuery() { Id = id }); ;
 
         //get languages
         Languages = await _mediator.Send(new GetLanguagesQuery());
 
         // get translations
-        List<CategoryTranslationDto> translationDtos = await _mediator.Send(new GetCategoryTranslationsQuery());
-
-        foreach (var item in translationDtos)
-        {
-            if (item.CategoryId == id)
-            {
-                CategoryTranslations?.Add(item);
-            }
-        }
+        CategoryTranslations = await _mediator.Send(new GetCategoryTranslationsByCategoryIdQuery() { CategoryId = id });
+        
     }
 }
 

@@ -14,15 +14,17 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
             RuleFor(c => c.Title)
                 .NotEmpty()
-                .MaximumLength(50); // Adjust the maximum length as needed
+                .MaximumLength(50)
+                .MustAsync(BeUniqueTitle)
+                .WithMessage("The specified title already exists.");
 
             RuleFor(c => c.Status)
                 .IsInEnum();
-                 
+
 
             //RuleFor(c => c.PublishDate)
-            //    .NotNull()
-            //    .GreaterThanOrEqualTo(DateTime.Today);  // Assuming you don't want past dates
+            //    .NotEmpty()
+            //    .GreaterThanOrEqualTo(DateTime.Now); 
 
             RuleFor(c => c.LanguageId)
                 .NotEmpty()
@@ -37,14 +39,18 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
         private async Task<bool> LanguageExists(short languageId, CancellationToken cancellationToken)
         {
-            // Implement the method to check if the LanguageId exists in the database
             return await _context.Languages.AnyAsync(l => l.Id == languageId, cancellationToken);
         }
 
         private async Task<bool> CategoryExists(short categoryId, CancellationToken cancellationToken)
         {
-            // Implement the method to check if the CategoryId exists in the database
             return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
+        }
+
+        private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+        {
+            return await _context.Languages
+                .AllAsync(l => l.Title != title, cancellationToken);
         }
     }
 }

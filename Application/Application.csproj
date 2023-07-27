@@ -21,9 +21,7 @@
   <ItemGroup>
     <Folder Include="Operations\Hashtags\Commands\" />
     <Folder Include="Operations\Hashtags\Queries\" />
-    <Folder Include="Operations\Posts\Commands\" />
     <Folder Include="Operations\Posts\Queries\" />
-    <Folder Include="Operations\PostTranslations\Commands\" />
     <Folder Include="Operations\PostTranslations\Queries\" />
     <Folder Include="Operations\Users\Commands\" />
     <Folder Include="Operations\Users\Queries\" />
