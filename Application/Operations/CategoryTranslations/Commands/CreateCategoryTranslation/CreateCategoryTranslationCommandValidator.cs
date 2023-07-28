@@ -49,7 +49,7 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
         private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return await _context.Languages
+            return await _context.CategoryTranslations
                 .AllAsync(l => l.Title != title, cancellationToken);
         }
     }

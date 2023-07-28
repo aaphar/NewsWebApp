@@ -36,20 +36,7 @@ namespace Infrastructure.Persistence
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-N56OGLT\SQLEXPRESS; Database=NewsCleanArch; Trusted_Connection=True; Encrypt=False; TrustServerCertificate=True");
-            //if (!optionsBuilder.IsConfigured)
-            //{
-            //    string? connectionString = Configuration?
-            //        .GetConnectionString(@"Server=DESKTOP-N56OGLT\\SQLEXPRESS;Database=NewsCleanArch;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=True");
-
-            //    if (connectionString != null)
-            //    {
-            //        optionsBuilder.UseSqlServer(connectionString);
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("Connection string is null");
-            //    }
-            //}
+           
         }
 
 

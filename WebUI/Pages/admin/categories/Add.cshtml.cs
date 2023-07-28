@@ -79,7 +79,7 @@ namespace WebUI.Pages.admin.categories
 
                 CreateCategoryTranslationCommand createCategoryTranslationCommand = new()
                 {
-                    Title = TranslationTitle,
+                    Title = TranslationTitle?.Substring(0, 1).ToUpper() + TranslationTitle?.Substring(1).ToLower(),
                     Status = Status,
                     PublishDate = PublishDate,
                     CategoryId = categoryId,

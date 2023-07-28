@@ -21,6 +21,11 @@ namespace WebUI.Pages.admin.categories
 
         public CategoryDto? Category { get; set; }
 
+
+        public List<CategoryTranslationDto>? CategoryTranslations { get; set; }
+
+        public CategoryTranslationDto? CategoryTranslation { get; set; }
+
         public CategoryModel(
             IMediator mediator,
             IValidator<CreateCategoryCommand> validator)

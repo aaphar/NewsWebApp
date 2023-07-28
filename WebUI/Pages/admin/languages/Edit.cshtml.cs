@@ -24,7 +24,7 @@ namespace WebUI.Pages.admin.language
         public async Task OnGetAsync(short id)
         {
             LanguageDto = await _mediator.Send(new GetLanguageByIdQuery() { Id = id });   // burda id=0;
-        
+
         }
 
         public async Task<ActionResult> OnPostAsync(short id)
@@ -32,12 +32,12 @@ namespace WebUI.Pages.admin.language
             UpdateLanguageCommand updateLanguageCommand = new()
             {
                 Id = id,
-                Title = LanguageDto?.Title,
-                Code = LanguageDto?.LanguageCode
+                Title = LanguageDto?.Title?.Substring(0, 1).ToUpper() + LanguageDto?.Title?.Substring(1).ToLower(),
+                Code = LanguageDto?.LanguageCode?.ToLower(),
             };
 
 
-             await _mediator.Send(updateLanguageCommand);
+            await _mediator.Send(updateLanguageCommand);
             string _message = $"Language with ID = {id} was successfully updated";
             await Console.Out.WriteLineAsync(_message);
 

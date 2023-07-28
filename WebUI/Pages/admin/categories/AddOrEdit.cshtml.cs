@@ -74,7 +74,7 @@ namespace WebUI.Pages.admin.categories
         {
             UpdateCategoryTranslationCommand updateTranslation = new()
             {
-                Title = TranslationDto.Title,
+                Title = TranslationDto?.Title?.Substring(0, 1).ToUpper() + TranslationDto?.Title?.Substring(1).ToLower(),
                 Status = TranslationDto.Status,
                 PublishDate = TranslationDto.PublishDate,
                 CategoryId = id,

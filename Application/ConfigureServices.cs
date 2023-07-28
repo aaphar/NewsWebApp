@@ -1,5 +1,4 @@
 ﻿using Application.CommandQueries.Language.Commands.CreateLanguage;
-using Application.Common.Behaviours;
 using Application.Operations.Categories.Commands.CreateCategory;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
 using Application.Operations.Roles.Commands.CreateRole;
@@ -19,11 +18,6 @@ namespace Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
 
             // command validators
             services.AddScoped<IValidator<CreateLanguageCommand>, CreateLanguageCommandValidator>();

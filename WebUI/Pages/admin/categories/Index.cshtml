@@ -39,6 +39,8 @@
                     {
                         @foreach (CategoryDto category in Model.Categories)
                         {
+                            // bu categorynin translationlarini gotur birincini goster
+
                             <tr>
                                 @foreach (var property in typeof(CategoryDto).GetProperties())
                                 {

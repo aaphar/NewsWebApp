@@ -10,10 +10,12 @@ public class UpdateCategoryTranslationCommandValidator : AbstractValidator<Updat
     public UpdateCategoryTranslationCommandValidator(IApplicationDbContext context)
     {
         _context = context;
-
+                
         RuleFor(c => c.Title)
-            .NotEmpty()
-            .MaximumLength(50); // Adjust the maximum length as needed
+                .NotEmpty()
+                .MaximumLength(50)
+                .MustAsync(BeUniqueTitle)
+                .WithMessage("The specified title already exists.");
 
         RuleFor(c => c.Status)
             .IsInEnum();
@@ -43,6 +45,12 @@ public class UpdateCategoryTranslationCommandValidator : AbstractValidator<Updat
     {
         // Implement the method to check if the CategoryId exists in the database
         return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+    {
+        return await _context.CategoryTranslations
+            .AllAsync(l => l.Title != title, cancellationToken);
     }
 }
 

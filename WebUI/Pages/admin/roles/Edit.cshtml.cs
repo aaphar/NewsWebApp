@@ -32,7 +32,7 @@ namespace WebUI.Pages.admin.roles
             UpdateRoleCommand updateRoleCommand = new()
             {
                 Id = id,
-                Title = RoleDto?.Title,
+                Title = RoleDto?.Title.Substring(0, 1).ToUpper() + RoleDto.Title.Substring(1).ToLower(),
             };
 
 

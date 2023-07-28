@@ -24,11 +24,5 @@ public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
     {
         return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
     }
-
-    private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
-    {
-        return await _context.Languages
-            .AllAsync(l => l.Title != title, cancellationToken);
-    }
 }
 

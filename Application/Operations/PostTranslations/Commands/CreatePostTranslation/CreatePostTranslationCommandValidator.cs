@@ -60,7 +60,7 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
 
     private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
     {
-        return await _context.Languages
+        return await _context.PostTranslations
             .AllAsync(l => l.Title != title, cancellationToken);
     }
 }

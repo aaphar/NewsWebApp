@@ -31,8 +31,8 @@ namespace WebUI.Pages.admin.languages
         {
             CreateLanguageCommand createLanguageCommand = new()
             {
-                Title = Title,
-                Code = Code,
+                Title = Title?.Substring(0, 1).ToUpper() + Title?.Substring(1).ToLower(),
+                Code = Code?.ToLower(),
             };
 
             ValidationResult result = await _validator.ValidateAsync(createLanguageCommand);

@@ -27,7 +27,7 @@ namespace WebUI.Pages.admin.roles
         {
             CreateRoleCommand createRoleCommand = new()
             {
-                Title = Title,
+                Title = Title.Substring(0, 1).ToUpper() + Title.Substring(1).ToLower(),
             };
 
             ValidationResult result = await _validator.ValidateAsync(createRoleCommand);
