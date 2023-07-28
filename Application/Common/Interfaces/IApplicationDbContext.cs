@@ -12,7 +12,7 @@ namespace Application.Common.Interfaces
     {
         DbSet<Role> Roles { get; }
         DbSet<User> Users { get; }
-        DbSet<Domain.Entities.Language> Languages { get; }
+        DbSet<Language> Languages { get; }
         DbSet<Category> Categories { get; }
         DbSet<CategoryTranslation> CategoryTranslations { get; }
         DbSet<Post> Posts { get; }
