@@ -27,7 +27,7 @@ public class GetCategoryTranslationByIdQueryHandler : IRequestHandler<GetCategor
     public async Task<CategoryTranslationDto> Handle(GetCategoryTranslationByIdQuery request, CancellationToken cancellationToken)
     {
         var categoryTranslation = await _context.CategoryTranslations
-            .FindAsync(cancellationToken);
+            .FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (categoryTranslation is null)
         {
