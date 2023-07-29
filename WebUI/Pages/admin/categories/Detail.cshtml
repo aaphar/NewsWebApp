@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                
+
                 <div class="card-body">
 
 
@@ -33,7 +33,18 @@
                             <tr>
                                 @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
                                 {
-                                    <th>@property.Name</th>
+                                    if (property.Name == "LanguageId")
+                                    {
+                                        <th>Language</th>
+                                    }
+                                    else if (property.Name == "CategoryId")
+                                    {
+                                        <th>Category</th>
+                                    }
+                                    else
+                                    {
+                                        <th>@property.Name</th>
+                                    }
                                 }
                                 <th style="width: 30%"></th>
 
@@ -48,8 +59,20 @@
                                     <tr>
                                         @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
                                         {
-                                            <td>@property.GetValue(translation)</td>
-
+                                            if (property.Name == "LanguageId")
+                                            {
+                                                string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.LanguageCode;
+                                                <td>@languageName</td>
+                                            }
+                                            else if (property.Name == "CategoryId")
+                                            {
+                                                string categoryName = Model.Categories.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.Description;
+                                                <td>@categoryName</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@property.GetValue(translation)</td>
+                                            }
                                         }
 
                                         <td class="project-actions text-right">

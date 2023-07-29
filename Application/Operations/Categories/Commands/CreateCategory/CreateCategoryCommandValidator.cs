@@ -1,10 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Operations.Categories.Commands.CreateCategory
 {
@@ -17,7 +13,15 @@ namespace Application.Operations.Categories.Commands.CreateCategory
             _context = context;
 
             RuleFor(c => c.Description)
-                .MaximumLength(50);
+                .MaximumLength(50)
+                .MustAsync(BeUniqueTitle)
+                .WithMessage("The specified title already exists.");
+        }
+
+        private async Task<bool> BeUniqueTitle(string? title, CancellationToken cancellationToken)
+        {
+            return await _context.Categories
+                .AllAsync(l => l.Description != title, cancellationToken);
         }
     }
 }

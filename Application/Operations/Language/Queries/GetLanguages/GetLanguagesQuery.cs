@@ -27,7 +27,7 @@ public sealed class GetLanguagesQueryHandler : IRequestHandler<GetLanguagesQuery
         var languages = await _context.Languages
             .ToListAsync(cancellationToken);
 
-        var languagesDto = _mapper.Map<List<LanguageDto>>(languages);
-        return languagesDto;
+        var languagesDtos = _mapper.Map<List<LanguageDto>>(languages);
+        return languagesDtos;
     }
 }

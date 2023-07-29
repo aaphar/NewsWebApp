@@ -21,16 +21,25 @@ public class GetLanguageByCodeQueryHandler : IRequestHandler<GetLanguageByCodeQu
 
     public async Task<LanguageDto> Handle(GetLanguageByCodeQuery request, CancellationToken cancellationToken)
     {
-        var language = await _context.Languages
-            .FirstOrDefaultAsync(l => l.LanguageCode == request.Code);
-
-        if (language == null)
+        try
         {
+            var language = await _context.Languages
+                .FirstOrDefaultAsync(l => l.LanguageCode == request.Code);
+
+            if (language == null)
+            {
+                throw new LanguageCodeNotFoundException(request.Code);
+            }
+
+            var languageDto = _mapper.Map<LanguageDto>(language);
+
+            return languageDto;
+        }
+        catch (Exception)
+        {
+
             throw new LanguageCodeNotFoundException(request.Code);
         }
 
-        var languageDto = _mapper.Map<LanguageDto>(language);
-
-        return languageDto;
     }
 }

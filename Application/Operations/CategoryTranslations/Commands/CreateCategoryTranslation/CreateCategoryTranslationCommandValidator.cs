@@ -14,9 +14,9 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
 
             RuleFor(c => c.Title)
                 .NotEmpty()
-                .MaximumLength(50)
-                .MustAsync(BeUniqueTitle)
-                .WithMessage("The specified title already exists.");
+                .MaximumLength(50);
+                //.MustAsync(BeUniqueTitle)
+                //.WithMessage("The specified title already exists.");
 
             RuleFor(c => c.Status)
                 .IsInEnum();
@@ -47,7 +47,7 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
             return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
         }
 
-        private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+        private async Task<bool> BeUniqueTitle(string? title, CancellationToken cancellationToken)
         {
             return await _context.CategoryTranslations
                 .AllAsync(l => l.Title != title, cancellationToken);

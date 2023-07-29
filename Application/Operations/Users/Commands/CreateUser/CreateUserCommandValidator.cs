@@ -22,14 +22,16 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(u => u.Email)
             .NotEmpty()
-            .EmailAddress();
+            .EmailAddress()
+            .MustAsync(BeUniqueEmail)
+            .WithMessage("The specified email address already exists.");
 
         RuleFor(u => u.Name)
             .NotEmpty();
 
         RuleFor(u => u.Surname)
             .NotEmpty();
-        
+
         RuleFor(u => u.RoleId)
             .NotEmpty()
             .MustAsync(RoleExists)
@@ -45,6 +47,12 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
     {
         return await _context.Users
             .AllAsync(l => l.UserName != userName, cancellationToken);
+    }
+    
+    private async Task<bool> BeUniqueEmail(string? email, CancellationToken cancellationToken)
+    {
+        return await _context.Users
+            .AllAsync(l => l.Email != email, cancellationToken);
     }
 }
 

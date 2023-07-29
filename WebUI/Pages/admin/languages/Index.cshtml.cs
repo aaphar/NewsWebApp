@@ -14,23 +14,12 @@ namespace WebUI.Pages.admin.language
     {
         private readonly IMediator _mediator;
 
-        private readonly IValidator<CreateLanguageCommand> _validator;
-
-        [BindProperty]
-        public string? Title { get; init; }
-        [BindProperty]
-        public string? Code { get; init; }
         public List<LanguageDto>? Languages { get; set; }
 
-        public LanguageDto? LanguageDto { get; set; }
 
-
-        public LanguagesModel(
-            IMediator mediator,
-            IValidator<CreateLanguageCommand> validator)
+        public LanguagesModel(IMediator mediator)
         {
             _mediator = mediator;
-            _validator = validator;
         }
 
         public async Task OnGetAsync()
@@ -46,7 +35,7 @@ namespace WebUI.Pages.admin.language
 
             await Console.Out.WriteLineAsync(_message);
 
-            return RedirectToPage("/admin/languages/index"); 
+            return RedirectToPage("/admin/languages/index");
         }
     }
 }

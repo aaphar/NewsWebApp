@@ -2,6 +2,7 @@
 using Application.Operations.Categories.Commands.CreateCategory;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
 using Application.Operations.Roles.Commands.CreateRole;
+using Application.Operations.Users.Commands.CreateUser;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ namespace Application
             services.AddScoped<IValidator<CreateRoleCommand>, CreateRoleCommandValidator>();
             services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
             services.AddScoped<IValidator<CreateCategoryTranslationCommand>, CreateCategoryTranslationCommandValidator>();
+            services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
 
             return services;
         }

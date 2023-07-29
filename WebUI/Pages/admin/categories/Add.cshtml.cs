@@ -2,6 +2,7 @@ using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Commands.CreateCategory;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
+using Application.Operations.Language.Queries.GetLanguageByCode;
 using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
@@ -26,8 +27,9 @@ namespace WebUI.Pages.admin.categories
         [BindProperty]
         public string? Code { get; set; } // dilin id yox kodu ile isle, code uygun id tap onu menimsed
 
-        [BindProperty]
         public short LanguageId { get; set; }
+
+        public LanguageDto? DefaultLanguage { get; set; }
 
         // languages
         [BindProperty]
@@ -53,6 +55,10 @@ namespace WebUI.Pages.admin.categories
         public async Task OnGetAsync()
         {
             Languages = await _mediator.Send(new GetLanguagesQuery());
+
+            DefaultLanguage = await _mediator.Send(new GetLanguageByCodeQuery(DefaultLanguageCode.Code));
+
+            LanguageId = DefaultLanguage.Id;
         }
 
         public async Task<ActionResult> OnPostAsync()
@@ -72,17 +78,26 @@ namespace WebUI.Pages.admin.categories
                 if (!categoryResult.IsValid)
                 {
                     transactionScope.Dispose();
+
+                    return Page();
                 }
 
                 categoryId = await _mediator.Send(createCategoryCommand);
 
+                DefaultLanguage = await _mediator.Send(new GetLanguageByCodeQuery(DefaultLanguageCode.Code));
+
+                LanguageId = DefaultLanguage.Id;
 
                 CreateCategoryTranslationCommand createCategoryTranslationCommand = new()
                 {
                     Title = TranslationTitle?.Substring(0, 1).ToUpper() + TranslationTitle?.Substring(1).ToLower(),
+
                     Status = Status,
+
                     PublishDate = PublishDate,
+
                     CategoryId = categoryId,
+                    
                     LanguageId = LanguageId,
                 };
 
@@ -93,6 +108,7 @@ namespace WebUI.Pages.admin.categories
                 if (!result.IsValid)
                 {
                     transactionScope.Dispose(); // Rollback the transaction if translation creation fails
+                    return Page();
                 }
 
                 transactionScope.Complete(); // Commit the transaction

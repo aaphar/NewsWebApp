@@ -1,5 +1,6 @@
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
+using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Categories.Queries.GetCategoryById;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationByCategoryId;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationById;
@@ -21,6 +22,8 @@ public class DetailModel : PageModel
 
     public List<LanguageDto>? Languages { get; set; }
 
+    public List<CategoryDto>? Categories { get; set; }
+
     public DetailModel(IMediator mediator)
     {
         _mediator = mediator;
@@ -29,7 +32,9 @@ public class DetailModel : PageModel
     public async Task OnGetAsync(short id)
     {
         // get category by id
-        Category = await _mediator.Send(new GetCategoryByIdQuery() { Id = id }); ;
+        Category = await _mediator.Send(new GetCategoryByIdQuery() { Id = id }); 
+
+        Categories= await _mediator.Send(new GetCategoriesQuery());
 
         //get languages
         Languages = await _mediator.Send(new GetLanguagesQuery());
