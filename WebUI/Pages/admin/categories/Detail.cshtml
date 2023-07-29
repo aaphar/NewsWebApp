@@ -16,16 +16,22 @@
 
 
                     <div class="form-group">
-                        <label for="Status">Language</label>
+
                         <form method="post">
-                            <select asp-for="@Model.LanguageId" class="form-control" asp-page-handler="OnPost">
-                                <option value="">Select Language</option>
-                                @foreach (LanguageDto language in Model.Languages)
-                                {
-                                    <option value="@language.Id">@language.LanguageCode</option>
-                                }
-                            </select>
+                            <div class="form-group">
+                                <label for="Status">Language</label>
+                                <select asp-for="LanguageId" class="form-control" asp-page-handler="OnPost" onchange="this.form.submit()">
+                                    <option value="0">Select Language</option>
+                                    @foreach (LanguageDto language in Model.Languages)
+                                    {
+                                        <option asp-for="LanguageId" value="@language.Id">@language.LanguageCode</option>
+                                    }
+                                </select>
+                            </div>
                         </form>
+
+
+
                     </div>
 
                     <table class="table table-striped projects" id="">
@@ -52,7 +58,7 @@
                         </thead>
 
                         <tbody>
-                            @if (Model.CategoryTranslations != null)
+                            @if (Model.CategoryTranslations != null && Model.CategoryTranslations.Any())
                             {
                                 @foreach (CategoryTranslationDto translation in Model.CategoryTranslations)
                                 {
@@ -121,7 +127,14 @@
                                             </form>
                                         </td>
                                     </tr>
-                                }}
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">No category translations found.</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

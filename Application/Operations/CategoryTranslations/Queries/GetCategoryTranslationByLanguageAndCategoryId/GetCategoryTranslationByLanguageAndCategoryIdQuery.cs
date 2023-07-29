@@ -29,9 +29,9 @@ public class GetCategoryTranslationsByLanguageIdQueryHandler : IRequestHandler<G
     public async Task<CategoryTranslationDto> Handle(GetCategoryTranslationByLanguageAndCategoryIdQuery request, CancellationToken cancellationToken)
     {
         var translation = await _context.CategoryTranslations
-                    .Where(ct => ct.LanguageId == request.LanguageId &&
-                    ct.CategoryId == request.CategoryId)
-                    .FirstAsync(cancellationToken);
+            .FirstOrDefaultAsync(c => c.LanguageId == request.LanguageId
+            && c.CategoryId == request.CategoryId);
+                    
 
         if (translation is null)
         {
