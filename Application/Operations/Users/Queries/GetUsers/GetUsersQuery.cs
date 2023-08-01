@@ -23,7 +23,7 @@ public sealed class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<U
 
     public async Task<List<UserDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        var users = await _context.Users
+        var users = await _context.MyUsers
             .ToListAsync(cancellationToken);
 
         var usersDtos = _mapper.Map<List<UserDto>>(users);

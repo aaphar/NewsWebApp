@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Operations.Roles.Commands.DeleteRole;
-public record DeleteRoleCommand(short Id) : IRequest<Unit>;
+public record DeleteRoleCommand(int Id) : IRequest<Unit>;
 
 public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
 {
@@ -16,7 +16,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
     }
     public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _context.Roles
+        var role = await _context.MyRoles
             .Where(r => r.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
@@ -25,7 +25,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
             throw new RoleNotFoundException(request.Id);
         }
 
-        _context.Roles.Remove(role);
+        _context.MyRoles.Remove(role);
 
         await _context.SaveChangesAsync(cancellationToken);
 

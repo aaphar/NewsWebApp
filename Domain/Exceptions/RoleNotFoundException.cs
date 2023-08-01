@@ -8,7 +8,7 @@ namespace Domain.Exceptions
 {
     public sealed class RoleNotFoundException : Exception
     {
-        public RoleNotFoundException(short id)
+        public RoleNotFoundException(int id)
         : base($"The Role with the ID = {id} was not found") { }
     }
 }

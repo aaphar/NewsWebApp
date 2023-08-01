@@ -20,7 +20,7 @@ public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
 
     private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
     {
-        return await _context.Roles
+        return await _context.MyRoles
             .AllAsync(l => l.Title != title, cancellationToken);
     }
 }

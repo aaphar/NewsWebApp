@@ -37,7 +37,7 @@ namespace WebUI.Pages.admin.roles
                 return Page();
             }
 
-            short id = await _mediator.Send(createRoleCommand);
+            int id = await _mediator.Send(createRoleCommand);
             string _message = $"Role with ID = {id} was successfully created";
             await Console.Out.WriteLineAsync(_message);
 

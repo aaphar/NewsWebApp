@@ -7,7 +7,7 @@ using MediatR;
 namespace Application.Operations.Roles.Queries.GetRoleById;
 public record GetRoleByIdQuery : IRequest<RoleDto>
 {
-    public short Id { get; init; }
+    public int Id { get; init; }
 }
 
 public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, RoleDto>
@@ -26,7 +26,7 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, RoleDto
 
     public async Task<RoleDto> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
-        var role = await _context.Roles
+        var role = await _context.MyRoles
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (role is null)

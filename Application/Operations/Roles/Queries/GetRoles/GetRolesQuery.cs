@@ -22,7 +22,7 @@ public sealed class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, List<R
 
     public async Task<List<RoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
     {
-        var roles = await _context.Roles
+        var roles = await _context.MyRoles
             .ToListAsync(cancellationToken);
                 
         var roleDto = _mapper.Map<List<RoleDto>>(roles);

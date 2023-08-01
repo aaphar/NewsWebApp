@@ -9,7 +9,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Languages</h3>
+            <h3 class="card-title">Users</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -50,7 +50,7 @@
                                 {
                                     if (property.Name == "RoleId")
                                     {
-                                        string roleName = Model.Roles.FirstOrDefault(r => r.Id == (short)property.GetValue(user))?.Title;
+                                        string roleName = Model.Roles.FirstOrDefault(r => r.Id == (int)property.GetValue(user))?.Title;
                                         <td>@roleName</td>
                                     }
                                     else

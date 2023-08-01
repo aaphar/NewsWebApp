@@ -3,45 +3,56 @@ using Domain.Entities;
 using Infrastructure.Persistence.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>, IApplicationDbContext
     {
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<Role> MyRoles => Set<Role>();
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> MyUsers => Set<User>();
+        
+        public override DbSet<ApplicationRole> Roles => Set<ApplicationRole>();
 
-        public DbSet<Language> Languages { get; set; }
+        public override DbSet<ApplicationUser> Users => Set<ApplicationUser>();
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Language> Languages => Set<Language>();
 
-        public DbSet<CategoryTranslation> CategoryTranslations { get; set; }
+        public DbSet<Category> Categories => Set<Category>();
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<CategoryTranslation> CategoryTranslations => Set<CategoryTranslation>();
 
-        public DbSet<PostTranslation> PostTranslations { get; set; }
+        public DbSet<Post> Posts => Set<Post>();
 
-        public DbSet<Hashtag> Hashtags { get; set; }
+        public DbSet<PostTranslation> PostTranslations => Set<PostTranslation>();
 
-        public DbSet<PostHashtag> PostHashtags { get; set; }
+        public DbSet<Hashtag> Hashtags => Set<Hashtag>();
+
+        public DbSet<PostHashtag> PostHashtags => Set<PostHashtag>();
 
         private IConfiguration? Configuration { get; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration) : base(options)
+       
+        public ApplicationDbContext(
+            DbContextOptions<ApplicationDbContext> options,
+            IConfiguration configuration) : base(options)
         {
             Configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-N56OGLT\SQLEXPRESS; Database=NewsCleanArch; Trusted_Connection=True; Encrypt=False; TrustServerCertificate=True");
-           
-        }
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-N56OGLT\SQLEXPRESS; Database=NewsCleanDB; Trusted_Connection=True; Encrypt=False; TrustServerCertificate=True");
 
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new PostTranslationConfiguration());
@@ -52,7 +63,20 @@ namespace Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
 
-            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ApplicationRole>()
+                .HasMany(r => r.Users)
+                .WithOne(u => u.Role)
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Ignore<IdentityUserRole<int>>();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)

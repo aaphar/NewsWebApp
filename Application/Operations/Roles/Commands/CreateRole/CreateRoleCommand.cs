@@ -4,12 +4,12 @@ using Domain.Events;
 using MediatR;
 
 namespace Application.Operations.Roles.Commands.CreateRole;
-public record CreateRoleCommand : IRequest<short>
+public record CreateRoleCommand : IRequest<int>
 {
     public string? Title { get; init; }
 }
 
-public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, short>
+public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
 {
     private readonly IApplicationDbContext _context;
 
@@ -18,14 +18,14 @@ public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, short>
         _context = context;
     }
 
-    public async Task<short> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var role = new Role
         {
             Title = request.Title,
         };
         
-        _context.Roles.Add(role);
+        _context.MyRoles.Add(role);
 
         await _context.SaveChangesAsync(cancellationToken);
         

@@ -1,8 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
-using Domain.Entities;
 using Domain.Enums;
-using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

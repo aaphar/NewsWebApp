@@ -34,7 +34,7 @@ public class RoleModel : PageModel
         Roles = await _mediator.Send(new GetRolesQuery());//sdkjsk
     }
         
-    public async Task<IActionResult> OnPostDeleteAsync(short Id)
+    public async Task<IActionResult> OnPostDeleteAsync(int Id)
     {
         await _mediator.Send(new DeleteRoleCommand(Id));
 

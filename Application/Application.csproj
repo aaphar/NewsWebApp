@@ -21,13 +21,8 @@
   <ItemGroup>
     <Folder Include="Operations\Hashtags\Commands\" />
     <Folder Include="Operations\Hashtags\Queries\" />
-    <Folder Include="Operations\Posts\Queries\" />
-    <Folder Include="Operations\PostTranslations\Queries\" />
-    <Folder Include="Operations\Users\Commands\DeleteUser\" />
-    <Folder Include="Operations\Users\Commands\UpdateUser\" />
+    <Folder Include="Operations\Posts\Commands\DeletePost\" />
     <Folder Include="Operations\Users\Queries\GetUsers\" />
-    <Folder Include="Operations\Users\Queries\GetUserById\" />
-    <Folder Include="Operations\Users\Queries\GetUsersByRoleId\" />
   </ItemGroup>
 
 </Project>

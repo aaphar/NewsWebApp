@@ -38,20 +38,20 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
             .WithMessage("RoleId does not exist in the database");
     }
 
-    private async Task<bool> RoleExists(short roleId, CancellationToken cancellationToken)
+    private async Task<bool> RoleExists(int roleId, CancellationToken cancellationToken)
     {
-        return await _context.Roles.AnyAsync(l => l.Id == roleId, cancellationToken);
+        return await _context.MyRoles.AnyAsync(l => l.Id == roleId, cancellationToken);
     }
 
     private async Task<bool> BeUniqueUserName(string? userName, CancellationToken cancellationToken)
     {
-        return await _context.Users
+        return await _context.MyUsers
             .AllAsync(l => l.UserName != userName, cancellationToken);
     }
     
     private async Task<bool> BeUniqueEmail(string? email, CancellationToken cancellationToken)
     {
-        return await _context.Users
+        return await _context.MyUsers
             .AllAsync(l => l.Email != email, cancellationToken);
     }
 }

@@ -29,10 +29,10 @@ public class GetUserByEmailAndPasswordQueryHandler : IRequestHandler<GetUserByEm
 
     public async Task<UserDto> Handle(GetUserByEmailAndPasswordQuery request, CancellationToken cancellationToken)
     {
-        var emailWithUser = await _context.Users
+        var emailWithUser = await _context.MyUsers
             .FirstOrDefaultAsync(e => e.Email == request.Email);
 
-        var user = await _context.Users
+        var user = await _context.MyUsers
             .FirstOrDefaultAsync(u => u.Email == request.Email
             && u.Password == request.Password);
 
@@ -45,7 +45,7 @@ public class GetUserByEmailAndPasswordQueryHandler : IRequestHandler<GetUserByEm
         }
         else
         {
-            throw new UserNotFoundException(request.Email);
+            throw new EmailNotFoundException(request.Email);
         }
 
         var userDto = _mapper.Map<UserDto>(user);

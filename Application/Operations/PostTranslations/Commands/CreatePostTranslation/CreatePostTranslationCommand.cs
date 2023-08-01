@@ -10,6 +10,7 @@ public record CreatePostTranslationCommand : IRequest<long>
     public string? Title { get; init; }
 
     public string? Context { get; init; }
+
     public DateTime PublishDate { get; init; }
 
     public Status Status { get; init; }

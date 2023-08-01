@@ -1,4 +1,104 @@
 ﻿@page
-@model WebUI.Pages.admin.post.IndexModel
+@using Application.Common.Models;
+@model WebUI.Pages.admin.post.PostModel
 @{
 }
+
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Posts</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        @foreach (var property in typeof(PostDto).GetProperties())
+                        {
+                            <th>@property.Name</th>
+                        }
+                        <th style="width: 30%"></th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Posts != null)
+                    {
+                        @foreach (PostDto post in Model.Posts)
+                        {
+                            <tr>
+                                @foreach (var property in typeof(PostDto).GetProperties())
+                                {
+                                    <td>@property.GetValue(post)</td>
+
+                                }
+
+                                <td class="project-actions text-right">
+                                    <form method="post">
+                                        <a class="btn btn-primary btn-sm"
+                                           asp-page="/admin/posts/detail"
+                                           asp-route-id="@post.Id">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+
+                                        <a class="btn btn-info btn-sm"
+                                           asp-page="/admin/posts/addoredit"
+                                           asp-route-id="@post.Id">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Add/Edit Translations
+                                        </a>
+
+                                        <a href="#" class="btn btn-danger btn-sm"
+                                           onclick="confirmDelete('@post.Id')">
+                                            <i class="fas fa-trash"></i>
+                                            Delete
+                                        </a>
+
+                                        <div class="modal" id="deleteConfirmationModal_@post.Id" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Confirm Deletion</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@post.Id">
+                                                            Yes
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                        }}
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+</section>

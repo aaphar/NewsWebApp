@@ -21,7 +21,7 @@ namespace Application.Operations.Roles.Commands.CreateRole
 
         private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return await _context.Roles
+            return await _context.MyRoles
                 .AllAsync(l => l.Title != title, cancellationToken);
         }
     }

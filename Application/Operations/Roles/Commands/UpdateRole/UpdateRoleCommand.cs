@@ -5,7 +5,7 @@ using MediatR;
 namespace Application.Operations.Roles.Commands.UpdateRole;
 public record UpdateRoleCommand : IRequest<Unit>
 {
-    public short Id { get; set; }
+    public int Id { get; init; }
     public string? Title { get; init; }
 }
 
@@ -20,7 +20,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Unit>
 
     public async Task<Unit> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _context.Roles
+        var role = await _context.MyRoles
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (role is null)

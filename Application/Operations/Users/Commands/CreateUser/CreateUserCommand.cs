@@ -16,7 +16,7 @@ public record CreateUserCommand : IRequest<int>
 
     public string? Email { get; init; }
 
-    public short RoleId { get; init; }
+    public int RoleId { get; init; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
@@ -41,7 +41,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
         };
 
         user.AddDomainEvent(new UserCreatedEvent(user));
-        _context.Users.Add(user);
+        _context.MyUsers.Add(user);
 
         await _context.SaveChangesAsync(cancellationToken);
 

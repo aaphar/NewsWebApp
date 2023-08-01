@@ -1,8 +1,8 @@
 ﻿namespace Domain.Exceptions;
 public class UserNotFoundException : Exception
 {
-    public UserNotFoundException(string email)
-            : base($"The User with {email} was not found")
+    public UserNotFoundException(int id)
+            : base($"The User with  id {id} was not found")
     {
     }
 }
