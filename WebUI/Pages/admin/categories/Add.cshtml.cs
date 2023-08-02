@@ -22,10 +22,9 @@ namespace WebUI.Pages.admin.categories
         [BindProperty]
         public Status Status { get; set; }
 
-        public DateTime PublishDate { get; set; }
-
         [BindProperty]
-        public string? Code { get; set; } // dilin id yox kodu ile isle, code uygun id tap onu menimsed
+        public DateTime PublishDate { get; set; }
+           
 
         public short LanguageId { get; set; }
 
@@ -54,6 +53,8 @@ namespace WebUI.Pages.admin.categories
 
         public async Task OnGetAsync()
         {
+            PublishDate = DateTime.Today;
+
             Languages = await _mediator.Send(new GetLanguagesQuery());
 
             DefaultLanguage = await _mediator.Send(new GetLanguageByCodeQuery(DefaultLanguageCode.Code));
@@ -107,13 +108,13 @@ namespace WebUI.Pages.admin.categories
 
                 if (!result.IsValid)
                 {
-                    transactionScope.Dispose(); // Rollback the transaction if translation creation fails
+                    transactionScope.Dispose(); 
                     return Page();
                 }
 
-                transactionScope.Complete(); // Commit the transaction
+                transactionScope.Complete(); 
             }
-            return RedirectToPage("/admin/categories/addoredit", new { Id = categoryId });
+            return RedirectToPage("/admin/categories/detail", new { Id = categoryId });
         }
     }
 }

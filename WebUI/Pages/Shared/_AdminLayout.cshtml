@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="~/admin/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/admin/dist/css/adminlte.min.css">
+
+    <script src="/ckeditor/ckeditor.js"></script>
+
 </head>
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->
@@ -188,7 +191,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-book"></i>
@@ -214,7 +217,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-book"></i>
@@ -266,7 +269,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-book"></i>
@@ -278,14 +281,14 @@
 
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-page="/admin/categories/index" class="nav-link">
+                                    <a asp-page="/admin/posts/index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>List of Posts</p>
                                     </a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a asp-page="/admin/categories/add" class="nav-link">
+                                    <a asp-page="/admin/posts/add" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add Post</p>
                                     </a>
@@ -382,8 +385,9 @@
             $('#deleteConfirmationModal_' + roleId).modal('show');
         }
 
-    </script>
+        CKEDITOR.replace('editor');
 
+    </script>
 </body>
 </html>
 

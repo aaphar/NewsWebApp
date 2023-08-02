@@ -11,11 +11,11 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
     {
         _context = context;
 
-        RuleFor(p => p.Title)
-                .NotEmpty()
-                .MaximumLength(50)
-                .MustAsync(BeUniqueTitle)
-                .WithMessage("The specified title already exists.");
+        //RuleFor(p => p.Title)
+        //        .NotEmpty()
+        //        .MaximumLength(80)
+        //        .MustAsync(BeUniqueTitle)
+        //        .WithMessage("The specified title already exists.");
 
         RuleFor(p => p.Context)
             .NotEmpty();
@@ -37,10 +37,10 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
             .MustAsync(NewsExists)
             .WithMessage("NewsId is not exist in the database");
         
-        RuleFor(p => p.AuthorId)
-            .NotEmpty()
-            .MustAsync(AuthorExists)
-            .WithMessage("AuthorId is not exist in the database");
+        //RuleFor(p => p.AuthorId)
+        //    .NotEmpty()
+        //    .MustAsync(AuthorExists)
+        //    .WithMessage("AuthorId is not exist in the database");
     }
 
     private async Task<bool> LanguageExists(short languageId, CancellationToken cancellationToken)

@@ -60,7 +60,7 @@
                                         <label for="PublishDate">Publish date</label>
                                         <input type="date" id="PublishDate" class="form-control"
                                                asp-for="@Model.TranslationDto.PublishDate"
-                                               value="@Model.TranslationDto.PublishDate" placeholder="PublishDate">
+                                               data-val-date placeholder="PublishDate">
                                         <span asp-validation-for="@Model.TranslationDto.PublishDate" class="text-danger"></span>
                                     </div>
 
