@@ -14,13 +14,14 @@ using System.Transactions;
 
 namespace WebUI.Pages.admin.posts
 {
+    [IgnoreAntiforgeryToken]
     public class AddModel : PageModel
     {
         [BindProperty]
         public string? Title { get; set; }
 
         [BindProperty]
-        public string? Context { get; set; }
+        public string? Content { get; set; }
 
         [BindProperty]
         public Status Status { get; set; }
@@ -52,14 +53,22 @@ namespace WebUI.Pages.admin.posts
 
         private readonly IValidator<CreatePostTranslationCommand> _validator;
 
+        private readonly IWebHostEnvironment _environment;
+
+        private readonly ILogger<AddModel> _logger;
+
         public AddModel(
             IMediator mediator,
             IValidator<CreatePostCommand> categoryValidator,
-            IValidator<CreatePostTranslationCommand> validator)
+            IValidator<CreatePostTranslationCommand> validator,
+            IWebHostEnvironment environment,
+            ILogger<AddModel> logger)
         {
             _mediator = mediator;
             _postValidator = categoryValidator;
             _validator = validator;
+            _environment = environment;
+            _logger = logger;
         }
 
         public async Task OnGet()
@@ -74,6 +83,7 @@ namespace WebUI.Pages.admin.posts
 
             LanguageId = DefaultLanguage.Id;
         }
+
 
         public async Task<ActionResult> OnPostAsync()
         {
@@ -106,7 +116,7 @@ namespace WebUI.Pages.admin.posts
                 CreatePostTranslationCommand createPostTranslation = new()
                 {
                     Title = Title?.Substring(0, 1).ToUpper() + Title?.Substring(1).ToLower(),
-                    Context = Context,
+                    Context = Content,
                     PublishDate = PublishDate,
                     Status = Status,
                     NewsId = postId,
