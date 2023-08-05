@@ -18,7 +18,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(pt => pt.Title)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(250);
 
             builder.Property(pt => pt.Context)
                 .IsRequired();

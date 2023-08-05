@@ -11,11 +11,11 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
     {
         _context = context;
 
-        //RuleFor(p => p.Title)
-        //        .NotEmpty()
-        //        .MaximumLength(80)
-        //        .MustAsync(BeUniqueTitle)
-        //        .WithMessage("The specified title already exists.");
+        RuleFor(p => p.Title)
+                .NotEmpty()
+                .MaximumLength(250);
+                //.MustAsync(BeUniqueTitle)
+                //.WithMessage("The specified title already exists.");
 
         RuleFor(p => p.Context)
             .NotEmpty();

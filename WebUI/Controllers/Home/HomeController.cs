@@ -13,7 +13,7 @@ namespace WebUI.Controllers.Home
         }
 
         [HttpPost("Home/UploadCKEditorImage")]
-        public JsonResult UploadCKEditorImage()
+        public JsonResult UploadCKEditorImage(bool temp)
         {
             var files = Request.Form.Files;
             if (files.Count == 0)
@@ -48,6 +48,12 @@ namespace WebUI.Controllers.Home
                     formFile.CopyTo(fs);
                     fs.Flush();
                 }
+
+                if (temp)
+                {
+                    // Store the image URL in TempData
+                    TempData["UploadedImagePath"] = previewPath;
+                }
             }
             catch (Exception ex)
             {
@@ -70,6 +76,6 @@ namespace WebUI.Controllers.Home
         {
             return View();
         }
-                
+
     }
 }

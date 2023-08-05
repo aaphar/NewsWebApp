@@ -7,6 +7,10 @@ public record UpdatePostCommand : IRequest<Unit>
 {
     public long Id { get; init; }
 
+    public string? Title { get; init; }
+
+    public string? ImagePath { get; init; }
+
     public DateTime? PublishDate { get; init; }
 
     public short CategoryId { get; init; }
@@ -32,6 +36,8 @@ public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, Unit>
             throw new PostNotFoundException(request.Id);
         }
 
+        post.Title = request.Title;
+        post.ImagePath = request.ImagePath;
         post.PublishDate = request.PublishDate;
         post.CategoryId = request.CategoryId;
 

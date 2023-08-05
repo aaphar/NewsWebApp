@@ -5,6 +5,7 @@ namespace Application.Common.Models
     public class PostTranslationDto
     {
         public long Id { get; set; }
+
         public string? Title { get; set; }
 
         public string? Context { get; set; }

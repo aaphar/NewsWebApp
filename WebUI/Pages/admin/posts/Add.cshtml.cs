@@ -24,6 +24,9 @@ namespace WebUI.Pages.admin.posts
         public string? Content { get; set; }
 
         [BindProperty]
+        public string? ImagePath { get; set; }
+
+        [BindProperty]
         public Status Status { get; set; }
 
         [BindProperty]
@@ -91,8 +94,18 @@ namespace WebUI.Pages.admin.posts
 
             using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+                // Retrieve the stored image URL from TempData
+                var uploadedImagePath = TempData["UploadedImagePath"] as string;
+                if (!string.IsNullOrEmpty(uploadedImagePath))
+                {
+                    // Update the ImagePath property with the uploaded image URL
+                    ImagePath = uploadedImagePath;
+                }
+
                 CreatePostCommand createPostCommand = new()
                 {
+                    Title = Title,
+                    ImagePath = ImagePath,
                     PublishDate = PublishDate,
                     CategoryId = CategoryId
                 };
@@ -122,7 +135,7 @@ namespace WebUI.Pages.admin.posts
                     NewsId = postId,
                     LanguageId = LanguageId,
                     ViewCount = ViewCount,
-                    AuthorId = 3
+                    AuthorId = 1
                 };
 
                 await _mediator.Send(createPostTranslation);

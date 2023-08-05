@@ -12,9 +12,9 @@ public class UpdatePostTranslationCommandValidator : AbstractValidator<UpdatePos
         _context = context;
         RuleFor(p => p.Title)
                     .NotEmpty()
-                    .MaximumLength(50)
-                    .MustAsync(BeUniqueTitle)
-                    .WithMessage("The specified title already exists.");
+                    .MaximumLength(50);
+                    //.MustAsync(BeUniqueTitle)
+                    //.WithMessage("The specified title already exists.");
 
         RuleFor(p => p.Context)
             .NotEmpty();

@@ -11,6 +11,15 @@ public class UpdatePostCommandValidator:AbstractValidator<UpdatePostCommand>
     {
         _context = context;
 
+        RuleFor(p => p.Title)
+                .NotEmpty()
+                .MaximumLength(250)
+                .MustAsync(BeUniqueTitle)
+                .WithMessage("The specified title already exists.");
+
+        RuleFor(p => p.ImagePath)
+                .NotEmpty();
+
         //RuleFor(p => p.PublishDate)
         //    .GreaterThanOrEqualTo(DateTime.Now);
 
@@ -23,5 +32,11 @@ public class UpdatePostCommandValidator:AbstractValidator<UpdatePostCommand>
     private async Task<bool> CategoryExists(short categoryId, CancellationToken cancellationToken)
     {
         return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
+    }
+
+    private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+    {
+        return await _context.Posts
+            .AllAsync(l => l.Title != title, cancellationToken);
     }
 }

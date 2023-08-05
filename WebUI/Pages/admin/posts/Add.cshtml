@@ -69,6 +69,20 @@
                                 <span asp-validation-for="Content" class="text-danger"></span>
                             </div>
 
+                            <div class="form-group">
+                                <label asp-for="ImagePath">Choose Image: </label>
+                                <input type="file" class="form-control-file" id="image" asp-for="ImagePath">
+                                <span asp-validation-for="ImagePath" class="text-danger"></span>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model?.ImagePath))
+                            {
+                                <div class="form-group">
+                                    <label>Uploaded Image:</label>
+                                    <img src="@Model.ImagePath" alt="Uploaded Image" class="img-fluid">
+                                </div>
+                            }
+
                             <div class="row">
                                 <div class="col-12">
                                     <input type="submit" value="Cancel" class="btn btn-default">
@@ -123,6 +137,48 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+            var inputFile = document.querySelector('#image');
+
+            if (inputFile) {
+                inputFile.addEventListener('change', function () {
+                    // Check if a file has been selected
+                    if (inputFile.files.length > 0) {
+                        const file = inputFile.files[0];
+                        uploadFile(file);
+                    }
+                });
+            }
+
+            function uploadFile(file) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/Home/UploadCKEditorImage?temp=true', true);
+                xhr.responseType = 'json';
+
+                xhr.upload.addEventListener('progress', function (event) {
+                    // Update progress here if needed
+                });
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = xhr.response;
+                        if (response && response.uploaded) {
+                            // The file was successfully uploaded
+                            const imageUrl = response.url;
+
+                            inputFile.nodeValue = imageUrl;
+                        } else {
+                            // Handle upload error
+                        }
+                    } else {
+                        // Handle request error
+                    }
+                };
+
+                const formData = new FormData();
+                formData.append('upload', file);
+                xhr.send(formData);
+            }
         });
 
         function docReady(fn) {
@@ -173,7 +229,11 @@
                 // integration to choose the right communication channel. This example uses
                 // a POST request with JSON as a data structure but your configuration
                 // could be different.
-                xhr.open('POST', '/Home/UploadCKEditorImage', true);
+
+                // Construct the URL with the temp parameter
+                const url = '/Home/UploadCKEditorImage?temp=' + false;
+
+                xhr.open('POST', url, true);
                 xhr.responseType = 'json';
             }
 

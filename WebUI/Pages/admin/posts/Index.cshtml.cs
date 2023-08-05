@@ -1,4 +1,5 @@
 using Application.Common.Models;
+using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Posts.Commands.CreatePost;
 using Application.Operations.Posts.Commands.DeletePost;
 using Application.Operations.Posts.Queries.GetPosts;
@@ -15,6 +16,10 @@ namespace WebUI.Pages.admin.post
 
         private readonly IValidator<CreatePostCommand> _validator;
 
+        public List<CategoryDto>? Categories { get; set; }
+
+        public List<PostDto>? Posts { get; set; }
+
         public PostModel(
             IMediator mediator,
             IValidator<CreatePostCommand> validator)
@@ -23,11 +28,11 @@ namespace WebUI.Pages.admin.post
             _validator = validator;
         }
 
-        public List<PostDto> Posts { get; set; }
-
         public async Task OnGetAsync()
         {
             Posts = await _mediator.Send(new GetPostsQuery());
+
+            Categories = await _mediator.Send(new GetCategoriesQuery());
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(long Id)

@@ -197,6 +197,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("InsertDate")
                         .HasColumnType("datetime2");
 
@@ -208,6 +211,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTime?>("PublishDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
@@ -291,8 +299,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<long>("ViewCount")
                         .HasColumnType("bigint");

@@ -15,6 +15,12 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(p => p.Id);
 
+            builder.Property(pt => pt.Title)
+                .IsRequired()
+                .HasMaxLength(250);
+
+            builder.Property(pt => pt.ImagePath);
+
             builder.Property(p => p.InsertDate);
 
             builder.Property(p => p.PublishDate);

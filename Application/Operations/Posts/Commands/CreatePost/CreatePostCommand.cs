@@ -6,6 +6,10 @@ using MediatR;
 namespace Application.Operations.Posts.Commands.CreatePost;
 public record CreatePostCommand : IRequest<long>
 {
+    public string? Title { get; init; }
+
+    public string? ImagePath { get; init; }
+
     public DateTime? PublishDate { get; init; }
 
     public short CategoryId { get; init; }
@@ -24,6 +28,8 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
     {
         var post = new Post
         {
+            Title = request.Title,
+            ImagePath = request.ImagePath,
             PublishDate = request.PublishDate,
             InsertDate = DateTime.Now,
             CategoryId = request.CategoryId
