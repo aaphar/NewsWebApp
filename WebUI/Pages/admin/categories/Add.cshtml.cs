@@ -114,7 +114,7 @@ namespace WebUI.Pages.admin.categories
 
                 transactionScope.Complete(); 
             }
-            return RedirectToPage("/admin/categories/detail", new { Id = categoryId });
+            return RedirectToPage("/admin/categories/index");
         }
     }
 }

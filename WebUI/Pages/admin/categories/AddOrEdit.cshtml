@@ -4,6 +4,7 @@
 @model WebUI.Pages.admin.categories.AddOrEditModel
 @{
 }
+
 <!-- Main content -->
 <section class="content">
 
@@ -95,9 +96,9 @@
 
                                     <div class="form-group">
                                         <label for="PublishDate">Publish date</label>
-                                        <input type="date" id="PublishDate" class="form-control" asp-for="PublishDate"
-                                               value="@Model.PublishDate.ToString("yyyy-MM-dd")" placeholder="PublishDate">
-                                        <span asp-validation-for="PublishDate" class="text-danger"></span>
+                                        <input type="date" id="PublishDate" class="form-control" asp-for="@Model.TranslationDto.PublishDate"
+                                               data-val-date placeholder="PublishDate">
+                                        <span asp-validation-for="@Model.TranslationDto.PublishDate" class="text-danger"></span>
                                     </div>
 
                                     <div class="row float-right">

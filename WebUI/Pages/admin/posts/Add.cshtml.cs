@@ -151,7 +151,7 @@ namespace WebUI.Pages.admin.posts
                 scope.Complete();
             };
 
-            return RedirectToPage("/admin/post/detail", new { Id = postId });
+            return RedirectToPage("/admin/posts/detail", new { Id = postId });
         }
     }
 }

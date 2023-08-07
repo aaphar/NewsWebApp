@@ -1,0 +1,118 @@
+﻿@page
+@using Application.Common.Models;
+@model WebUI.Pages.admin.posts.translation.DetailModel
+@{
+}
+
+<section class="content">
+
+    <!-- Default box -->
+    <div style="margin: 10px;">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-text-width"></i>
+                    Details
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <dl>
+                    @foreach (var property in typeof(PostTranslationDto).GetProperties())
+                    {
+                        if (property.Name == "LanguageId")
+                        {
+                            <dt>Language</dt>
+                        }
+                        else if (property.Name == "NewsId")
+                        {
+                            <dt>Post</dt>
+                        }
+                        else if (property.Name == "AuthorId")
+                        {
+                            <dt>Author</dt>
+                        }
+                        else
+                        {
+                            <dt>@property.Name</dt>
+                        }
+
+                        if (property.Name == "Context")
+                        {
+                            <dd>
+                                <div style="font-size: 12px;">
+                                    @Html.Raw(property.GetValue(Model.Translation))
+                                </div>
+                            </dd>
+                        }
+                        else if (property.Name == "LanguageId")
+                        {
+                            string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(Model.Translation))?.LanguageCode;
+                            <td>@languageName</td>
+                        }
+                        else if (property.Name == "NewsId")
+                        {
+                            string postName = Model.Posts.FirstOrDefault(r => r.Id == (long)property.GetValue(Model.Translation))?.Title;
+
+                            <td>@postName</td>
+                        }
+                        else if (property.Name == "AuthorId")
+                        {
+                            string authortName = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.UserName;
+                            <td>@authortName</td>
+                        }
+                        else
+                        {
+                            <dd>@property.GetValue(Model.Translation)</dd>
+                        }
+                    }
+
+
+                    <input hidden asp-for="NewsId" value="@Model?.Translation?.NewsId" />
+
+                    <td class="project-actions text-right">
+                        <form method="post">
+                            <a class="btn btn-info btn-sm"
+                               asp-page="/admin/posts/translation/edit"
+                               asp-route-id="@Model?.Translation?.Id/@Model?.Translation?.NewsId">
+                                <i class="fas fa-pencil-alt"></i>
+                                Edit
+                            </a>
+
+                            <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('@Model?.Translation?.Id')">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </a>
+
+                            <div class="modal" id="deleteConfirmationModal_@Model?.Translation?.Id" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Deletion</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@Model?.Translation?.Id">
+                                                Yes
+                                            </button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </td>
+                </dl>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>                <!-- /.card -->
+
+</section>

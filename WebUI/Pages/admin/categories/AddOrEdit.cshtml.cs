@@ -18,23 +18,6 @@ namespace WebUI.Pages.admin.categories
     public class AddOrEditModel : PageModel
     {
         [BindProperty]
-        public string? TranslationTitle { get; set; }
-
-        [BindProperty]
-        public Status Status { get; set; }
-
-        [BindProperty]
-        public DateTime PublishDate { get; set; }
-
-        [BindProperty]
-        public short CategoryId { get; set; }
-
-        [BindProperty]
-        public short LanguageId { get; set; }
-
-
-
-        [BindProperty]
         public List<CategoryTranslationDto>? Translations { get; set; }
 
         [BindProperty]
@@ -62,8 +45,6 @@ namespace WebUI.Pages.admin.categories
 
         public async Task OnGetAsync(short id)
         {
-            Debug.WriteLine("This message will appear in the server-side debugging console.");
-
             Languages = await _mediator.Send(new GetLanguagesQuery());
 
             Translations = await _mediator.Send(new GetCategoryTranslationsByCategoryIdQuery() { CategoryId = id });

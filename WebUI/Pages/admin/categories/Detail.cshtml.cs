@@ -74,7 +74,7 @@ public class DetailModel : PageModel
     public Task<IActionResult> OnPostAsync(short id)
     {
         // Reload the page with the selected LanguageId
-        return Task.FromResult<IActionResult>(RedirectToPage("/admin/categories/detail", new { id = id, LanguageId }));
+        return Task.FromResult<IActionResult>(RedirectToPage("/admin/categories/detail", new { Id = id, LanguageId }));
     }
 }
 

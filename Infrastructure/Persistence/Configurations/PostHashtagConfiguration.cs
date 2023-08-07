@@ -23,11 +23,13 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(ph => ph.PostTranslation)
                 .WithMany(pt => pt.PostHashtags)
-                .HasForeignKey(ph => ph.NewsId);
+                .HasForeignKey(ph => ph.NewsId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(ph => ph.Hashtag)
                 .WithMany(h => h.PostHashtags)
-                .HasForeignKey(ph => ph.HashtagId);
+                .HasForeignKey(ph => ph.HashtagId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

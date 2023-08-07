@@ -1,4 +1,3 @@
-using Application.CommandQueries.Language.Commands.DeleteLanguage;
 using Application.Common.Models;
 using Application.Operations.CategoryTranslations.Commands.DeleteCategoryTranslation;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationById;
@@ -40,6 +39,7 @@ namespace WebUI.Pages.admin.categories.translation
 
             await Console.Out.WriteLineAsync(_message);
 
+            // redirect problem
             return RedirectToPage("/admin/categories/detail", new { Id = CategoryId });
 
         }

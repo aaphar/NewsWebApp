@@ -18,12 +18,19 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
     public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         var category = await _context.Categories
+            .Include(c => c.Posts)  // Include the Posts collection
             .Where(c => c.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (category is null)
         {
             throw new CategoryNotFoundException(request.Id);
+        }
+
+        // Set the CategoryId to null for related posts
+        foreach (var post in category.Posts)
+        {
+            post.CategoryId = 0;
         }
 
         var translations = _context.CategoryTranslations

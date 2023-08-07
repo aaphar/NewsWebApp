@@ -1,12 +1,16 @@
 ﻿@page
 @using Application.Common.Models;
-@model WebUI.Pages.admin.categories.DetailModel
+@model WebUI.Pages.admin.posts.DetailModel
 @{
 }
-
+<style>
+    img {
+        max-width: 150px; /* Adjust the value as needed */
+    }
+</style>
 <!-- Main content -->
 <section class="content">
-    <h5 class="mt-4 mb-2">Category Translations</h5>
+    <h5 class="mt-4 mb-2">Post Translations</h5>
 
     <div class="row">
         <div class="col-12">
@@ -30,50 +34,68 @@
                             </div>
                         </form>
 
-
-
                     </div>
 
                     <table class="table table-striped projects" id="">
                         <thead>
                             <tr>
-                                @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
+                                @foreach (var property in typeof(PostTranslationDto).GetProperties())
                                 {
                                     if (property.Name == "LanguageId")
                                     {
                                         <th>Language</th>
                                     }
-                                    else if (property.Name == "CategoryId")
+                                    else if (property.Name == "NewsId")
                                     {
-                                        <th>Category</th>
+                                        <th>Post</th>
+                                    }
+                                    else if (property.Name == "AuthorId")
+                                    {
+                                        <th>Author</th>
                                     }
                                     else
                                     {
                                         <th>@property.Name</th>
                                     }
                                 }
-                                <th style="width: 30%"></th>
+                                <th style="width: 10%"></th>
 
                             </tr>
                         </thead>
 
                         <tbody>
-                            @if (Model.CategoryTranslations != null && Model.CategoryTranslations.Any())
+                            @if (Model.PostTranslations != null && Model.PostTranslations.Any())
                             {
-                                @foreach (CategoryTranslationDto translation in Model.CategoryTranslations)
+                                @foreach (PostTranslationDto translation in Model.PostTranslations)
                                 {
+                                    <input hidden asp-for="PostId" value="@translation.NewsId" />
+
                                     <tr>
-                                        @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
+                                        @foreach (var property in typeof(PostTranslationDto).GetProperties())
                                         {
                                             if (property.Name == "LanguageId")
                                             {
                                                 string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.LanguageCode;
                                                 <td>@languageName</td>
                                             }
-                                            else if (property.Name == "CategoryId")
+                                            else if (property.Name == "NewsId")
                                             {
-                                                string categoryName = Model.Categories.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.Description;
-                                                <td>@categoryName</td>
+                                                string postName = Model.Posts.FirstOrDefault(r => r.Id == (long)property.GetValue(translation))?.Title;
+                                                                                               
+                                                <td>@postName</td>
+                                            }
+                                            else if (property.Name == "AuthorId")
+                                            {
+                                                string authortName = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(translation))?.UserName;
+                                                <td>@authortName</td>
+                                            }
+                                            else if (property.Name == "Context")
+                                            {
+                                                <td>
+                                                    <div style="font-size: 12px;">
+                                                        @Html.Raw(property.GetValue(translation))
+                                                    </div>
+                                                </td>
                                             }
                                             else
                                             {
@@ -84,14 +106,14 @@
                                         <td class="project-actions text-right">
                                             <form method="post">
                                                 <a class="btn btn-primary btn-sm"
-                                                   asp-page="/admin/categories/translation/detail"
+                                                   asp-page="/admin/posts/translation/detail"
                                                    asp-route-id="@translation.Id">
                                                     <i class="fas fa-folder">
                                                     </i>
                                                     View
                                                 </a>
                                                 <a class="btn btn-info btn-sm"
-                                                   asp-page="/admin/categories/translation/edit"
+                                                   asp-page="/admin/posts/translation/edit"
                                                    asp-route-id="@translation.Id">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
@@ -132,7 +154,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="5">No category translations found.</td>
+                                    <td colspan="5">No Post translations found.</td>
                                 </tr>
                             }
                         </tbody>

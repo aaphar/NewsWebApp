@@ -45,15 +45,18 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(p => p.Language)
                 .WithMany(l => l.PostTranslations)
-                .HasForeignKey(p => p.LanguageId);
+                .HasForeignKey(p => p.LanguageId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(p => p.Post)
                 .WithMany(po => po.PostTranslations)
-                .HasForeignKey(p => p.NewsId);
+                .HasForeignKey(p => p.NewsId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasOne(p => p.Author)
                 .WithMany(u => u.PostTranslations)
-                .HasForeignKey(p => p.AuthorId);
+                .HasForeignKey(p => p.AuthorId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

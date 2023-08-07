@@ -38,7 +38,8 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(u => u.Role)
                 .WithMany()
-                .HasForeignKey(u => u.RoleId);
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

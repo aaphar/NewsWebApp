@@ -30,11 +30,13 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(p => p.Category)
                 .WithMany(c => c.Posts)
-                .HasForeignKey(p => p.CategoryId);
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(l => l.PostTranslations)
                 .WithOne(pt => pt.Post)
-                .HasForeignKey(pt => pt.NewsId);
+                .HasForeignKey(pt => pt.NewsId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -25,11 +25,13 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasMany(l => l.CategoryTranslations)
                 .WithOne(ct => ct.Language)
-                .HasForeignKey(ct => ct.LanguageId);
+                .HasForeignKey(ct => ct.LanguageId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(l => l.PostTranslations)
                 .WithOne(pt => pt.Language)
-                .HasForeignKey(pt => pt.LanguageId);
+                .HasForeignKey(pt => pt.LanguageId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

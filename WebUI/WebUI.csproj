@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="Pages\admin\hashtags\" />
     <Folder Include="wwwroot\assets\vendor\" />
-    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 
   <ItemGroup>

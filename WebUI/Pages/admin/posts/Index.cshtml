@@ -3,7 +3,11 @@
 @model WebUI.Pages.admin.post.PostModel
 @{
 }
-
+<style>
+    img {
+        max-width: 150px; /* Adjust the value as needed */
+    }
+</style>
 <section class="content">
 
     <!-- Default box -->
@@ -30,6 +34,10 @@
                             {
                                 <th>Category</th>
                             }
+                            else if (property.Name == "ImagePath")
+                            {
+                                <th>Image</th>
+                            }
                             else
                             {
                                 <th>@property.Name</th>
@@ -52,6 +60,10 @@
                                     {
                                         string categoryName = Model?.Categories?.FirstOrDefault(r => r.Id == (short)property?.GetValue(post))?.Description;
                                         <td>@categoryName</td>
+                                    }
+                                    else if (property.Name == "ImagePath")
+                                    {
+                                        <td><img src="@property.GetValue(post)" /></td>
                                     }
                                     else
                                     {
