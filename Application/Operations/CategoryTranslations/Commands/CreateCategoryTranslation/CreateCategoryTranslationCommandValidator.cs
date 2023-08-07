@@ -37,12 +37,12 @@ namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTra
                 .WithMessage("CategoryId does not exist in the database.");
         }
 
-        private async Task<bool> LanguageExists(short languageId, CancellationToken cancellationToken)
+        private async Task<bool> LanguageExists(short? languageId, CancellationToken cancellationToken)
         {
             return await _context.Languages.AnyAsync(l => l.Id == languageId, cancellationToken);
         }
 
-        private async Task<bool> CategoryExists(short categoryId, CancellationToken cancellationToken)
+        private async Task<bool> CategoryExists(short? categoryId, CancellationToken cancellationToken)
         {
             return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
         }

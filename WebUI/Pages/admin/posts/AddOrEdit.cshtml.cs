@@ -71,10 +71,10 @@ namespace WebUI.Pages.admin.posts
             {
                 Title = Title,
                 Context = Content,
-                PublishDate = TranslationDto.PublishDate,
-                Status = TranslationDto.Status,
+                PublishDate = TranslationDto?.PublishDate ?? DateTime.Now,
+                Status = TranslationDto?.Status ?? Status.Draft,
                 NewsId = id,
-                LanguageId = TranslationDto.LanguageId,
+                LanguageId = TranslationDto?.LanguageId ?? null,
                 ViewCount = TranslationDto.ViewCount,
                 AuthorId = 1
             };

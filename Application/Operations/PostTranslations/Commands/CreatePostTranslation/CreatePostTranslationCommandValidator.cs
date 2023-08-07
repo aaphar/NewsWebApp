@@ -36,14 +36,14 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
             .NotEmpty()
             .MustAsync(NewsExists)
             .WithMessage("NewsId is not exist in the database");
-        
-        //RuleFor(p => p.AuthorId)
-        //    .NotEmpty()
-        //    .MustAsync(AuthorExists)
-        //    .WithMessage("AuthorId is not exist in the database");
+
+        RuleFor(p => p.AuthorId)
+            .NotEmpty()
+            .MustAsync(AuthorExists)
+            .WithMessage("AuthorId is not exist in the database");
     }
 
-    private async Task<bool> LanguageExists(short languageId, CancellationToken cancellationToken)
+    private async Task<bool> LanguageExists(short? languageId, CancellationToken cancellationToken)
     {
         return await _context.Languages.AnyAsync(l => l.Id == languageId, cancellationToken);
     }
@@ -53,7 +53,7 @@ public class CreatePostTranslationCommandValidator : AbstractValidator<CreatePos
         return await _context.Posts.AnyAsync(p => p.Id == newsId, cancellationToken);
     }
 
-    private async Task<bool> AuthorExists(int authorId, CancellationToken cancellationToken)
+    private async Task<bool> AuthorExists(int? authorId, CancellationToken cancellationToken)
     {
         return await _context.MyUsers.AnyAsync(p => p.Id == authorId, cancellationToken);
     }

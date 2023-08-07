@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationByCategoryId;
 public record GetCategoryTranslationsByCategoryIdQuery : IRequest<List<CategoryTranslationDto>>
 {
-    public short CategoryId { get; init; }
+    public short? CategoryId { get; init; }
 }
 
 

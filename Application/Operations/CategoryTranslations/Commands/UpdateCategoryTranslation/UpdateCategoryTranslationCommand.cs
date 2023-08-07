@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Operations.CategoryTranslations.Commands.UpdateCategoryTranslation;
 public record UpdateCategoryTranslationCommand : IRequest<Unit>
 {
-    public string? Title { get; init; }
+    public string Title { get; init; }
 
-    public Status Status { get; init; }
+    public Status? Status { get; init; }
 
-    public DateTime PublishDate { get; init; }
+    public DateTime? PublishDate { get; init; }
 
-    public short LanguageId { get; init; }
+    public short? LanguageId { get; init; }
 
-    public short CategoryId { get; init; }
+    public short? CategoryId { get; init; }
 }
 
 public class UpdateCategoryTranslationCommandHandler : IRequestHandler<UpdateCategoryTranslationCommand, Unit>

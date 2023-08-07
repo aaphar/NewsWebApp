@@ -6,9 +6,9 @@ namespace Application.Operations.Users.Commands.UpdateUser;
 public record UpdateUserCommand : IRequest<Unit>
 {
     public int Id { get; init; }
-    public string? UserName { get; init; }
+    public string UserName { get; init; }
 
-    public string? Password { get; init; }
+    public string Password { get; init; }
 
     public string? Name { get; init; }
 
@@ -16,7 +16,7 @@ public record UpdateUserCommand : IRequest<Unit>
 
     public string? Email { get; init; }
 
-    public int RoleId { get; init; }
+    public int? RoleId { get; init; }
 }
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>

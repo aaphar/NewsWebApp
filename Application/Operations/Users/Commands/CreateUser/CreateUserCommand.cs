@@ -6,9 +6,9 @@ using MediatR;
 namespace Application.Operations.Users.Commands.CreateUser;
 public record CreateUserCommand : IRequest<int>
 {
-    public string? UserName { get; init; }
+    public string UserName { get; init; }
 
-    public string? Password { get; init; }
+    public string Password { get; init; }
 
     public string? Name { get; init; }
 
@@ -16,7 +16,7 @@ public record CreateUserCommand : IRequest<int>
 
     public string? Email { get; init; }
 
-    public int RoleId { get; init; }
+    public int? RoleId { get; init; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>

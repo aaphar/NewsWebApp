@@ -11,17 +11,17 @@ public record CreatePostTranslationCommand : IRequest<long>
 
     public string? Context { get; init; }
 
-    public DateTime PublishDate { get; init; }
+    public DateTime? PublishDate { get; init; }
 
-    public Status Status { get; init; }
+    public Status? Status { get; init; }
 
     public long ViewCount { get; init; }
 
-    public short LanguageId { get; init; }
+    public short? LanguageId { get; init; }
 
     public long NewsId { get; init; }
 
-    public int AuthorId { get; init; }
+    public int? AuthorId { get; init; }
 }
 
 public class CreatePostTranslationCommandHandler : IRequestHandler<CreatePostTranslationCommand, long>

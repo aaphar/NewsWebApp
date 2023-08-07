@@ -30,7 +30,7 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
         // Set the CategoryId to null for related posts
         foreach (var post in category.Posts)
         {
-            post.CategoryId = 0;
+            post.CategoryId = null;
         }
 
         var translations = _context.CategoryTranslations

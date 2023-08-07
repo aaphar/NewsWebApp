@@ -21,8 +21,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasMany(c => c.PostHashtags)
                 .WithOne(p => p.Hashtag)
-                .HasForeignKey(p => p.HashtagId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(p => p.HashtagId);
         }
     }
 }

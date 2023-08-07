@@ -34,7 +34,7 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(u => u.RoleId)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.HasOne(u => u.Role)
                 .WithMany()

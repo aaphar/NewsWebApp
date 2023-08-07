@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence
         public DbSet<Role> MyRoles => Set<Role>();
 
         public DbSet<User> MyUsers => Set<User>();
-        
+
         public override DbSet<ApplicationRole> Roles => Set<ApplicationRole>();
 
         public override DbSet<ApplicationUser> Users => Set<ApplicationUser>();
@@ -35,7 +35,7 @@ namespace Infrastructure.Persistence
 
         private IConfiguration? Configuration { get; }
 
-       
+
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
             IConfiguration configuration) : base(options)
@@ -67,14 +67,7 @@ namespace Infrastructure.Persistence
             modelBuilder.Entity<ApplicationUser>()
                 .HasOne(u => u.Role)
                 .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<ApplicationRole>()
-                .HasMany(r => r.Users)
-                .WithOne(u => u.Role)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(u => u.RoleId);
 
             modelBuilder.Ignore<IdentityUserRole<int>>();
         }

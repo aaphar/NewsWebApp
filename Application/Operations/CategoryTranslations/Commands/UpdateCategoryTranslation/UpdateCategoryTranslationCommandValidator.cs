@@ -22,7 +22,7 @@ public class UpdateCategoryTranslationCommandValidator : AbstractValidator<Updat
 
         RuleFor(c => c.PublishDate)
             .NotEmpty()
-            .GreaterThanOrEqualTo(DateTime.UtcNow); // Assuming you don't want past dates
+            .GreaterThanOrEqualTo(DateTime.UtcNow); 
 
         RuleFor(c => c.LanguageId)
             .NotEmpty()
@@ -35,13 +35,13 @@ public class UpdateCategoryTranslationCommandValidator : AbstractValidator<Updat
             .WithMessage("CategoryId does not exist in the database.");
     }
 
-    private async Task<bool> LanguageExists(short languageId, CancellationToken cancellationToken)
+    private async Task<bool> LanguageExists(short? languageId, CancellationToken cancellationToken)
     {
         // Implement the method to check if the LanguageId exists in the database
         return await _context.Languages.AnyAsync(l => l.Id == languageId, cancellationToken);
     }
 
-    private async Task<bool> CategoryExists(short categoryId, CancellationToken cancellationToken)
+    private async Task<bool> CategoryExists(short? categoryId, CancellationToken cancellationToken)
     {
         // Implement the method to check if the CategoryId exists in the database
         return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);

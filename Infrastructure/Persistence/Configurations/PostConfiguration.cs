@@ -16,7 +16,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(p => p.Id);
 
             builder.Property(pt => pt.Title)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(250);
 
             builder.Property(pt => pt.ImagePath);
@@ -26,7 +26,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(p => p.PublishDate);
 
             builder.Property(p => p.CategoryId)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.HasOne(p => p.Category)
                 .WithMany(c => c.Posts)
@@ -35,8 +35,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasMany(l => l.PostTranslations)
                 .WithOne(pt => pt.Post)
-                .HasForeignKey(pt => pt.NewsId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(pt => pt.NewsId);
         }
     }
 }

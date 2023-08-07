@@ -29,11 +29,10 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(ct => ct.PublishDate);
 
-            builder.Property(ct => ct.LanguageId)
-                .IsRequired();
+            builder.Property(ct => ct.LanguageId);
 
-            builder.Property(ct => ct.CategoryId)
-                .IsRequired();
+            builder.Property(ct => ct.CategoryId);
+
 
             builder.HasOne(ct => ct.Language)
                 .WithMany(l => l.CategoryTranslations)

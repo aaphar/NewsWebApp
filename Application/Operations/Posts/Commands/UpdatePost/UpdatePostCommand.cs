@@ -13,7 +13,7 @@ public record UpdatePostCommand : IRequest<Unit>
 
     public DateTime? PublishDate { get; init; }
 
-    public short CategoryId { get; init; }
+    public short? CategoryId { get; init; }
 }
 
 

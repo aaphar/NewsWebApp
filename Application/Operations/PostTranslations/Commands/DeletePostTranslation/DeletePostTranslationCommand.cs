@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ public class DeletePostTranslationCommandHandler : IRequestHandler<DeletePostTra
         {
             throw new PostTranslationNotFoundException(request.Id);
         }
+        //deleting hashtag if post will be deleted
 
         _context.PostTranslations.Remove(postTranslation);
 

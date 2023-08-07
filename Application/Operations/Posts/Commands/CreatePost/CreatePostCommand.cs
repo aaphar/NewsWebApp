@@ -12,7 +12,7 @@ public record CreatePostCommand : IRequest<long>
 
     public DateTime? PublishDate { get; init; }
 
-    public short CategoryId { get; init; }
+    public short? CategoryId { get; init; }
 }
 
 public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>

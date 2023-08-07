@@ -29,7 +29,7 @@ public class UpdatePostCommandValidator:AbstractValidator<UpdatePostCommand>
              .WithMessage("CategoryId does not exist in the database.");
     }
 
-    private async Task<bool> CategoryExists(short categoryId, CancellationToken cancellationToken)
+    private async Task<bool> CategoryExists(short? categoryId, CancellationToken cancellationToken)
     {
         return await _context.Categories.AnyAsync(c => c.Id == categoryId, cancellationToken);
     }

@@ -35,13 +35,13 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(p => p.ViewCount);
 
             builder.Property(pt => pt.LanguageId)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(pt => pt.NewsId)
                 .IsRequired();
 
             builder.Property(pt => pt.AuthorId)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.HasOne(p => p.Language)
                 .WithMany(l => l.PostTranslations)
@@ -50,8 +50,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.HasOne(p => p.Post)
                 .WithMany(po => po.PostTranslations)
-                .HasForeignKey(p => p.NewsId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(p => p.NewsId);
 
             builder.HasOne(p => p.Author)
                 .WithMany(u => u.PostTranslations)

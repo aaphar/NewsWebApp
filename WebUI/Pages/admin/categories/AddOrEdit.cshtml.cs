@@ -56,10 +56,11 @@ namespace WebUI.Pages.admin.categories
             UpdateCategoryTranslationCommand updateTranslation = new()
             {
                 Title = TranslationDto?.Title?.Substring(0, 1).ToUpper() + TranslationDto?.Title?.Substring(1).ToLower(),
-                Status = TranslationDto.Status,
-                PublishDate = TranslationDto.PublishDate,
+                //Status = TranslationDto.Status,
+                Status = TranslationDto?.Status ?? Status.Draft,
+                PublishDate = TranslationDto?.PublishDate ?? DateTime.Now ,
                 CategoryId = id,
-                LanguageId = TranslationDto.LanguageId,
+                LanguageId = TranslationDto?.LanguageId ?? null,
             };
 
             ValidationResult result = await _validator.ValidateAsync(updateTranslation);

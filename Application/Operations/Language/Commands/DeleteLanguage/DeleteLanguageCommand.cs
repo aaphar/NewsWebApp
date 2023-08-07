@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +19,26 @@ public class DeleteLanguageCommandHandler : IRequestHandler<DeleteLanguageComman
     public async Task<Unit> Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
     {
         var language = await _context.Languages
+                    .Include(l => l.CategoryTranslations)
+                    .Include(l => l.PostTranslations)
                     .Where(l => l.Id == request.Id)
                     .SingleOrDefaultAsync(cancellationToken);
 
         if (language is null)
         {
             throw new LanguageNotFoundException(request.Id);
+        }
+
+        // Set the CategoryId to null for related posts
+        foreach (var category in language.CategoryTranslations)
+        {
+            category.LanguageId = null;
+        }
+
+        // Set the CategoryId to null for related posts
+        foreach (var post in language.PostTranslations)
+        {
+            post.LanguageId = null;
         }
 
         _context.Languages.Remove(language);

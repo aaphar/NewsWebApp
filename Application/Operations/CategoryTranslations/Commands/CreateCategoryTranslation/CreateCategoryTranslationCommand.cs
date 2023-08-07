@@ -7,15 +7,15 @@ using Domain.Events;
 namespace Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
 public record CreateCategoryTranslationCommand : IRequest<int>
 {
-    public string? Title { get; init; }
+    public string Title { get; init; }
 
-    public Status Status { get; init; }
+    public Status? Status { get; init; }
 
-    public DateTime PublishDate { get; init; }
+    public DateTime? PublishDate { get; init; }
 
-    public short LanguageId { get; init; }
+    public short? LanguageId { get; init; }
 
-    public short CategoryId { get; init; }
+    public short? CategoryId { get; init; }
 }
 
 public class CreateCategoryTranslationCommandHandler : IRequestHandler<CreateCategoryTranslationCommand, int>

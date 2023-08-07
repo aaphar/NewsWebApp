@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,19 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
     public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         var role = await _context.MyRoles
+            .Include(l => l.Users)
             .Where(r => r.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (role is null)
         {
             throw new RoleNotFoundException(request.Id);
+        }
+
+        // Set the CategoryId to null for related posts
+        foreach (var user in role.Users)
+        {
+            user.RoleId = null;
         }
 
         _context.MyRoles.Remove(role);
