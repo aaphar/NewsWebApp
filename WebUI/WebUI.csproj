@@ -25,28 +25,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="CKFinder">
-      <HintPath>wwwroot\ckfinder\bin\Release\CKFinder.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.Config">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.Core">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.Host.Owin">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.Host.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.KeyValue.FileSystem">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.KeyValue.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.Logs.NLog">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.Logs.NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="CKSource.CKFinder.Connector.WebApp">
-      <HintPath>wwwroot\ckfinder\bin\CKSource.CKFinder.Connector.WebApp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

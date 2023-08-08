@@ -73,7 +73,7 @@
                                     <tr>
                                         @foreach (var property in typeof(PostTranslationDto).GetProperties())
                                         {
-                                            if (property.Name == "LanguageId")
+                                            if (property?.GetValue(translation) is not null && property.Name == "LanguageId")
                                             {
                                                 string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.LanguageCode;
                                                 <td>@languageName</td>
@@ -84,7 +84,7 @@
                                                                                                
                                                 <td>@postName</td>
                                             }
-                                            else if (property.Name == "AuthorId")
+                                            else if (property?.GetValue(translation) is not null && property.Name == "AuthorId")
                                             {
                                                 string authortName = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(translation))?.UserName;
                                                 <td>@authortName</td>

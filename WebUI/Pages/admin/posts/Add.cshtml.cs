@@ -39,7 +39,7 @@ namespace WebUI.Pages.admin.posts
         public int AuthorId { get; set; }
 
         [BindProperty]
-        public short CategoryId { get; set; }
+        public short? CategoryId { get; set; }
 
         public List<CategoryDto>? Categories { get; set; }
 
@@ -62,13 +62,13 @@ namespace WebUI.Pages.admin.posts
 
         public AddModel(
             IMediator mediator,
-            IValidator<CreatePostCommand> categoryValidator,
+            IValidator<CreatePostCommand> postValidator,
             IValidator<CreatePostTranslationCommand> validator,
             IWebHostEnvironment environment,
             ILogger<AddModel> logger)
         {
             _mediator = mediator;
-            _postValidator = categoryValidator;
+            _postValidator = postValidator;
             _validator = validator;
             _environment = environment;
             _logger = logger;
@@ -105,9 +105,9 @@ namespace WebUI.Pages.admin.posts
                 CreatePostCommand createPostCommand = new()
                 {
                     Title = Title,
-                    ImagePath = ImagePath,
+                    ImagePath = ImagePath ?? null,
                     PublishDate = PublishDate,
-                    CategoryId = CategoryId
+                    CategoryId = CategoryId ?? null
                 };
 
                 ValidationResult postResult = await _postValidator.ValidateAsync(createPostCommand);
@@ -147,6 +147,8 @@ namespace WebUI.Pages.admin.posts
                     scope.Dispose();
                     return Page();
                 }
+
+                TempData["UploadedImagePath"] = null;
 
                 scope.Complete();
             };

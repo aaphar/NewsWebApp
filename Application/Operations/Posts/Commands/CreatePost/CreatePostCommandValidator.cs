@@ -17,16 +17,12 @@ public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
                 .MustAsync(BeUniqueTitle)
                 .WithMessage("The specified title already exists.");
 
-        RuleFor(p => p.ImagePath)
-                .NotEmpty();
+        RuleFor(p => p.ImagePath);
 
         //RuleFor(p => p.PublishDate)
         //    .GreaterThanOrEqualTo(DateTime.Now);
 
-        RuleFor(c => c.CategoryId)
-            .NotEmpty()
-            .MustAsync(CategoryExists)
-            .WithMessage("CategoryId does not exist in the database.");
+        RuleFor(c => c.CategoryId);
     }
 
     private async Task<bool> CategoryExists(short? categoryId, CancellationToken cancellationToken)

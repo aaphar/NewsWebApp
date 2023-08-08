@@ -65,7 +65,7 @@
                                     <tr>
                                         @foreach (var property in typeof(CategoryTranslationDto).GetProperties())
                                         {
-                                            if (property.Name == "LanguageId")
+                                            if (property?.GetValue(translation) is not null && property.Name == "LanguageId")
                                             {
                                                 string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(translation))?.LanguageCode;
                                                 <td>@languageName</td>
