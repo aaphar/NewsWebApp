@@ -79,7 +79,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MyRoles",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -224,7 +224,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MyUsers",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -246,7 +246,7 @@ namespace Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_MyUsers_MyRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "MyRoles",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 });
@@ -374,7 +374,7 @@ namespace Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_PostTranslations_MyUsers_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "MyUsers",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
@@ -469,7 +469,7 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_MyUsers_RoleId",
-                table: "MyUsers",
+                table: "Users",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
@@ -543,7 +543,7 @@ namespace Infrastructure.Migrations
                 name: "Languages");
 
             migrationBuilder.DropTable(
-                name: "MyUsers");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Posts");
@@ -552,7 +552,7 @@ namespace Infrastructure.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "MyRoles");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Categories");

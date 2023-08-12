@@ -9,12 +9,14 @@ using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 
 namespace WebUI.Pages.admin.categories
 {
+    [Authorize(Roles = "Admin")]
     public class AddOrEditModel : PageModel
     {
         [BindProperty]

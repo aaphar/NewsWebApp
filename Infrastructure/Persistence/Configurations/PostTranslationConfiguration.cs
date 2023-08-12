@@ -20,6 +20,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(250);
 
+            builder.HasIndex(pt => pt.Title)
+                .IsUnique();
+
             builder.Property(pt => pt.Context)
                 .IsRequired();
 

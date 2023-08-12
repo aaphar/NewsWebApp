@@ -1,20 +1,21 @@
 ﻿using Domain.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
-    public sealed class User : BaseAuditableEntity
+    public sealed class User : IdentityUser<int>
     {
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
-        public string UserName { get; set; }
+        public override required string UserName { get; set; }
 
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
         public string? Name { get; set; }
 
         public string? Surname { get; set; }
 
-        public string? Email { get; set; }
+        public override string? Email { get; set; }
 
         public int? RoleId { get; set; }
 

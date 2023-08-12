@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(h => h.Title)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(200);
 
             builder.HasMany(c => c.PostHashtags)
                 .WithOne(p => p.Hashtag)

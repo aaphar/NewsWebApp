@@ -2,11 +2,13 @@ using Application.Operations.Roles.Commands.CreateRole;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.roles
 {
+    [Authorize(Roles = "Admin")]
     public class AddModel : PageModel
     {
         private readonly IMediator _mediator;
@@ -27,7 +29,7 @@ namespace WebUI.Pages.admin.roles
         {
             CreateRoleCommand createRoleCommand = new()
             {
-                Title = Title.Substring(0, 1).ToUpper() + Title.Substring(1).ToLower(),
+                Name = Title.Substring(0, 1).ToUpper() + Title.Substring(1).ToLower(),
             };
 
             ValidationResult result = await _validator.ValidateAsync(createRoleCommand);

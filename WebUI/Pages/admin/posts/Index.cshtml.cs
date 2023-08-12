@@ -5,11 +5,13 @@ using Application.Operations.Posts.Commands.DeletePost;
 using Application.Operations.Posts.Queries.GetPosts;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.post
 {
+    [Authorize(Roles = "Admin")]
     public class PostModel : PageModel
     {
         private readonly IMediator _mediator;

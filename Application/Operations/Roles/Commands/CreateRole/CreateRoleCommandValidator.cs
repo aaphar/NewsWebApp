@@ -12,7 +12,7 @@ namespace Application.Operations.Roles.Commands.CreateRole
         {
             _context = context;
 
-           RuleFor(r=>r.Title)
+           RuleFor(r=>r.Name)
                 .MaximumLength(25)
                 .NotEmpty()
                 .MustAsync(BeUniqueTitle)
@@ -21,8 +21,8 @@ namespace Application.Operations.Roles.Commands.CreateRole
 
         private async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
         {
-            return await _context.MyRoles
-                .AllAsync(l => l.Title != title, cancellationToken);
+            return await _context.Roles
+                .AllAsync(l => l.Name != title, cancellationToken);
         }
     }
 }

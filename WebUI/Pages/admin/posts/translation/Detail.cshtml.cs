@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.posts.translation
 {
+    [Authorize(Roles = "Admin")
     public class DetailModel : PageModel
     {
         private readonly IMediator _mediator;

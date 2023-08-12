@@ -40,18 +40,18 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
     private async Task<bool> RoleExists(int? roleId, CancellationToken cancellationToken)
     {
-        return await _context.MyRoles.AnyAsync(l => l.Id == roleId, cancellationToken);
+        return await _context.Roles.AnyAsync(l => l.Id == roleId, cancellationToken);
     }
 
     private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)
     {
-        return await _context.MyUsers
+        return await _context.Users
             .AllAsync(l => l.UserName != userName, cancellationToken);
     }
 
     private async Task<bool> BeUniqueEmail(string? email, CancellationToken cancellationToken)
     {
-        return await _context.MyUsers
+        return await _context.Users
             .AllAsync(l => l.Email != email, cancellationToken);
     }
 }

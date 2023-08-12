@@ -1,92 +1,57 @@
-using Application.Common.Models;
-using Application.Operations.Users.Queries.GetUserByEmailAndPassword;
-using Application.Operations.Users.Queries.GetUsers;
-using Domain.Exceptions;
+using Application.Common.Behaviours;
+using Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
-namespace WebUI.Pages.admin
+namespace WebUI.Pages.admin.authentication
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public string? Email { get; init; }
+        public string Email { get; set; }
 
         [BindProperty]
-        public string? Password { get; init; }
+        public string Password { get; set; }
 
-        public List<UserDto>? Users { get; set; }
 
         private readonly IMediator _mediator;
+        private readonly SignInManager<User> _signInManager;
 
-        public LoginModel(IMediator mediator)
+        public LoginModel(IMediator mediator, 
+            SignInManager<User> signInManager)
         {
             _mediator = mediator;
+            _signInManager = signInManager;
         }
 
-
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<ActionResult> OnPostSignInAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
             try
             {
-                UserDto user = await _mediator.Send(new GetUserByEmailAndPasswordQuery()
+                SignInCommand signInCommand = new SignInCommand()
                 {
-                    Email = Email,
-                    Password = Password
-                });
-                                              
+                    Email = Email,  
+                    Password = Password,
+                };
 
-                return RedirectToPage("/admin/roles/index");
-            }
-            catch (EmailNotFoundException ex)
-            {
-                // Handle email not found exception
-                ModelState.AddModelError(nameof(Email), ex.Message);
-                return Page();
-            }
-            catch (PasswordNotMatchException ex)
-            {
-                // Handle password not matched exception
-                ModelState.AddModelError(nameof(Password), ex.Message);
-                return Page();
-            }
-            catch(UserNotFoundException ex)
-            {
-                ModelState.AddModelError(nameof(Password), ex.Message);
-                return Page();
-            }
+                var result = await _mediator.Send(signInCommand);
 
-        }
-
-        private UserDto GetUserByEmailAndPassword(string email, string password)
-        {
-            UserDto logUser = null;
-
-            foreach (var user in Users)
-            {
-                if (user.Email == email && user.Password == password)
+                if (!result.Succeeded)
                 {
-                    logUser = user;
+                    return new RedirectToPageResult("/admin/error", new { message = result.ToString() });
                 }
-                if (user.Email != email)
-                {
-                    throw new EmailNotFoundException(email);
-                }
-                else if (user.Email == email && user.Password != password)
-                {
-                    throw new PasswordNotMatchException(password);
-                }
-            }
 
-            return logUser;
+                return new RedirectToPageResult("/admin/posts/index");
+
+            }
+            catch (Exception ex)
+            {
+                return new RedirectToPageResult("/admin/succeed", new { message = ex.Message });
+            }
         }
     }
 }

@@ -3,22 +3,12 @@ using Domain.Entities;
 using Infrastructure.Persistence.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>, IApplicationDbContext
     {
-        public DbSet<Role> MyRoles => Set<Role>();
-
-        public DbSet<User> MyUsers => Set<User>();
-
-        public override DbSet<ApplicationRole> Roles => Set<ApplicationRole>();
-
-        public override DbSet<ApplicationUser> Users => Set<ApplicationUser>();
-
         public DbSet<Language> Languages => Set<Language>();
 
         public DbSet<Category> Categories => Set<Category>();
@@ -62,14 +52,6 @@ namespace Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new HashtagConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-
-
-            modelBuilder.Entity<ApplicationUser>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId);
-
-            modelBuilder.Ignore<IdentityUserRole<int>>();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)

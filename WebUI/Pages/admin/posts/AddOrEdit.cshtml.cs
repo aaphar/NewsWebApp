@@ -11,11 +11,13 @@ using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.posts
 {
+    [Authorize(Roles = "Admin")]
     public class AddOrEditModel : PageModel
     {
         [BindProperty]

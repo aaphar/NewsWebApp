@@ -40,8 +40,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
             RoleId = request.RoleId,
         };
 
-        user.AddDomainEvent(new UserCreatedEvent(user));
-        _context.MyUsers.Add(user);
+        _context.Users.Add(user);
 
         await _context.SaveChangesAsync(cancellationToken);
 

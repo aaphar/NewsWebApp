@@ -2,11 +2,13 @@ using Application.Common.Models;
 using Application.Operations.CategoryTranslations.Commands.DeleteCategoryTranslation;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories.translation
 {
+    [Authorize(Roles = "Admin")]
     public class DetailModel : PageModel
     {
         private readonly IMediator _mediator;

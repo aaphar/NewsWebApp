@@ -3,11 +3,13 @@ using Application.Operations.Roles.Queries.GetRoles;
 using Application.Operations.Users.Commands.UpdateUser;
 using Application.Operations.Users.Queries.GetUserById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.users
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;

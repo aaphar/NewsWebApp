@@ -2,11 +2,13 @@ using Application.Common.Models;
 using Application.Operations.Roles.Commands.DeleteRole;
 using Application.Operations.Roles.Queries.GetRoleById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.roles
 {
+    [Authorize(Roles = "Admin")]
     public class DetailModel : PageModel
     {
         private readonly IMediator _mediator;

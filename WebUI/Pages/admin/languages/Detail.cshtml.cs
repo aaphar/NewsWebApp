@@ -3,11 +3,13 @@ using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Language.Queries.GetLanguageById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.languages
 {
+    [Authorize(Roles = "Admin")]
     public class DetailModel : PageModel
     {
         private readonly IMediator _mediator;

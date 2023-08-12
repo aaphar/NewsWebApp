@@ -10,8 +10,8 @@ namespace Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<Role> MyRoles { get; }
-        DbSet<User> MyUsers { get; }
+        DbSet<Role> Roles { get; }
+        DbSet<User> Users { get; }
         DbSet<Language> Languages { get; }
         DbSet<Category> Categories { get; }
         DbSet<CategoryTranslation> CategoryTranslations { get; }

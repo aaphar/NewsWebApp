@@ -2,10 +2,12 @@ using Application.Common.Models;
 using Application.Operations.Roles.Queries.GetRoles;
 using Application.Operations.Users.Queries.GetUsers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.user
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly IMediator _mediator;

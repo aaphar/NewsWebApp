@@ -44,7 +44,7 @@
                             <option value="">Select Role</option>
                             @foreach (var role in Model.Roles)
                             {
-                                <option value="@role.Id">@role.Title</option>
+                                <option value="@role.Id">@role.Name</option>
                             }
                         </select>
                         <span asp-validation-for="UserDto.RoleId" class="text-danger"></span>

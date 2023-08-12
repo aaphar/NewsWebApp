@@ -8,6 +8,7 @@ using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Transactions;
@@ -15,6 +16,7 @@ using System.Transactions;
 namespace WebUI.Pages.admin.posts
 {
     [IgnoreAntiforgeryToken]
+    [Authorize(Roles = "Admin")]
     public class AddModel : PageModel
     {
         [BindProperty]

@@ -30,7 +30,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
 
     public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.MyUsers
+        var user = await _context.Users
             .FindAsync(new object[] { request.Id }, cancellationToken);
 
         if (user is null)

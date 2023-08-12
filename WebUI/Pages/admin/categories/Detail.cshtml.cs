@@ -5,10 +5,13 @@ using Application.Operations.Categories.Queries.GetCategoryById;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationByCategoryId;
 using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationsByLanguageId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories;
+
+[Authorize(Roles = "Admin")]
 public class DetailModel : PageModel
 {
     private readonly IMediator _mediator;

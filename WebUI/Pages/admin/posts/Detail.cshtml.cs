@@ -8,10 +8,13 @@ using Application.Operations.PostTranslations.Queries.GetPostTranslationByLangua
 using Application.Operations.PostTranslations.Queries.GetPostTranslationsByNewsId;
 using Application.Operations.Users.Queries.GetUsers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.posts;
+
+[Authorize(Roles = "Admin")]
 public class DetailModel : PageModel
 {
     private readonly IMediator _mediator;

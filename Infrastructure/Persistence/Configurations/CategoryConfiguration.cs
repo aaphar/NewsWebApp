@@ -17,6 +17,9 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(c => c.Description);
 
+            builder.HasIndex(c => c.Description)
+                .IsUnique();
+
             builder.HasMany(c => c.CategoryTranslations)
                 .WithOne(ct => ct.Category)
                 .HasForeignKey(ct => ct.CategoryId)

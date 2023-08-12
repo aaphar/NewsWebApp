@@ -1,12 +1,10 @@
 ﻿using Domain.Common;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
-    public sealed class Role : BaseAuditableEntity
+    public sealed class Role : IdentityRole<int>
     {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-
         public ICollection<User>? Users { get; set; }
     }
 }

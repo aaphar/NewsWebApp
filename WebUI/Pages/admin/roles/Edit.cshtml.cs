@@ -3,11 +3,13 @@ using Application.Common.Models;
 using Application.Operations.Roles.Commands.UpdateRole;
 using Application.Operations.Roles.Queries.GetRoleById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.roles
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;
@@ -32,7 +34,7 @@ namespace WebUI.Pages.admin.roles
             UpdateRoleCommand updateRoleCommand = new()
             {
                 Id = id,
-                Title = RoleDto?.Title.Substring(0, 1).ToUpper() + RoleDto.Title.Substring(1).ToLower(),
+                Name = RoleDto?.Name.Substring(0, 1).ToUpper() + RoleDto.Name.Substring(1).ToLower(),
             };
 
 

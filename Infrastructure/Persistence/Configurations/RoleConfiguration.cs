@@ -15,9 +15,9 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(r => r.Id);
 
-            builder.Property(r => r.Title)
-                .IsRequired()
-                .HasMaxLength(20);
+            //builder.Property(r => r.Name)
+            //    .IsRequired()
+            //    .HasMaxLength(20);
 
             builder.HasMany(r => r.Users)
                 .WithOne(u => u.Role)

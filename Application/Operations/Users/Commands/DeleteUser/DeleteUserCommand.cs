@@ -19,7 +19,7 @@ public class DeleteUserCommandHandler:IRequestHandler<DeleteUserCommand, Unit>
 
     public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.MyUsers
+        var user = await _context.Users
             .Include(l => l.PostTranslations)
             .Where(u => u.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
@@ -35,7 +35,7 @@ public class DeleteUserCommandHandler:IRequestHandler<DeleteUserCommand, Unit>
             post.AuthorId = null;
         }
 
-        _context.MyUsers.Remove(user);
+        _context.Users.Remove(user);
 
         await _context.SaveChangesAsync(cancellationToken);
 

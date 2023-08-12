@@ -23,7 +23,7 @@
                     {
                         <dt class="col-sm-3">Role</dt>
 
-                        string roleName = Model.Roles.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.User))?.Title;
+                        string roleName = Model.Roles.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.User))?.Name;
                                                                    
                         <dd class="col-sm-9">@roleName</dd>
                     }

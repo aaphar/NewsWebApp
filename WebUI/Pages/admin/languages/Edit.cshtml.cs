@@ -1,13 +1,14 @@
 using Application.CommandQueries.Language.Commands.UpdateLanguage;
 using Application.Common.Models;
 using Application.Operations.Language.Queries.GetLanguageById;
-using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.language
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;

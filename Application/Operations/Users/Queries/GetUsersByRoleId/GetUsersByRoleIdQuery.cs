@@ -23,7 +23,7 @@ public class GetUsersByRoleIdQueryHandler : IRequestHandler<GetUsersByRoleIdQuer
 
     public async Task<List<UserDto>> Handle(GetUsersByRoleIdQuery request, CancellationToken cancellationToken)
     {
-        var users = await _context.MyUsers
+        var users = await _context.Users
             .Where(u => u.RoleId == request.RoleId)
             .ToListAsync(cancellationToken);
 

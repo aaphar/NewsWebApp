@@ -21,7 +21,13 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(l => l.LanguageCode)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(5);
+
+            builder.HasIndex(l => l.LanguageCode)
+                .IsUnique();
+
+            builder.HasIndex(l => l.Title)
+                .IsUnique();
 
             builder.HasMany(l => l.CategoryTranslations)
                 .WithOne(ct => ct.Language)

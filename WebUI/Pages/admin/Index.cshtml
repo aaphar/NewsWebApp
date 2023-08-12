@@ -1,7 +1,19 @@
 ﻿@page
-@model WebUI.Pages.admin.LoginModel
+@model WebUI.Pages.admin.authentication.LoginModel
 @{
-    Layout = "";
+        Layout = "";
+}
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+{
+    <p>User is authenticated.</p>
+    <p>@HttpContext.User.Identity.Name</p>
+}
+else
+{
+    <p>User is not authenticated.</p>
 }
 
 <!DOCTYPE html>
@@ -30,7 +42,7 @@
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form method="post" id="languageForm">
+                <form method="post" asp-page-handler="SignIn">
 
                     <div class="input-group mb-3">
                        <input type="email" asp-for="Email" class="form-control" placeholder="Email">
@@ -42,7 +54,7 @@
                     </div>
 
                     <div class="input-group mb-3">
-                       <input type="text" asp-for="Password" class="form-control" placeholder="Password">
+                       <input type="password" asp-for="Password" class="form-control" placeholder="Password">
                        
                        <div class="input-group-append">
                             <div class="input-group-text">
@@ -50,13 +62,13 @@
                             </div>
                        </div>
                     </div>
-                    <span asp-validation-for="Password" class="text-danger"></span>
-
-                    <div class="row justify-content-end">
-                        
-                        <div class="col-12 col-sm-auto">
-                            <input type="submit" value="Sign in" class="btn btn-primary">
+                    
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
+                        <!-- /.col -->
                     </div>
 
                 </form>

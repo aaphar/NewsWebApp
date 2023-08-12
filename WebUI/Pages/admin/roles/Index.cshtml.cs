@@ -5,10 +5,13 @@ using Application.Operations.Roles.Queries.GetRoles;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.roles;
+
+[Authorize(Roles = "Admin")]
 public class RoleModel : PageModel
 {
     private readonly IMediator _mediator;

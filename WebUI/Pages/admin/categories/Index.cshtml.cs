@@ -4,11 +4,13 @@ using Application.Operations.Categories.Commands.DeleteCategory;
 using Application.Operations.Categories.Queries.GetCategories;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryModel : PageModel
     {
         private readonly IMediator _mediator;

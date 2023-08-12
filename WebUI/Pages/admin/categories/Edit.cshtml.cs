@@ -6,11 +6,13 @@ using Application.Operations.Posts.Commands.UpdatePost;
 using Application.Operations.Posts.Queries.GetPostById;
 using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;

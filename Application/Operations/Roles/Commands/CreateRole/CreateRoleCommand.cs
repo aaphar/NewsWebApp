@@ -6,7 +6,7 @@ using MediatR;
 namespace Application.Operations.Roles.Commands.CreateRole;
 public record CreateRoleCommand : IRequest<int>
 {
-    public string? Title { get; init; }
+    public string? Name { get; init; }
 }
 
 public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
@@ -22,15 +22,13 @@ public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
     {
         var role = new Role
         {
-            Title = request.Title,
+            Name = request.Name,
         };
         
-        _context.MyRoles.Add(role);
+        _context.Roles.Add(role);
 
         await _context.SaveChangesAsync(cancellationToken);
         
-        role.AddDomainEvent(new RoleCreatedEvent(role));
-
         return role.Id;
     }
 }

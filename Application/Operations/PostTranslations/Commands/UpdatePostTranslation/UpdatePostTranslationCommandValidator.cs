@@ -54,7 +54,7 @@ public class UpdatePostTranslationCommandValidator : AbstractValidator<UpdatePos
 
     private async Task<bool> AuthorExists(int? authorId, CancellationToken cancellationToken)
     {
-        return await _context.MyUsers.AnyAsync(p => p.Id == authorId, cancellationToken);
+        return await _context.Users.AnyAsync(p => p.Id == authorId, cancellationToken);
     }
 
     private async Task<bool> BeUniqueTitle(string? title, CancellationToken cancellationToken)

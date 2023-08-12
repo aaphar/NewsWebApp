@@ -17,7 +17,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
     }
     public async Task<Unit> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _context.MyRoles
+        var role = await _context.Roles
             .Include(l => l.Users)
             .Where(r => r.Id == request.Id)
             .SingleOrDefaultAsync(cancellationToken);
@@ -33,7 +33,7 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Unit>
             user.RoleId = null;
         }
 
-        _context.MyRoles.Remove(role);
+        _context.Roles.Remove(role);
 
         await _context.SaveChangesAsync(cancellationToken);
 
