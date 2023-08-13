@@ -19,13 +19,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form method="post" id="languageForm">
-                    <div class="form-group">
-                        <label for="inputName">Username</label>
-                        <input type="text" id="inputName" class="form-control" asp-for="UserDto.UserName" value="@Model?.UserDto?.UserName">
-                        <span asp-validation-for="UserDto.UserName" class="text-danger"></span>
-                    </div>
-
+                <form method="post" id="languageForm">                   
                     <div class="form-group">
                         <label for="inputName">Name</label>
                         <input type="text" id="inputName" class="form-control" asp-for="UserDto.Name" placeholder="Name">

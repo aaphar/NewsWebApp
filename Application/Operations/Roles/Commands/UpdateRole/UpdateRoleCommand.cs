@@ -29,6 +29,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Unit>
         }
 
         role.Name = request.Name;
+        role.NormalizedName = request.Name.ToUpper();
 
         await _context.SaveChangesAsync(cancellationToken);
 

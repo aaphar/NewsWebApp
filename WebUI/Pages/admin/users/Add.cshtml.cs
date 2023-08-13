@@ -1,19 +1,15 @@
-using Application.CommandQueries.Language.Commands.CreateLanguage;
-using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Roles.Queries.GetRoles;
 using Application.Operations.Users.Commands.CreateUser;
-using Domain.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.user
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AddModel : PageModel
     {
         private readonly IMediator _mediator;
@@ -55,12 +51,11 @@ namespace WebUI.Pages.admin.user
         {
             CreateUserCommand createUserCommand = new()
             {
-                UserName=UserName,
-                Password=Password,
                 Name = Name?.Substring(0, 1).ToUpper() + Name?.Substring(1).ToLower(),
-                Surname= Surname?.Substring(0, 1).ToUpper() + Surname?.Substring(1).ToLower(),
-                Email=Email,
-                RoleId=RoleId
+                Surname = Surname?.Substring(0, 1).ToUpper() + Surname?.Substring(1).ToLower(),
+                Email = Email,
+                Password = Password,
+                RoleId = RoleId
             };
 
             ValidationResult result = await _validator.ValidateAsync(createUserCommand);
@@ -69,6 +64,16 @@ namespace WebUI.Pages.admin.user
 
 
             return RedirectToPage("/admin/users/detail", new { id });
+            //try
+            //{
+                
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["ErrorMessage"] = ex.Message;
+            //    return new RedirectToPageResult("/admin/error");
+            //}
+
         }
     }
 }

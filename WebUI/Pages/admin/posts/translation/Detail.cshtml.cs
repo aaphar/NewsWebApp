@@ -7,12 +7,13 @@ using Application.Operations.PostTranslations.Queries.GetPostTranslationById;
 using Application.Operations.Users.Queries.GetUsers;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.posts.translation
 {
-    [Authorize(Roles = "Admin")
+    [Authorize(Roles = "Admin")]
     public class DetailModel : PageModel
     {
         private readonly IMediator _mediator;

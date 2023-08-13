@@ -6,15 +6,14 @@ namespace Application.Operations.Users.Commands.UpdateUser;
 public record UpdateUserCommand : IRequest<Unit>
 {
     public int Id { get; init; }
-    public string UserName { get; init; }
-
-    public string Password { get; init; }
 
     public string? Name { get; init; }
 
     public string? Surname { get; init; }
 
     public string? Email { get; init; }
+
+    public string Password { get; init; }
 
     public int? RoleId { get; init; }
 }
@@ -38,7 +37,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
             throw new UserNotFoundException(request.Id);
         }
 
-        user.UserName = request.UserName;
         user.Password = request.Password;
         user.Name = request.Name;
         user.Surname = request.Surname;

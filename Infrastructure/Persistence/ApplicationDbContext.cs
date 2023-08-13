@@ -23,14 +23,11 @@ namespace Infrastructure.Persistence
 
         public DbSet<PostHashtag> PostHashtags => Set<PostHashtag>();
 
-        private IConfiguration? Configuration { get; }
-
 
         public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
             IConfiguration configuration) : base(options)
         {
-            Configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

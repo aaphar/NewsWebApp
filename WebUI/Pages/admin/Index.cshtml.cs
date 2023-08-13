@@ -1,4 +1,5 @@
 using Application.Common.Behaviours;
+using Application.Common.Results;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +43,8 @@ namespace WebUI.Pages.admin.authentication
 
                 if (!result.Succeeded)
                 {
-                    return new RedirectToPageResult("/admin/error", new { message = result.ToString() });
+                    TempData["ErrorMessage"] = result.ToString();
+                    return new RedirectToPageResult("/admin/error");
                 }
 
                 return new RedirectToPageResult("/admin/posts/index");
@@ -50,7 +52,8 @@ namespace WebUI.Pages.admin.authentication
             }
             catch (Exception ex)
             {
-                return new RedirectToPageResult("/admin/succeed", new { message = ex.Message });
+                TempData["ErrorMessage"] = ex.Message;
+                return new RedirectToPageResult("/admin/error");
             }
         }
     }

@@ -6,10 +6,11 @@ namespace WebUI.Pages.admin
     [AllowAnonymous]
     public class ErrorModel : PageModel
     {
-        public void OnGet(string message, string entityName)
+        public string ErrorMessage { get; private set; }
+
+        public void OnGet()
         {
-            this.ViewData["Message"] = message;
-            this.ViewData["EntityName"] = entityName;
+            ErrorMessage = TempData["ErrorMessage"] as string;
         }
     }
 }

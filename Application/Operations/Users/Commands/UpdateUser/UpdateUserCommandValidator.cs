@@ -11,11 +11,6 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {
         _context = context;
 
-        RuleFor(u => u.UserName)
-            .NotEmpty()
-            .MustAsync(BeUniqueUserName)
-            .WithMessage("The specified username already exists.");
-
         RuleFor(u => u.Password)
             .NotEmpty()
             .MinimumLength(8);

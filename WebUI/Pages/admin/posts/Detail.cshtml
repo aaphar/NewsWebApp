@@ -81,12 +81,14 @@
                                             else if (property.Name == "NewsId")
                                             {
                                                 string postName = Model.Posts.FirstOrDefault(r => r.Id == (long)property.GetValue(translation))?.Title;
-                                                                                               
+
                                                 <td>@postName</td>
                                             }
                                             else if (property?.GetValue(translation) is not null && property.Name == "AuthorId")
                                             {
-                                                string authortName = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(translation))?.UserName;
+                                                string name = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(translation))?.Name;
+                                                string surname = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(translation))?.Surname;
+                                                string authortName = name + " " + surname;
                                                 <td>@authortName</td>
                                             }
                                             else if (property.Name == "Context")

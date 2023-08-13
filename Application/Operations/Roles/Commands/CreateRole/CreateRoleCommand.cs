@@ -23,6 +23,7 @@ public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
         var role = new Role
         {
             Name = request.Name,
+            NormalizedName = request.Name.ToUpper(),
         };
         
         _context.Roles.Add(role);

@@ -27,7 +27,8 @@ namespace Infrastructure
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>()
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
             services.AddScoped<SignInManager<User>>();

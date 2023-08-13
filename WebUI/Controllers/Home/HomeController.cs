@@ -15,6 +15,8 @@ namespace WebUI.Controllers.Home
         [HttpPost("Home/UploadCKEditorImage")]
         public JsonResult UploadCKEditorImage(bool temp)
         {
+            TempData["UploadedImagePath"] = null;
+
             var files = Request.Form.Files;
             if (files.Count == 0)
             {

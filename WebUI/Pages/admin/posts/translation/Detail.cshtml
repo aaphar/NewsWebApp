@@ -58,7 +58,9 @@
                         }
                         else if (property.Name == "AuthorId")
                         {
-                            string authortName = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.UserName;
+                            string name = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Name;
+                            string surname = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Surname;
+                            string authortName = name + " " + surname;
                             <td>@authortName</td>
                         }
                         else

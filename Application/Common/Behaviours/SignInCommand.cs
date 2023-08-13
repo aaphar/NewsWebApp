@@ -36,7 +36,7 @@ public class SignInCommandHandler : IRequestHandler<SignInCommand, SignInResult>
             throw new UserNotFoundException(request.Email);
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);   
         
         if (result.Succeeded)
         {
