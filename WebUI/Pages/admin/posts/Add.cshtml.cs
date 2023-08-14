@@ -4,11 +4,13 @@ using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Language.Queries.GetLanguageByCode;
 using Application.Operations.Posts.Commands.CreatePost;
 using Application.Operations.PostTranslations.Commands.CreatePostTranslation;
+using Domain.Entities;
 using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Transactions;
@@ -60,20 +62,20 @@ namespace WebUI.Pages.admin.posts
 
         private readonly IWebHostEnvironment _environment;
 
-        private readonly ILogger<AddModel> _logger;
+        private readonly UserManager<User> _userManager; // Add UserManager
 
         public AddModel(
             IMediator mediator,
             IValidator<CreatePostCommand> postValidator,
             IValidator<CreatePostTranslationCommand> validator,
             IWebHostEnvironment environment,
-            ILogger<AddModel> logger)
+            UserManager<User> userManager)
         {
             _mediator = mediator;
             _postValidator = postValidator;
             _validator = validator;
             _environment = environment;
-            _logger = logger;
+            _userManager = userManager;
         }
 
         public async Task OnGet()
@@ -87,6 +89,10 @@ namespace WebUI.Pages.admin.posts
             DefaultLanguage = await _mediator.Send(new GetLanguageByCodeQuery(DefaultLanguageCode.Code));
 
             LanguageId = DefaultLanguage.Id;
+
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
 
@@ -127,6 +133,10 @@ namespace WebUI.Pages.admin.posts
 
                 LanguageId = DefaultLanguage.Id;
 
+                // Get the currently logged-in user's Id
+                var loggedInUserId = _userManager.GetUserId(User);
+                AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
+
                 // title validation has problem
                 CreatePostTranslationCommand createPostTranslation = new()
                 {
@@ -137,7 +147,7 @@ namespace WebUI.Pages.admin.posts
                     NewsId = postId,
                     LanguageId = LanguageId,
                     ViewCount = ViewCount,
-                    AuthorId = 1
+                    AuthorId = AuthorId
                 };
 
                 await _mediator.Send(createPostTranslation);

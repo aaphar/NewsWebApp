@@ -12,6 +12,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -25,6 +26,9 @@ namespace WebUI.Pages.admin.posts
 
         [BindProperty]
         public string? Content { get; set; }
+
+        [BindProperty]
+        public int AuthorId { get; set; }
 
         [BindProperty]
         public List<PostTranslationDto>? Translations { get; set; }
@@ -45,15 +49,18 @@ namespace WebUI.Pages.admin.posts
 
         private readonly IValidator<UpdatePostTranslationCommand> _validator;
         private readonly IValidator<CreatePostTranslationCommand> _createValidator;
+        private readonly UserManager<User> _userManager; // Add UserManager
 
         public AddOrEditModel(
             IMediator mediator,
              IValidator<UpdatePostTranslationCommand> validator,
-             IValidator<CreatePostTranslationCommand> createValidator)
+             IValidator<CreatePostTranslationCommand> createValidator,
+             UserManager<User> userManager) // Inject UserManager
         {
             _mediator = mediator;
             _validator = validator;
             _createValidator = createValidator;
+            _userManager = userManager;
         }
 
         public async Task OnGetAsync(long id)
@@ -65,10 +72,16 @@ namespace WebUI.Pages.admin.posts
             Categories = await _mediator.Send(new GetCategoriesQuery());
 
             Translations = await _mediator.Send(new GetPostTranslationsByNewsIdQuery() { NewsId = id });
+
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
         public async Task<ActionResult> OnPostAsync(long id)
         {
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
+
             UpdatePostTranslationCommand updatePostTranslationCommand = new()
             {
                 Title = Title,
@@ -78,7 +91,7 @@ namespace WebUI.Pages.admin.posts
                 NewsId = id,
                 LanguageId = TranslationDto?.LanguageId ?? null,
                 ViewCount = TranslationDto.ViewCount,
-                AuthorId = 1
+                AuthorId = AuthorId
             };
 
             ValidationResult result = await _validator.ValidateAsync(updatePostTranslationCommand);
