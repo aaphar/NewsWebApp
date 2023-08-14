@@ -2,6 +2,7 @@ using Application.Common.Models;
 using Application.Operations.Roles.Queries.GetRoles;
 using Application.Operations.Users.Commands.UpdateUser;
 using Application.Operations.Users.Queries.GetUserById;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,9 @@ namespace WebUI.Pages.admin.users
         [BindProperty]
         public UserDto? UserDto { get; set; }
 
+        [BindProperty]
+        public string ImagePath { get; set; }
+
         public List<RoleDto> Roles { get; set; }
 
         public EditModel(IMediator mediator)
@@ -26,26 +30,33 @@ namespace WebUI.Pages.admin.users
             Roles = new();
 
         }
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task OnGetAsync(int id)
         {
             UserDto = await _mediator.Send(new GetUserByIdQuery(id));
             Roles = await _mediator.Send(new GetRolesQuery());
 
-            if (UserDto == null)
+            if (UserDto != null)
             {
-                // Handle user not found
-                return NotFound();
+                ImagePath = UserDto.ImagePath;
             }
-
-            return Page();
         }
 
         public async Task<ActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            // Retrieve the stored image URL from TempData
+            var uploadedImagePath = TempData["UploadedImagePath"] as string;
+
+            // If a new image was uploaded, update the ImagePath property
+            if (!string.IsNullOrEmpty(uploadedImagePath))
             {
-                Roles = await _mediator.Send(new GetRolesQuery());
-                return Page();
+                // Update the ImagePath property with the uploaded image URL
+                UserDto.ImagePath = uploadedImagePath;
+            }
+
+            // If no new image was uploaded, keep the existing ImagePath value
+            else if (string.IsNullOrEmpty(UserDto.ImagePath))
+            {
+                UserDto.ImagePath = ImagePath;
             }
 
             UpdateUserCommand updateUserCommand = new()
@@ -55,8 +66,11 @@ namespace WebUI.Pages.admin.users
                 Password = UserDto.Password,
                 Name = UserDto?.Name?.Substring(0, 1).ToUpper() + UserDto?.Name?.Substring(1).ToLower(),
                 Surname = UserDto?.Surname?.Substring(0, 1).ToUpper() + UserDto?.Surname?.Substring(1).ToLower(),
-                RoleId=UserDto.RoleId
+                ImagePath = UserDto?.ImagePath,
+                RoleId = UserDto.RoleId
             };
+
+            TempData["UploadedImagePath"] = null;
 
             await _mediator.Send(updateUserCommand);
 

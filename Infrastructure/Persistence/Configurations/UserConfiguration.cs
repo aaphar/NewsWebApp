@@ -32,6 +32,8 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(u => u.Password)
                 .IsRequired();
 
+            builder.Property(pt => pt.ImagePath);
+
             builder.Property(u => u.RoleId)
                 .IsRequired(false);
 

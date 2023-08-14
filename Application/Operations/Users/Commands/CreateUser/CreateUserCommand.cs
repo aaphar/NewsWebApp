@@ -16,6 +16,8 @@ public record CreateUserCommand : IRequest<int>
 
     public string Password { get; init; }
 
+    public string? ImagePath { get; init; }
+
     public int? RoleId { get; init; }
 }
 
@@ -43,6 +45,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
             UserName = request.Email,
             Email = request.Email,
             Password = request.Password,
+            ImagePath = request.ImagePath,
             RoleId = request.RoleId,
             SecurityStamp = Guid.NewGuid().ToString() // Set a new security stamp value
         };

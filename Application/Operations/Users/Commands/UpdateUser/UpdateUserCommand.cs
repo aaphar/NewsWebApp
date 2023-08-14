@@ -17,6 +17,8 @@ public record UpdateUserCommand : IRequest<Unit>
 
     public string Password { get; init; }
 
+    public string? ImagePath { get; init; }
+
     public int? RoleId { get; init; }
 }
 
@@ -48,6 +50,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
 
         user.Password = request.Password;
         user.Name = request.Name;
+        user.ImagePath = request.ImagePath;
         user.Surname = request.Surname;
         user.UserName = request.Email;
         user.Email = request.Email;

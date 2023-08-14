@@ -27,6 +27,9 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(u => u.Surname)
             .NotEmpty();
 
+        RuleFor(p => p.ImagePath)
+                .NotEmpty();
+
         RuleFor(u => u.RoleId)
             .NotEmpty()
             .MustAsync(RoleExists)

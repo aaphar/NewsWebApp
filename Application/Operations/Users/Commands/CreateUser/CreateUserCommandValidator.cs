@@ -31,6 +31,8 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(u => u.Surname)
             .NotEmpty();
 
+        RuleFor(p => p.ImagePath);
+
         RuleFor(u => u.RoleId)
             .NotEmpty()
             .MustAsync(RoleExists)

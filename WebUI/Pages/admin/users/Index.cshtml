@@ -4,6 +4,12 @@
 @model WebUI.Pages.admin.user.IndexModel
 @{
 }
+
+<style>
+    img {
+        max-width: 150px; /* Adjust the value as needed */
+    }
+</style>
 <section class="content">
 
     <!-- Default box -->
@@ -30,6 +36,10 @@
                             {
                                 <th>Role</th>
                             }
+                            else if (property.Name == "ImagePath")
+                            {
+                                <th>Image</th>
+                            }
                             else
                             {
                                 <th>@property.Name</th>
@@ -52,6 +62,10 @@
                                     {
                                         string roleName = Model.Roles.FirstOrDefault(r => r.Id == (int)property.GetValue(user))?.Name;
                                         <td>@roleName</td>
+                                    }
+                                    else if (property.Name == "ImagePath")
+                                    {
+                                        <td><img src="@property.GetValue(user)" /></td>
                                     }
                                     else
                                     {

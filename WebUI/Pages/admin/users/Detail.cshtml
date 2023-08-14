@@ -4,6 +4,7 @@
 @{
 }
 
+
 <!-- Main content -->
 <section class="content">
     <!-- Default box -->
@@ -24,14 +25,26 @@
                         <dt class="col-sm-3">Role</dt>
 
                         string roleName = Model.Roles.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.User))?.Name;
-                                                                   
+
                         <dd class="col-sm-9">@roleName</dd>
                     }
+
                     else
                     {
                         <dt class="col-sm-3">@property.Name</dt>
-                        <dd class="col-sm-9">@property.GetValue(Model.User)</dd>
+
+                        <dd class="col-sm-9">
+                            @if (property.Name == "ImagePath")
+                            {
+                                <img src="@property.GetValue(Model.User)" style="max-width: 150px;" />
+                            }
+                            else
+                            {
+                                @property.GetValue(Model.User)
+                            }
+                        </dd>
                     }
+
                 }
             </dl>
         </div>

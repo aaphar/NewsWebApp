@@ -35,6 +35,9 @@ namespace WebUI.Pages.admin.user
         [BindProperty]
         public short RoleId { get; set; }
 
+        [BindProperty]
+        public string? ImagePath { get; set; }
+
         public List<RoleDto>? Roles { get; set; }
 
         public AddModel(IMediator mediator,
@@ -50,12 +53,20 @@ namespace WebUI.Pages.admin.user
 
         public async Task<ActionResult> OnPostAsync()
         {
+            var uploadedImagePath = TempData["UploadedImagePath"] as string;
+            if (!string.IsNullOrEmpty(uploadedImagePath))
+            {
+                // Update the ImagePath property with the uploaded image URL
+                ImagePath = uploadedImagePath;
+            }
+
             CreateUserCommand createUserCommand = new()
             {
                 Name = Name?.Substring(0, 1).ToUpper() + Name?.Substring(1).ToLower(),
                 Surname = Surname?.Substring(0, 1).ToUpper() + Surname?.Substring(1).ToLower(),
                 Email = Email,
                 Password = Password,
+                ImagePath = ImagePath ?? null,
                 RoleId = RoleId
             };
 
@@ -63,6 +74,7 @@ namespace WebUI.Pages.admin.user
 
             int id = await _mediator.Send(createUserCommand);
 
+            TempData["UploadedImagePath"] = null;
 
             return RedirectToPage("/admin/users/detail", new { id });
             //try
