@@ -73,7 +73,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
             await _context.SaveChangesAsync(cancellationToken);
             return user.Id;
         }
-
         else
         {
             throw new Exception(result.Errors.ToString());

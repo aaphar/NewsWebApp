@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.user
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class IndexModel : PageModel
     {
         private readonly IMediator _mediator;

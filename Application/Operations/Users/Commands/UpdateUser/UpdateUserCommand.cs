@@ -1,6 +1,8 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Operations.Users.Commands.UpdateUser;
 public record UpdateUserCommand : IRequest<Unit>
@@ -21,16 +23,23 @@ public record UpdateUserCommand : IRequest<Unit>
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
+    private readonly UserManager<User> _userManager;
+    private readonly RoleManager<Role> _roleManager;
 
-    public UpdateUserCommandHandler(IApplicationDbContext context)
+
+    public UpdateUserCommandHandler(IApplicationDbContext context, 
+        UserManager<User> userManager, 
+        RoleManager<Role> roleManager)
     {
         _context = context;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
+
 
     public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _context.Users
-            .FindAsync(new object[] { request.Id }, cancellationToken);
+        var user = await _context.Users.FindAsync(request.Id);
 
         if (user is null)
         {
@@ -40,8 +49,24 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
         user.Password = request.Password;
         user.Name = request.Name;
         user.Surname = request.Surname;
+        user.UserName = request.Email;
         user.Email = request.Email;
-        user.RoleId = request.RoleId;
+
+        if (user.RoleId != request.RoleId)
+        {
+            var newRole = await _roleManager.FindByIdAsync(request.RoleId.ToString());
+            
+            if (newRole != null)
+            {
+                // Remove existing roles
+                var existingRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, existingRoles);
+
+                // Add new role
+                user.RoleId = request.RoleId;
+                await _userManager.AddToRoleAsync(user, newRole.Name);
+            }
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
 

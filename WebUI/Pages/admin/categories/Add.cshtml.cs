@@ -14,7 +14,7 @@ using System.Transactions;
 
 namespace WebUI.Pages.admin.categories
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class AddModel : PageModel
     {
         // category lang

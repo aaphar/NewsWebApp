@@ -16,7 +16,7 @@ using System.Diagnostics;
 
 namespace WebUI.Pages.admin.categories
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class AddOrEditModel : PageModel
     {
         [BindProperty]

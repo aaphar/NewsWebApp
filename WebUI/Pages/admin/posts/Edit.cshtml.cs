@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.posts
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;

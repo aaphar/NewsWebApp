@@ -19,6 +19,10 @@ namespace Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
+            //services.AddDefaultIdentity<User>()
+            //    .AddRoles<Role>() // Register the RoleManager for roles
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequireNonAlphanumeric = true;

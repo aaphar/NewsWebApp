@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.post
 {
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = "Adminstrator")]
     public class PostModel : PageModel
     {
         private readonly IMediator _mediator;

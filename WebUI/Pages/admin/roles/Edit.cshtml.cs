@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.roles
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class EditModel : PageModel
     {
         private readonly IMediator _mediator;
@@ -34,7 +34,7 @@ namespace WebUI.Pages.admin.roles
             UpdateRoleCommand updateRoleCommand = new()
             {
                 Id = id,
-                Name = RoleDto?.Name.ToUpper(),
+                Name = RoleDto?.Name,
             };
 
 

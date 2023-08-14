@@ -1,5 +1,6 @@
 using Infrastructure;
 using Application;
+using WebUI.Middleware;
 
 namespace WebUI
 {
@@ -36,6 +37,8 @@ namespace WebUI
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<AdminAuthenticationMiddleware>();
 
             app.MapControllers();
 

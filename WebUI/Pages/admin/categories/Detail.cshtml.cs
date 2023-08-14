@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages.admin.categories;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Adminstrator")]
 public class DetailModel : PageModel
 {
     private readonly IMediator _mediator;

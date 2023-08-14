@@ -16,7 +16,7 @@ using System.Transactions;
 namespace WebUI.Pages.admin.posts
 {
     [IgnoreAntiforgeryToken]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Adminstrator")]
     public class AddModel : PageModel
     {
         [BindProperty]
