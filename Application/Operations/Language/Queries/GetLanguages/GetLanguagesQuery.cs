@@ -1,7 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using AutoMapper;
-using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

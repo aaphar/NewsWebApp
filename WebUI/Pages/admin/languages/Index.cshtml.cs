@@ -30,10 +30,6 @@ namespace WebUI.Pages.admin.language
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));
 
-            string _message = $"Language with Id = {Id} was successfully deleted";
-
-            await Console.Out.WriteLineAsync(_message);
-
             return RedirectToPage("/admin/languages/index");
         }
     }

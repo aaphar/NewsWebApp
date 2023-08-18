@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Operations\Hashtags\Commands\" />
-    <Folder Include="Operations\Hashtags\Queries\" />
     <Folder Include="Operations\Posts\Commands\DeletePost\" />
     <Folder Include="Operations\Users\Queries\GetUsers\" />
   </ItemGroup>

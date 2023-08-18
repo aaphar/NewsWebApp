@@ -1,5 +1,4 @@
 using Application.CommandQueries.Language.Commands.DeleteLanguage;
-using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Language.Queries.GetLanguageById;
 using MediatR;
@@ -35,10 +34,6 @@ namespace WebUI.Pages.admin.languages
         public async Task<IActionResult> OnPostDeleteAsync(short Id)
         {
             await _mediator.Send(new DeleteLanguageCommand(Id));
-
-            string _message = $"Language with Id = {Id} was successfully deleted";
-
-            await Console.Out.WriteLineAsync(_message);
 
             return RedirectToPage("/admin/languages/index");
         }

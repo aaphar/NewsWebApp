@@ -1,0 +1,32 @@
+﻿@page
+@model WebUI.Pages.admin.hashtags.AddModel
+@{
+}
+<section class="content">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="d-inline-block">New Hashtag Add</h3>
+            </div>
+
+        </div>
+
+        <form method="post">
+            <div class="form-group">
+                <label for="inputDescription">Title</label>
+                <input type="text" class="form-control" asp-for="Title" placeholder="hashtag title...">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            
+            <div class="row float-right">
+                <div class="col-12">
+                    <input type="submit" value="Cancel" class="btn btn-default ">
+                    <input type="submit" value="Save Changes" class="btn btn-primary ">
+                </div>
+            </div>
+        </form>
+        <!-- /.card-body -->
+    </div>
+
+
+</section>
