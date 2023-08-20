@@ -9,6 +9,8 @@ public record UpdateCategoryCommand : IRequest<Unit>
 
     public string? Description { get; init; }
 
+    public long AuthorId { get; set; }
+
 }
 
 public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, Unit>
@@ -31,6 +33,9 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         }
 
         category.Description = request.Description;
+
+        category.LastModified = DateTime.Now;
+        category.LastModifiedBy = request.AuthorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

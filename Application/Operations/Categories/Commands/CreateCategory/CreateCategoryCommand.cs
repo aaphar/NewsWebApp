@@ -7,6 +7,8 @@ namespace Application.Operations.Categories.Commands.CreateCategory;
 public record CreateCategoryCommand : IRequest<short>
 {
     public string? Description { get; set; }
+
+    public long AuthorId { get; set; }
 }
 
 public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, short>
@@ -23,8 +25,11 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         var category = new Category
         {
             Description = request.Description,
+
+            Created = DateTime.Now,
+            CreatedBy = request.AuthorId
         };
-               
+
         _context.Categories.Add(category);
 
         category.AddDomainEvent(new CategoryCreatedEvent(category));

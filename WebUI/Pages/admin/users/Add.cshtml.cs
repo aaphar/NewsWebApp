@@ -1,10 +1,12 @@
 using Application.Common.Models;
 using Application.Operations.Roles.Queries.GetRoles;
 using Application.Operations.Users.Commands.CreateUser;
+using Domain.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -40,15 +42,26 @@ namespace WebUI.Pages.admin.user
 
         public List<RoleDto>? Roles { get; set; }
 
+
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
+
         public AddModel(IMediator mediator,
-            IValidator<CreateUserCommand> validator)
+            IValidator<CreateUserCommand> validator,
+            UserManager<User> userManager)
+
         {
             _mediator = mediator;
             _validator = validator;
+            _userManager = userManager;
         }
+
         public async Task OnGetAsync()
         {
             Roles = await _mediator.Send(new GetRolesQuery());
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
         public async Task<ActionResult> OnPostAsync()
@@ -67,7 +80,8 @@ namespace WebUI.Pages.admin.user
                 Email = Email,
                 Password = Password,
                 ImagePath = ImagePath ?? null,
-                RoleId = RoleId
+                RoleId = RoleId,
+                AuthorId = AuthorId
             };
 
             ValidationResult result = await _validator.ValidateAsync(createUserCommand);
@@ -79,7 +93,7 @@ namespace WebUI.Pages.admin.user
             return RedirectToPage("/admin/users/detail", new { id });
             //try
             //{
-                
+
             //}
             //catch (Exception ex)
             //{

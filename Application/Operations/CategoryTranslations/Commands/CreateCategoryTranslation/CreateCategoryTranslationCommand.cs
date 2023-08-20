@@ -16,6 +16,7 @@ public record CreateCategoryTranslationCommand : IRequest<int>
     public short? LanguageId { get; init; }
 
     public short? CategoryId { get; init; }
+    public long AuthorId { get; set; }
 }
 
 public class CreateCategoryTranslationCommandHandler : IRequestHandler<CreateCategoryTranslationCommand, int>
@@ -37,6 +38,9 @@ public class CreateCategoryTranslationCommandHandler : IRequestHandler<CreateCat
             PublishDate = request.PublishDate,
             LanguageId = request.LanguageId,
             CategoryId = request.CategoryId,
+
+            CreatedBy = request.AuthorId,
+            Created = DateTime.Now
         };
 
         _context.CategoryTranslations.Add(categoryTranslation);

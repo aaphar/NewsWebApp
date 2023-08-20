@@ -16,6 +16,8 @@ public record UpdateCategoryTranslationCommand : IRequest<Unit>
     public short? LanguageId { get; init; }
 
     public short? CategoryId { get; init; }
+
+    public long AuthorId { get; set; }
 }
 
 public class UpdateCategoryTranslationCommandHandler : IRequestHandler<UpdateCategoryTranslationCommand, Unit>
@@ -51,6 +53,7 @@ public class UpdateCategoryTranslationCommandHandler : IRequestHandler<UpdateCat
                 PublishDate = request.PublishDate,
                 CategoryId = request.CategoryId,
                 LanguageId = request.LanguageId,
+                AuthorId = request.AuthorId
             };
 
             int id = await _mediator.Send(createCategoryTranslationCommand);
@@ -62,6 +65,9 @@ public class UpdateCategoryTranslationCommandHandler : IRequestHandler<UpdateCat
             categoryTranslation.PublishDate = request.PublishDate;
             categoryTranslation.LanguageId = request.LanguageId;
             categoryTranslation.CategoryId = request.CategoryId;
+
+            categoryTranslation.LastModified = DateTime.Now;
+            categoryTranslation.LastModifiedBy = request.AuthorId;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

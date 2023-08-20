@@ -20,6 +20,8 @@ public record UpdateUserCommand : IRequest<Unit>
     public string? ImagePath { get; init; }
 
     public int? RoleId { get; init; }
+
+    public long AuthorId { get; set; }
 }
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
@@ -54,6 +56,9 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Unit>
         user.Surname = request.Surname;
         user.UserName = request.Email;
         user.Email = request.Email;
+
+        user.LastModified = DateTime.Now;
+        user.LastModifiedBy = request.AuthorId;
 
         if (user.RoleId != request.RoleId)
         {

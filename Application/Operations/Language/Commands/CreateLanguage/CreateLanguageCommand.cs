@@ -7,6 +7,7 @@ public record CreateLanguageCommand : IRequest<short>
 {
     public string? Title { get; init; }
     public string? Code { get; init; }
+    public long AuthorId { get; set; }
 }
 
 public class CreateLanguageCommandHandler : IRequestHandler<CreateLanguageCommand, short>
@@ -24,6 +25,9 @@ public class CreateLanguageCommandHandler : IRequestHandler<CreateLanguageComman
         {
             LanguageCode = request.Code,
             Title = request.Title,
+
+            Created = DateTime.Now,
+            CreatedBy = request.AuthorId
         };
 
         entity.AddDomainEvent(new LanguageCreatedEvent(entity));

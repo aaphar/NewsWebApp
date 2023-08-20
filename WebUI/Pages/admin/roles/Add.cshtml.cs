@@ -1,8 +1,10 @@
 using Application.Operations.Roles.Commands.CreateRole;
+using Domain.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,18 +20,36 @@ namespace WebUI.Pages.admin.roles
         [BindProperty]
         public string? Title { get; init; }
 
+
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
+
+
         public AddModel(
         IMediator mediator,
-        IValidator<CreateRoleCommand> validator)
+        IValidator<CreateRoleCommand> validator,
+        UserManager<User> userManager)
         {
             _mediator = mediator;
             _validator = validator;
+            _userManager = userManager;
         }
+
+        public Task OnGetAsync()
+        {
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
+            return Task.CompletedTask;
+        }
+
         public async Task<ActionResult> OnPostAsync()
         {
             CreateRoleCommand createRoleCommand = new()
             {
                 Name = Title,
+                AuthorId = AuthorId
             };
 
             ValidationResult result = await _validator.ValidateAsync(createRoleCommand);

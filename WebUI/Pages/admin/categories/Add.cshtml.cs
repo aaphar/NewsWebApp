@@ -3,11 +3,13 @@ using Application.Common.Models;
 using Application.Operations.Categories.Commands.CreateCategory;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
 using Application.Operations.Language.Queries.GetLanguageByCode;
+using Domain.Entities;
 using Domain.Enums;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Transactions;
@@ -36,6 +38,9 @@ namespace WebUI.Pages.admin.categories
         [BindProperty]
         public List<LanguageDto>? Languages { get; set; }
 
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
 
         private readonly IMediator _mediator;
 
@@ -46,11 +51,13 @@ namespace WebUI.Pages.admin.categories
         public AddModel(
             IMediator mediator,
             IValidator<CreateCategoryCommand> categoryValidator,
-            IValidator<CreateCategoryTranslationCommand> validator)
+            IValidator<CreateCategoryTranslationCommand> validator,
+            UserManager<User> userManager)
         {
             _mediator = mediator;
             _categoryValidator = categoryValidator;
             _validator = validator;
+            _userManager = userManager;
         }
 
         public async Task OnGetAsync()
@@ -62,6 +69,10 @@ namespace WebUI.Pages.admin.categories
             DefaultLanguage = await _mediator.Send(new GetLanguageByCodeQuery(DefaultLanguageCode.Code));
 
             LanguageId = DefaultLanguage.Id;
+
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
         public async Task<ActionResult> OnPostAsync()
@@ -73,7 +84,8 @@ namespace WebUI.Pages.admin.categories
 
                 CreateCategoryCommand createCategoryCommand = new()
                 {
-                    Description = TranslationTitle
+                    Description = TranslationTitle,
+                    AuthorId=AuthorId
                 };
 
                 ValidationResult categoryResult = await _categoryValidator.ValidateAsync(createCategoryCommand);
@@ -102,6 +114,8 @@ namespace WebUI.Pages.admin.categories
                     CategoryId = categoryId,
                     
                     LanguageId = LanguageId,
+
+                    AuthorId = AuthorId
                 };
 
                 await _mediator.Send(createCategoryTranslationCommand);

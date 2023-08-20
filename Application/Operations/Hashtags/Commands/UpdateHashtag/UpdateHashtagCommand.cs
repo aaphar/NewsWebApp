@@ -8,6 +8,8 @@ public record UpdateHashtagCommand : IRequest<Unit>
 {
     public long Id { get; init; }
     public string? Title { get; init; }
+    public long AuthorId { get; set; }
+
 }
 
 public class UpdateHashtagCommandHandler : IRequestHandler<UpdateHashtagCommand, Unit>
@@ -30,6 +32,8 @@ public class UpdateHashtagCommandHandler : IRequestHandler<UpdateHashtagCommand,
         }
 
         hashtag.Title = request.Title;
+        hashtag.LastModified = DateTime.Now;
+        hashtag.LastModifiedBy = request.AuthorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

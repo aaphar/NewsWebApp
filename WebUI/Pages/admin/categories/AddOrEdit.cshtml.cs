@@ -1,4 +1,3 @@
-using Application.CommandQueries.Language.Commands.CreateLanguage;
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.CategoryTranslations.Commands.CreateCategoryTranslation;
@@ -10,9 +9,9 @@ using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
 
 namespace WebUI.Pages.admin.categories
 {
@@ -28,7 +27,9 @@ namespace WebUI.Pages.admin.categories
         [BindProperty]
         public List<LanguageDto>? Languages { get; set; }
 
+        public long AuthorId { get; set; }
 
+        private readonly UserManager<User> _userManager; // Add UserManager
 
         private readonly IMediator _mediator;
 
@@ -38,11 +39,13 @@ namespace WebUI.Pages.admin.categories
         public AddOrEditModel(
             IMediator mediator,
              IValidator<UpdateCategoryTranslationCommand> validator,
-             IValidator<CreateCategoryTranslationCommand> createValidator)
+             IValidator<CreateCategoryTranslationCommand> createValidator,
+             UserManager<User> userManager)
         {
             _mediator = mediator;
             _validator = validator;
             _createValidator = createValidator;
+            _userManager = userManager;
         }
 
         public async Task OnGetAsync(short id)
@@ -51,6 +54,9 @@ namespace WebUI.Pages.admin.categories
 
             Translations = await _mediator.Send(new GetCategoryTranslationsByCategoryIdQuery() { CategoryId = id });
 
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
         public async Task<ActionResult> OnPostAsync(short id)
@@ -60,9 +66,10 @@ namespace WebUI.Pages.admin.categories
                 Title = TranslationDto?.Title?.Substring(0, 1).ToUpper() + TranslationDto?.Title?.Substring(1).ToLower(),
                 //Status = TranslationDto.Status,
                 Status = TranslationDto?.Status ?? Status.Draft,
-                PublishDate = TranslationDto?.PublishDate ?? DateTime.Now ,
+                PublishDate = TranslationDto?.PublishDate ?? DateTime.Now,
                 CategoryId = id,
                 LanguageId = TranslationDto?.LanguageId ?? null,
+                AuthorId = AuthorId
             };
 
             ValidationResult result = await _validator.ValidateAsync(updateTranslation);

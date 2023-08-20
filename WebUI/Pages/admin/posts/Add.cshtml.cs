@@ -64,7 +64,6 @@ namespace WebUI.Pages.admin.posts
 
         private readonly IValidator<CreatePostTranslationCommand> _validator;
 
-        private readonly IWebHostEnvironment _environment;
 
         private readonly UserManager<User> _userManager; // Add UserManager
 
@@ -72,13 +71,11 @@ namespace WebUI.Pages.admin.posts
             IMediator mediator,
             IValidator<CreatePostCommand> postValidator,
             IValidator<CreatePostTranslationCommand> validator,
-            IWebHostEnvironment environment,
             UserManager<User> userManager)
         {
             _mediator = mediator;
             _postValidator = postValidator;
             _validator = validator;
-            _environment = environment;
             _userManager = userManager;
         }
 
@@ -119,7 +116,8 @@ namespace WebUI.Pages.admin.posts
                     Title = Title,
                     ImagePath = ImagePath ?? null,
                     PublishDate = PublishDate,
-                    CategoryId = CategoryId ?? null
+                    CategoryId = CategoryId ?? null,
+                    AuthorId = AuthorId
                 };
 
                 ValidationResult postResult = await _postValidator.ValidateAsync(createPostCommand);

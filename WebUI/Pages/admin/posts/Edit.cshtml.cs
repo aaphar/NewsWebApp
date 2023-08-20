@@ -3,8 +3,10 @@ using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Posts.Commands.UpdatePost;
 using Application.Operations.Posts.Queries.GetPostById;
 using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -22,9 +24,15 @@ namespace WebUI.Pages.admin.posts
         public string ImagePath { get; set; }
         public List<CategoryDto>? Categories { get; set; }
 
-        public EditModel(IMediator mediator)
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
+
+        public EditModel(IMediator mediator,
+            UserManager<User> userManager)
         {
             _mediator = mediator;
+            _userManager = userManager;
         }
         public async Task OnGetAsync(long id)
         {
@@ -35,6 +43,11 @@ namespace WebUI.Pages.admin.posts
             {
                 ImagePath = Post.ImagePath;
             }
+
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
+
         }
 
         public async Task<ActionResult> OnPostAsync(long id)
@@ -48,7 +61,7 @@ namespace WebUI.Pages.admin.posts
                 // Update the ImagePath property with the uploaded image URL
                 Post.ImagePath = uploadedImagePath;
             }
-            
+
             // If no new image was uploaded, keep the existing ImagePath value
             else if (string.IsNullOrEmpty(Post.ImagePath))
             {
@@ -61,7 +74,9 @@ namespace WebUI.Pages.admin.posts
                 Title = Post?.Title,
                 ImagePath = Post?.ImagePath,
                 PublishDate = Post?.PublishDate,
-                CategoryId = Post?.CategoryId
+                CategoryId = Post?.CategoryId,
+
+                AuthorId = AuthorId,
             };
 
             TempData["UploadedImagePath"] = null;

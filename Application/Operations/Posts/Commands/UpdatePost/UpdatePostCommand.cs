@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 
@@ -14,6 +15,7 @@ public record UpdatePostCommand : IRequest<Unit>
     public DateTime? PublishDate { get; init; }
 
     public short? CategoryId { get; init; }
+    public long AuthorId { get; set; }
 }
 
 
@@ -40,6 +42,9 @@ public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, Unit>
         post.ImagePath = request.ImagePath;
         post.PublishDate = request.PublishDate;
         post.CategoryId = request.CategoryId;
+
+        post.LastModified = DateTime.Now;
+        post.LastModifiedBy = request.AuthorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

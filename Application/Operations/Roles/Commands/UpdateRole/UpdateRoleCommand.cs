@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 
@@ -7,6 +8,8 @@ public record UpdateRoleCommand : IRequest<Unit>
 {
     public int Id { get; init; }
     public string? Name { get; init; }
+
+    public long AuthorId { get; set; }
 }
 
 public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Unit>
@@ -30,6 +33,9 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Unit>
 
         role.Name = request.Name;
         role.NormalizedName = request.Name.ToUpper();
+
+        role.LastModified = DateTime.Now;
+        role.LastModifiedBy = request.AuthorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

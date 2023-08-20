@@ -3,7 +3,6 @@ using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Hashtags.Queries.GetHashtags;
 using Application.Operations.PostHashtag.Commands.AssociateHashtagsWithPostTranslation;
-using Application.Operations.PostHashtag.Commands.RemovePostHashtags;
 using Application.Operations.PostHashtag.Queries.GetPostHashtags;
 using Application.Operations.Posts.Queries.GetPostById;
 using Application.Operations.PostTranslations.Commands.CreatePostTranslation;
@@ -18,7 +17,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.IdentityModel.Tokens;
 
 namespace WebUI.Pages.admin.posts
 {

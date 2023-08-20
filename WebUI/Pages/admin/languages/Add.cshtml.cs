@@ -1,8 +1,10 @@
 using Application.CommandQueries.Language.Commands.CreateLanguage;
+using Domain.Entities;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -20,12 +22,28 @@ namespace WebUI.Pages.admin.languages
         [BindProperty]
         public string? Code { get; init; }
 
+
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
+
         public AddModel(
             IMediator mediator,
-            IValidator<CreateLanguageCommand> validator)
+            IValidator<CreateLanguageCommand> validator,
+            UserManager<User> userManager)
+
         {
             _mediator = mediator;
             _validator = validator;
+            _userManager = userManager;
+        }
+
+        public Task OnGetAsync()
+        {
+            // Get the currently logged-in user's Id
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
+            return Task.CompletedTask;
         }
 
         public async Task<ActionResult> OnPostAsync()
@@ -34,6 +52,7 @@ namespace WebUI.Pages.admin.languages
             {
                 Title = Title?.Substring(0, 1).ToUpper() + Title?.Substring(1).ToLower(),
                 Code = Code?.ToLower(),
+                AuthorId = AuthorId
             };
 
             ValidationResult result = await _validator.ValidateAsync(createLanguageCommand);
@@ -47,9 +66,7 @@ namespace WebUI.Pages.admin.languages
 
 
             short id = await _mediator.Send(createLanguageCommand);
-            string _message = $"Language with ID = {id} was successfully created";
-            await Console.Out.WriteLineAsync(_message);
-
+            
             return RedirectToPage("/admin/languages/detail", new { id });
         }
     }

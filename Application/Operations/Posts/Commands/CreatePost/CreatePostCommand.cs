@@ -13,6 +13,7 @@ public record CreatePostCommand : IRequest<long>
     public DateTime? PublishDate { get; init; }
 
     public short? CategoryId { get; init; }
+    public long AuthorId { get; set; }
 }
 
 public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
@@ -32,7 +33,11 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, long>
             ImagePath = request.ImagePath,
             PublishDate = request.PublishDate,
             InsertDate = DateTime.Now,
-            CategoryId = request.CategoryId
+            CategoryId = request.CategoryId,
+
+
+            Created = DateTime.Now,
+            CreatedBy = request.AuthorId
         };
 
         _context.Posts.Add(post);

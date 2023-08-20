@@ -7,6 +7,7 @@ namespace Application.Operations.Hashtags.Commands.CreateHashtag;
 public record CreateHashtagCommand : IRequest<long>
 {
     public string? Title { get; init; }
+    public long AuthorId { get; set; }
 }
 
 
@@ -24,6 +25,8 @@ public class CreateHashtagCommandHandler : IRequestHandler<CreateHashtagCommand,
         var hashtag = new Hashtag
         {
             Title = request.Title,
+            Created = DateTime.Now,
+            CreatedBy = request.AuthorId
         };
 
         _context.Hashtags.Add(hashtag);

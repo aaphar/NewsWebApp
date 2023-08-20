@@ -84,6 +84,7 @@ public class UpdatePostTranslationCommandHandler : IRequestHandler<UpdatePostTra
             postTranslation.ViewCount = request.ViewCount;
             postTranslation.LanguageId = request.LanguageId;
             postTranslation.NewsId = request.NewsId;
+
             postTranslation.LastModifiedBy = request.AuthorId;
             postTranslation.LastModified = DateTime.Now;
 

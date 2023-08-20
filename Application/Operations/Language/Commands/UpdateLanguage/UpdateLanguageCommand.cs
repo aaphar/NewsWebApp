@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities;
 using Domain.Exceptions;
 using MediatR;
 
@@ -8,6 +9,8 @@ public record UpdateLanguageCommand : IRequest<Unit>
     public short Id { get; init; }
     public string? Title { get; init; }
     public string? Code { get; init; }
+    public long AuthorId { get; set; }
+
 }
 
 public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageCommand, Unit>
@@ -32,6 +35,9 @@ public class UpdateLanguageCommandHandler : IRequestHandler<UpdateLanguageComman
 
         language.Title = request.Title;
         language.LanguageCode = request.Code;
+
+        language.LastModified = DateTime.Now;
+        language.LastModifiedBy = request.AuthorId;
 
         await _context.SaveChangesAsync(cancellationToken);
 

@@ -19,6 +19,14 @@ namespace Domain.Entities
         
         public Role? Role { get; set; }
 
+        public DateTime Created { get; set; }
+
+        public long? CreatedBy { get; set; }
+
+        public DateTime? LastModified { get; set; }
+
+        public long? LastModifiedBy { get; set; }
+
         public ICollection<PostTranslation>? PostTranslations { get; set; }
     }
 }

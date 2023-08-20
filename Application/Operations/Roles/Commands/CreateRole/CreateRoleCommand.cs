@@ -8,20 +8,18 @@ namespace Application.Operations.Roles.Commands.CreateRole;
 public record CreateRoleCommand : IRequest<int>
 {
     public string? Name { get; init; }
+    public long AuthorId { get; set; }
 }
 
 public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
 {
     private readonly IApplicationDbContext _context;
-    private readonly UserManager<User> _userManager;
     private readonly RoleManager<Role> _roleManager;
 
     public CreateRoleCommandHandler(IApplicationDbContext context,
-        UserManager<User> userManager,
         RoleManager<Role> roleManager)
     {
         _context = context;
-        _userManager = userManager;
         _roleManager = roleManager;
     }
 
@@ -31,6 +29,10 @@ public class CreateRoleCommandHandler:IRequestHandler<CreateRoleCommand, int>
         {
             Name = request.Name,
             NormalizedName = request.Name.ToUpper(),
+
+
+            Created = DateTime.Now,
+            CreatedBy = request.AuthorId
         };
 
         var result = await _roleManager.CreateAsync(role);

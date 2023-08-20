@@ -5,6 +5,7 @@ using Application.Operations.Users.Queries.GetUserById;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -23,13 +24,20 @@ namespace WebUI.Pages.admin.users
 
         public List<RoleDto> Roles { get; set; }
 
-        public EditModel(IMediator mediator)
+
+        public long AuthorId { get; set; }
+
+        private readonly UserManager<User> _userManager; // Add UserManager
+
+        public EditModel(IMediator mediator,
+            UserManager<User> userManager)
         {
             _mediator = mediator;
+            _userManager = userManager;
 
             Roles = new();
-
         }
+
         public async Task OnGetAsync(int id)
         {
             UserDto = await _mediator.Send(new GetUserByIdQuery(id));
@@ -39,6 +47,9 @@ namespace WebUI.Pages.admin.users
             {
                 ImagePath = UserDto.ImagePath;
             }
+
+            var loggedInUserId = _userManager.GetUserId(User);
+            AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
 
         public async Task<ActionResult> OnPostAsync(int id)
@@ -67,7 +78,8 @@ namespace WebUI.Pages.admin.users
                 Name = UserDto?.Name?.Substring(0, 1).ToUpper() + UserDto?.Name?.Substring(1).ToLower(),
                 Surname = UserDto?.Surname?.Substring(0, 1).ToUpper() + UserDto?.Surname?.Substring(1).ToLower(),
                 ImagePath = UserDto?.ImagePath,
-                RoleId = UserDto.RoleId
+                RoleId = UserDto.RoleId,
+                AuthorId = AuthorId
             };
 
             TempData["UploadedImagePath"] = null;
