@@ -45,7 +45,8 @@ public class CreatePostTranslationCommandHandler : IRequestHandler<CreatePostTra
             ViewCount = request.ViewCount,
             LanguageId = request.LanguageId,
             AuthorId = request.AuthorId,
-            NewsId = request.NewsId
+            NewsId = request.NewsId,
+            CreatedBy=request.AuthorId
         };
 
         _context.PostTranslations.Add(postTranslation);

@@ -39,6 +39,8 @@
 
                                 if (Model.TranslationDto is not null)
                                 {
+                                    List < PostHashtagDto> hashtags = Model.PostHashtags.FindAll(h => h.NewsId == Model.TranslationDto.Id);
+
                                     Model.Content = Model.TranslationDto.Context;
 
                                     <div class="form-group">
@@ -48,21 +50,6 @@
                                                value="@Model.TranslationDto.Title">
                                         <span asp-validation-for="Title" class="text-danger"></span>
                                     </div>
-
-                                    @*<div class="form-group">
-                    <label asp-for="@Model.PostDto.CategoryId">Post's Category</label>
-                    <select asp-for="@Model.PostDto.CategoryId" class="form-control">
-                    <option value="@Model.PostDto.CategoryId">Select Category</option>
-                    @if (Model?.Categories is not null)
-                    {
-                    @foreach (var category in Model.Categories)
-                    {
-                    <option value="@category.Id">@category.Description</option>
-                    }
-                    }
-                    </select>
-                    <span asp-validation-for="@Model.PostDto.CategoryId" class="text-danger"></span>
-                    </div>*@
 
                                     <div class="form-group">
                                         <label for="Status">Status</label>
@@ -90,19 +77,18 @@
                                     </div>
 
 
-                                    @*<div class="form-group">
-                    <label asp-for="@Model.PostDto.ImagePath">Choose Image: </label>
-                    <input type="file" class="form-control-file" id="image" asp-for="@Model.PostDto.ImagePath">
-                    <span asp-validation-for="@Model.PostDto.ImagePath" class="text-danger"></span>
-                    </div>
+                                    <!-- Display and manage hashtags -->
+                                    @if (hashtags is not null)
+                                    {
+                                        <div class="form-group">
+                                            <label asp-for="PostTags">Hashtags</label>
+                                            <input type="text" id="hashtagsInput" class="form-control"
+                                                   asp-for="PostTags"
+                                                   value="@string.Join(" ", hashtags.Select(hashtag =>
+                                            $"#{Model.Hashtags.FirstOrDefault(h => h.Id == hashtag.HashtagId)?.Title}"))">
+                                        </div>
+                                    }
 
-                    @if (!string.IsNullOrEmpty(Model?.PostDto.ImagePath))
-                    {
-                    <div class="form-group">
-                    <label>Uploaded Image:</label>
-                    <img src="@Model.PostDto.ImagePath" alt="Uploaded Image" class="img-fluid">
-                    </div>
-                    }*@
 
                                     <div class="row float-right">
                                         <div class="col-12">
@@ -146,6 +132,12 @@
                                         <span asp-validation-for="Content" class="text-danger"></span>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label asp-for="PostTags">Hashtags</label>
+                                        <input type="text" id="inputHashtags" class="form-control"
+                                               asp-for="PostTags" placeholder="Post hashtag...">
+                                        <span asp-validation-for="PostTags" class="text-danger"></span>
+                                    </div>
 
                                     <div class="row float-right">
                                         <div class="col-12">
@@ -215,7 +207,7 @@
         }
 
 
-                                    var inputFile = document.querySelector('#image');
+                                                            var inputFile = document.querySelector('#image');
 
             if (inputFile) {
                 inputFile.addEventListener('change', function () {

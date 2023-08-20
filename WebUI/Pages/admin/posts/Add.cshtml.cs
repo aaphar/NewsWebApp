@@ -2,6 +2,7 @@ using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Language.Queries.GetLanguageByCode;
+using Application.Operations.PostHashtag.Commands.AssociateHashtagsWithPostTranslation;
 using Application.Operations.Posts.Commands.CreatePost;
 using Application.Operations.PostTranslations.Commands.CreatePostTranslation;
 using Domain.Entities;
@@ -52,6 +53,9 @@ namespace WebUI.Pages.admin.posts
         // languages
         [BindProperty]
         public List<LanguageDto>? Languages { get; set; }
+
+        [BindProperty]
+        public string? PostHashtags { get; set; }
 
 
         private readonly IMediator _mediator;
@@ -150,7 +154,7 @@ namespace WebUI.Pages.admin.posts
                     AuthorId = AuthorId
                 };
 
-                await _mediator.Send(createPostTranslation);
+                long postTranslationId = await _mediator.Send(createPostTranslation);
 
                 ValidationResult result = await _validator.ValidateAsync(createPostTranslation);
 
@@ -158,6 +162,18 @@ namespace WebUI.Pages.admin.posts
                 {
                     scope.Dispose();
                     return Page();
+                }
+
+                // Associate hashtags with post translation
+                if (!string.IsNullOrEmpty(PostHashtags))
+                {
+                    AssociateHashtagsWithPostTranslationCommand associateHashtagsCommand = new()
+                    {
+                        PostTranslationId = postTranslationId,
+                        PostHashtags = PostHashtags
+                    };
+
+                    await _mediator.Send(associateHashtagsCommand);
                 }
 
                 TempData["UploadedImagePath"] = null;

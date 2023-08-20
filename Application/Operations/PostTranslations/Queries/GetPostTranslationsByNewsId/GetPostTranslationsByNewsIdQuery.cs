@@ -5,13 +5,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Operations.PostTranslations.Queries.GetPostTranslationsByNewsId;
-public record GetPostTranslationsByNewsIdQuery:IRequest<List<PostTranslationDto>>
+public record GetPostTranslationsByNewsIdQuery : IRequest<List<PostTranslationDto>>
 {
-    public long NewsId { get; init; }   
+    public long NewsId { get; init; }
 }
 
 
-public class GetPostTranslationsByNewsIdQueryHandler:IRequestHandler<GetPostTranslationsByNewsIdQuery, List<PostTranslationDto>>
+public class GetPostTranslationsByNewsIdQueryHandler : IRequestHandler<GetPostTranslationsByNewsIdQuery, List<PostTranslationDto>>
 {
     private readonly IApplicationDbContext _context;
 

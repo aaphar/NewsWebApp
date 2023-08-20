@@ -25,6 +25,7 @@ public sealed class GetHashtagsQueryHandler : IRequestHandler<GetHashtagsQuery, 
     public async Task<List<HashtagDto>> Handle(GetHashtagsQuery request, CancellationToken cancellationToken)
     {
         var hashtags = await _context.Hashtags
+            .Include(h=>h.PostHashtags)
             .ToListAsync(cancellationToken);
 
         var hashtagDtos = _mapper.Map<List<HashtagDto>>(hashtags);

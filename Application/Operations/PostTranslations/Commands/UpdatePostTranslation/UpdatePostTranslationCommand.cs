@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Application.Operations.PostTranslations.Commands.UpdatePostTranslation;
 public record UpdatePostTranslationCommand : IRequest<Unit>
 {
+    public long Id { get; set; }
+
     public string? Title { get; init; }
 
     public string? Context { get; init; }
@@ -64,15 +66,17 @@ public class UpdatePostTranslationCommandHandler : IRequestHandler<UpdatePostTra
                 ViewCount = request.ViewCount,
                 LanguageId = request.LanguageId,
                 NewsId = request.NewsId,
-                AuthorId = request.AuthorId
+                AuthorId = request.AuthorId,
             };
 
             //ValidationResult result = await _validator.ValidateAsync(postTranslationCommand);
-           
-            await _mediator.Send(postTranslationCommand);
+
+            request.Id = await _mediator.Send(postTranslationCommand);
         }
         else
         {
+            request.Id = postTranslation.Id;
+
             postTranslation.Title = request.Title;
             postTranslation.Context = request.Context;
             postTranslation.Status = request.Status;
@@ -80,7 +84,8 @@ public class UpdatePostTranslationCommandHandler : IRequestHandler<UpdatePostTra
             postTranslation.ViewCount = request.ViewCount;
             postTranslation.LanguageId = request.LanguageId;
             postTranslation.NewsId = request.NewsId;
-            postTranslation.AuthorId = request.AuthorId;
+            postTranslation.LastModifiedBy = request.AuthorId;
+            postTranslation.LastModified = DateTime.Now;
 
             await _context.SaveChangesAsync(cancellationToken);
         }

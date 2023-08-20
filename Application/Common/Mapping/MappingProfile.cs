@@ -11,6 +11,7 @@ namespace Application.Common.Mapping
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryTranslation, CategoryTranslationDto>();
             CreateMap<Hashtag, HashtagDto>();
+            CreateMap<PostHashtag, PostHashtagDto>();
             CreateMap<Language, LanguageDto>();
             CreateMap<Post, PostDto>();
             CreateMap<PostTranslation, PostTranslationDto>();

@@ -23,21 +23,26 @@
                         if (property.Name == "LanguageId")
                         {
                             <dt>Language</dt>
+                            string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(Model.Translation))?.LanguageCode;
+                            <td>@languageName</td>
                         }
                         else if (property.Name == "NewsId")
                         {
                             <dt>Post</dt>
+                            string postName = Model.Posts.FirstOrDefault(r => r.Id == (long)property.GetValue(Model.Translation))?.Title;
+
+                            <td>@postName</td>
                         }
                         else if (property.Name == "AuthorId")
                         {
                             <dt>Author</dt>
-                        }
-                        else
-                        {
-                            <dt>@property.Name</dt>
+                            string name = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Name;
+                            string surname = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Surname;
+                            string authortName = name + " " + surname;
+                            <td>@authortName</td>
                         }
 
-                        if (property.Name == "Context")
+                        else if (property.Name == "Context")
                         {
                             <dd>
                                 <div style="font-size: 12px;">
@@ -45,30 +50,28 @@
                                 </div>
                             </dd>
                         }
-                        else if (property.Name == "LanguageId")
-                        {
-                            string languageName = Model.Languages.FirstOrDefault(r => r.Id == (short)property.GetValue(Model.Translation))?.LanguageCode;
-                            <td>@languageName</td>
-                        }
-                        else if (property.Name == "NewsId")
-                        {
-                            string postName = Model.Posts.FirstOrDefault(r => r.Id == (long)property.GetValue(Model.Translation))?.Title;
-
-                            <td>@postName</td>
-                        }
-                        else if (property.Name == "AuthorId")
-                        {
-                            string name = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Name;
-                            string surname = Model.Users.FirstOrDefault(r => r.Id == (int)property.GetValue(Model.Translation))?.Surname;
-                            string authortName = name + " " + surname;
-                            <td>@authortName</td>
-                        }
                         else
                         {
+                            <dt>@property.Name</dt>
+
                             <dd>@property.GetValue(Model.Translation)</dd>
                         }
                     }
 
+                    @{
+                        List<PostHashtagDto> hashtags = Model.PostHashtags.FindAll(h => h.NewsId == Model.Translation.Id);
+
+                        <!-- Display and manage hashtags -->
+                        @if (hashtags is not null)
+                        {
+                            <div class="form-group">
+                                <label>Hashtags</label>
+                                <input readonly type="text" id="hashtagsInput" class="form-control"
+                                       value="@string.Join(" ", hashtags.Select(hashtag =>
+                                            $"#{Model.Hashtags.FirstOrDefault(h => h.Id == hashtag.HashtagId)?.Title}"))">
+                            </div>
+                        }
+                    }
 
                     <input hidden asp-for="NewsId" value="@Model?.Translation?.NewsId" />
 

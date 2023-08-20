@@ -1,7 +1,10 @@
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
-using Application.Operations.CategoryTranslations.Queries.GetCategoryTranslationByCategoryId;
+using Application.Operations.Hashtags.Queries.GetHashtags;
+using Application.Operations.PostHashtag.Commands.AssociateHashtagsWithPostTranslation;
+using Application.Operations.PostHashtag.Commands.RemovePostHashtags;
+using Application.Operations.PostHashtag.Queries.GetPostHashtags;
 using Application.Operations.Posts.Queries.GetPostById;
 using Application.Operations.PostTranslations.Commands.CreatePostTranslation;
 using Application.Operations.PostTranslations.Commands.UpdatePostTranslation;
@@ -15,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebUI.Pages.admin.posts
 {
@@ -45,6 +49,16 @@ namespace WebUI.Pages.admin.posts
         [BindProperty]
         public List<CategoryDto>? Categories { get; set; }
 
+        [BindProperty]
+        public List<HashtagDto>? Hashtags { get; set; }
+
+        [BindProperty]
+        public List<PostHashtagDto>? PostHashtags { get; set; }
+
+        [BindProperty]
+        public string? PostTags { get; set; }
+
+
         private readonly IMediator _mediator;
 
         private readonly IValidator<UpdatePostTranslationCommand> _validator;
@@ -73,6 +87,10 @@ namespace WebUI.Pages.admin.posts
 
             Translations = await _mediator.Send(new GetPostTranslationsByNewsIdQuery() { NewsId = id });
 
+            Hashtags = await _mediator.Send(new GetHashtagsQuery());
+
+            PostHashtags = await _mediator.Send(new GetPostHashtagsQuery());
+
             var loggedInUserId = _userManager.GetUserId(User);
             AuthorId = int.Parse(loggedInUserId); // Convert to int if needed
         }
@@ -97,6 +115,18 @@ namespace WebUI.Pages.admin.posts
             ValidationResult result = await _validator.ValidateAsync(updatePostTranslationCommand);
 
             await _mediator.Send(updatePostTranslationCommand);
+
+            // Associate hashtags with post translation
+            if (!string.IsNullOrEmpty(PostTags))
+            {
+                AssociateHashtagsWithPostTranslationCommand associateHashtagsCommand = new()
+                {
+                    PostTranslationId = updatePostTranslationCommand.Id,
+                    PostHashtags = PostTags
+                };
+
+                await _mediator.Send(associateHashtagsCommand);
+            }
 
             return RedirectToPage("/admin/posts/AddOrEdit", new { Id = id });
         }

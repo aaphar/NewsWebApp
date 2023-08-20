@@ -1,6 +1,8 @@
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.CategoryTranslations.Commands.DeleteCategoryTranslation;
+using Application.Operations.Hashtags.Queries.GetHashtags;
+using Application.Operations.PostHashtag.Queries.GetPostHashtags;
 using Application.Operations.Posts.Queries.GetPosts;
 using Application.Operations.PostTranslations.Commands.DeletePostTranslation;
 using Application.Operations.PostTranslations.Queries.GetPostTranslationById;
@@ -30,6 +32,13 @@ namespace WebUI.Pages.admin.posts.translation
 
         public List<UserDto>? Users { get; set; }
 
+        [BindProperty]
+        public List<HashtagDto>? Hashtags { get; set; }
+
+        [BindProperty]
+        public List<PostHashtagDto>? PostHashtags { get; set; }
+
+
         public DetailModel(IMediator mediator)
         {
             _mediator = mediator;
@@ -45,6 +54,10 @@ namespace WebUI.Pages.admin.posts.translation
             Users = await _mediator.Send(new GetUsersQuery());
 
             Translation = await _mediator.Send(new GetPostTranslationByIdQuery(id));
+
+            Hashtags = await _mediator.Send(new GetHashtagsQuery());
+
+            PostHashtags = await _mediator.Send(new GetPostHashtagsQuery());
         }
 
 
