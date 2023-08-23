@@ -95,16 +95,18 @@
                             </ul>
                         </div>
                         <div class="col-2 text-end">
-                            <!-- Language Dropdown -->
-                            <div class="language-dropdown">
-                                <label for="language-select">Select Language:</label>
-                                <select asp-for="SelectedLanguageId" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
-                                    @foreach (var language in Model.Languages)
-                                    {
-                                        <option value="@language.Id">@language.Title</option>
-                                    }
-                                </select>
-                            </div>
+                            <form method="post">
+                                <!-- Language Dropdown -->
+                                <div class="language-dropdown">
+                                    <label for="language-select">Select Language:</label>
+                                    <select asp-for="SelectedLanguageId" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
+                                        @foreach (var language in Model.Languages)
+                                        {
+                                            <option value="@language.Id">@language.Title</option>
+                                        }
+                                    </select>
+                                </div>
+                            </form>
                         </div>
 
 
@@ -147,29 +149,32 @@
                         {
                             foreach (PostDto post in Model?.Posts)
                             {
-                                string categoryName = Model?.Categories?.FirstOrDefault(r => r.Id == post.Id)?.Description;
-                                // Regular expression pattern to match the <img> tag
-                                string pattern = @"<img\s+src\s*=\s*""[^""]*""\s*/?>";
+                                if (post.PostTranslation != null)
+                                {
+                                    string categoryName = Model?.Categories?.FirstOrDefault(r => r.Id == post.Id)?.Description;
+                                    // Regular expression pattern to match the <img> tag
+                                    string pattern = @"<img\s+src\s*=\s*""[^""]*""\s*/?>";
 
-                                // Replace the <img> tag with an empty string in the context
-                                string context = System.Text.RegularExpressions.Regex.Replace(post?.PostTranslation.Context, pattern, "");
+                                    // Replace the <img> tag with an empty string in the context
+                                    string context = System.Text.RegularExpressions.Regex.Replace(post?.PostTranslation.Context, pattern, "");
 
-                                // Trim context to 200 characters and handle HTML
-                                string trimmedContext = context.Length > 200 ? context.Substring(0, 200) + "..." : context;
+                                    // Trim context to 200 characters and handle HTML
+                                    string trimmedContext = context.Length > 200 ? context.Substring(0, 200) + "..." : context;
 
-                                <div class="blog-entry d-flex blog-entry-search-item">
-                                    <a href="single" class="img-link me-4">
-                                        <img src="@post.ImagePath" alt="Image" class="img-fluid">
-                                    </a>
+                                    <div class="blog-entry d-flex blog-entry-search-item">
+                                        <a href="single" class="img-link me-4">
+                                            <img src="@post.ImagePath" alt="Image" class="img-fluid">
+                                        </a>
 
-                                    <input hidden asp-for="CurrentPostId" value="@post.Id" />
+                                        <input hidden asp-for="CurrentPostId" value="@post.Id" />
 
-                                    <div>
-                                        <span class="date">@post?.PostTranslation?.PublishDate?.ToString("dd MMMM"); <a href="@post.CategoryId">@categoryName</a></span>                                        <h2><a href="single">@post?.PostTranslation.Title</a></h2>
-                                        <p>@Html.Raw(trimmedContext)</p>
-                                        <p><a href="single" class="btn btn-sm btn-outline-primary">Read More</a></p>
+                                        <div>
+                                            <span class="date">@post?.PostTranslation?.PublishDate?.ToString("dd MMMM"); <a href="@post.CategoryId">@categoryName</a></span>                                        <h2><a href="single">@post?.PostTranslation.Title</a></h2>
+                                            <p>@Html.Raw(trimmedContext)</p>
+                                            <p><a href="single" class="btn btn-sm btn-outline-primary">Read More</a></p>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
                         }
                     }

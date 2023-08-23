@@ -34,7 +34,6 @@ public class GetPostTranslationByLanguageIdAndNewsIdQueryHandler :IRequestHandle
 
         if(translation is null)
         {
-            throw new LanguageNotFoundException(request.LanguageId);
             throw new PostNotFoundException(request.NewsId);
         }
 

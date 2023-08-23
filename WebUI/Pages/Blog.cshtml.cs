@@ -18,10 +18,12 @@ namespace WebUI.Pages
 
         public List<LanguageDto>? Languages { get; set; }
 
+        [BindProperty]
         public short SelectedLanguageId { get; set; }
 
         public List<PostDto>? Posts { get; set; }
 
+        [BindProperty]
         public long CurrentPostId { get; set; }
 
         public PostTranslationDto? PostTranslation { get; set; }
@@ -33,7 +35,7 @@ namespace WebUI.Pages
             _mediator = mediator;
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(short language)
         {
             Categories = await _mediator.Send(new GetCategoriesQuery());
 
@@ -41,26 +43,37 @@ namespace WebUI.Pages
 
             if (Languages != null && Languages.Count > 0)
             {
-                SelectedLanguageId = Languages[0].Id; // Set the default selected language            }
+                if (language == 0)
+                {
+                    SelectedLanguageId = Languages[0].Id; // Set the default selected language            
+                }
             }
+
 
             Posts = await _mediator.Send(new GetPostsQuery());
 
             // Fetch post translations for each post
             foreach (var post in Posts)
             {
-                post.PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageIdAndNewsIdQuery
+                try
                 {
-                    LanguageId = SelectedLanguageId,
-                    NewsId = post.Id
-                });
+                    post.PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageIdAndNewsIdQuery
+                    {
+                        LanguageId = language != 0 ? language : SelectedLanguageId,
+                        NewsId = post.Id
+                    });
+                }
+                catch (Exception e)
+                {
+                    post.PostTranslation = null;
+                }
             }
         }
 
-        public Task<IActionResult> OnPostAsync(long id)
+        public Task<IActionResult> OnPostAsync()
         {
             // Reload the page with the selected LanguageId
-            return Task.FromResult<IActionResult>(RedirectToPage("/blog"));
+            return Task.FromResult<IActionResult>(RedirectToPage("/blog", new { language = SelectedLanguageId }));
         }
     }
 }
