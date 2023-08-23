@@ -58,6 +58,7 @@
 						<div class="col-2">
 							<a href="index" class="logo m-0 float-start">Blogy<span class="text-primary">.</span></a>
 						</div>
+
 						<div class="col-8 text-center">
 							<form action="#" class="search-form d-inline-block d-lg-none">
 								<input type="text" class="form-control" placeholder="Search...">
@@ -71,9 +72,9 @@
 									<ul class="dropdown">
 										<li><a href="search-result">Search Result</a></li>
 										<li><a href="blog">Blog</a></li>
-										<li><a href="single">Blog Single</a></li>
+										<li class="active"><a href="single">Blog Single</a></li>
 										<li><a href="category">Category</a></li>
-										<li class="active"><a href="about">About</a></li>
+										<li><a href="about">About</a></li>
 										<li><a href="contact">Contact Us</a></li>
 										<li><a href="#">Menu One</a></li>
 										<li><a href="#">Menu Two</a></li>
@@ -92,6 +93,19 @@
 								<li><a href="category">Politics</a></li>
 							</ul>
 						</div>
+						<div class="col-2 text-end">
+							<!-- Language Dropdown -->
+							<div class="language-dropdown">
+								<label for="language-select">Select Language:</label>
+								<select id="language-select">
+									<option value="en">English</option>
+									<option value="fr">French</option>
+									<option value="es">Spanish</option>
+									<!-- Add more language options as needed -->
+								</select>
+							</div>
+						</div>
+
 						<div class="col-2 text-end">
 							<a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
 								<span></span>

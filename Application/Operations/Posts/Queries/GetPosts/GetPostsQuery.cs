@@ -24,6 +24,7 @@ public sealed class GetPostsQueryHandler : IRequestHandler<GetPostsQuery, List<P
     public async Task<List<PostDto>> Handle(GetPostsQuery request, CancellationToken cancellationToken)
     {
         var posts = await _context.Posts
+            .Include(p => p.PostTranslations)
             .ToListAsync(cancellationToken);
 
         var postDtos = _mapper.Map<List<PostDto>>(posts);
