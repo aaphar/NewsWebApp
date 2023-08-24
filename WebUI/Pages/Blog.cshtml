@@ -2,6 +2,7 @@
 @using Application.Common.Models;
 @model WebUI.Pages.BlogModel
 @{
+    int pageSize = 5;
 }
 <!-- /*
 * Template Name: Blogy
@@ -101,7 +102,7 @@
                                     <label for="language-select">Select Language:</label>
                                     <select asp-for="SelectedLanguageId" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
                                         @{
-                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.Id == Model.SelectedLanguageId); 
+                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.Id == Model.SelectedLanguageId);
                                             if (selectedLanguage != null)
                                             {
                                                 <option value="@selectedLanguage.Id">@selectedLanguage.Title</option>
@@ -119,18 +120,7 @@
                                 </div>
                             </form>
                         </div>
-
-
-                        @*search bar*@
-                        <div class="col-2 text-end">
-                            <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
-                                <span></span>
-                            </a>
-                            <form action="#" class="search-form d-none d-lg-inline-block">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="bi-search"></span>
-                            </form>
-                        </div>
+                                                
                     </div>
                 </div>
             </div>
@@ -194,12 +184,10 @@
                     <div class="row text-start pt-5 border-top">
                         <div class="col-md-12">
                             <div class="custom-pagination">
-                                <span>1</span>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#">4</a>
-                                <span>...</span>
-                                <a href="#">15</a>
+                                @for (int i = 1; i <= Math.Ceiling((double)Model.TotalPostCount / pageSize); i++)
+                                {
+                                    <a href="@(Url.Page("/blog", new { language = Model.SelectedLanguageId, pageIndex = i }))" class="@(i == Model.CurrentPageIndex ? "active" : "")">@i</a>
+                                }
                             </div>
                         </div>
                     </div>
@@ -208,12 +196,15 @@
 
                 <div class="col-lg-4 sidebar">
 
+                    @*search*@
                     <div class="sidebar-box search-form-wrap mb-4">
                         <form action="#" class="sidebar-search-form">
                             <span class="bi-search"></span>
                             <input type="text" class="form-control" id="s" placeholder="Type a keyword and hit enter">
                         </form>
                     </div>
+
+
                     <!-- END sidebar-box -->
                     <div class="sidebar-box">
                         <h3 class="heading">Popular Posts</h3>
