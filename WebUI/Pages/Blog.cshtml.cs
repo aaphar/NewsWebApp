@@ -1,11 +1,8 @@
 using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
-using Application.Operations.Posts.Commands.CreatePost;
 using Application.Operations.Posts.Queries.GetPosts;
 using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageIdAndNewsId;
-using Domain.Entities;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -37,6 +34,7 @@ namespace WebUI.Pages
 
         public async Task OnGetAsync(short language)
         {
+            SelectedLanguageId = language;
             Categories = await _mediator.Send(new GetCategoriesQuery());
 
             Languages = await _mediator.Send(new GetLanguagesQuery());

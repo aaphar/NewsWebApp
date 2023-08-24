@@ -100,9 +100,20 @@
                                 <div class="language-dropdown">
                                     <label for="language-select">Select Language:</label>
                                     <select asp-for="SelectedLanguageId" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
-                                        @foreach (var language in Model.Languages)
-                                        {
-                                            <option value="@language.Id">@language.Title</option>
+                                        @{
+                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.Id == Model.SelectedLanguageId); 
+                                            if (selectedLanguage != null)
+                                            {
+                                                <option value="@selectedLanguage.Id">@selectedLanguage.Title</option>
+                                            }
+
+                                            foreach (var language in Model.Languages)
+                                            {
+                                                if (selectedLanguage == null || language.Id != selectedLanguage.Id)
+                                                {
+                                                    <option value="@language.Id">@language.Title</option>
+                                                }
+                                            }
                                         }
                                     </select>
                                 </div>
