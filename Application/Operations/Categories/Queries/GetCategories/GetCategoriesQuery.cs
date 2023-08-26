@@ -24,6 +24,7 @@ public sealed class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQue
     public async Task<List<CategoryDto>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
     {
         var categories = await _context.Categories
+            .Include(c=>c.Posts)
             .ToListAsync(cancellationToken);
 
         var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);

@@ -14,8 +14,11 @@ namespace WebUI
 
             builder.Services.AddEndpointsApiExplorer();
 
-            // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages(options =>
+            {
+                options.Conventions.AddPageRoute("/Single", "{title}");
+            });
+
 
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -29,6 +32,15 @@ namespace WebUI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "languagePage",
+            //        pattern: "{language}/{controller}/{pageIndex:int}",
+            //        defaults: new { action = "Index" }); // Adjust the action as needed
+            //});
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

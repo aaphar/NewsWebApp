@@ -20,6 +20,10 @@ namespace WebUI
             services.Configure<ApiBehaviorOptions>(options =>
                 options.SuppressModelStateInvalidFilter = true);
 
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AddPageRoute("/Single", "{title}");
+            });
 
             services.AddControllers();
 

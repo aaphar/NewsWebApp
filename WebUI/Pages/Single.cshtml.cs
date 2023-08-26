@@ -1,10 +1,12 @@
-using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
-using Application.Operations.Posts.Queries.GetPostById;
-using Application.Operations.Posts.Queries.GetPosts;
-using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageIdAndNewsId;
-using Application.Operations.PostTranslations.Queries.GetPostTranslationsByNewsId;
-using Application.Operations.Users.Queries.GetUsers;
+using Application.Operations.Categories.Queries.GetCategories;
+using Application.Operations.Categories.Queries.GetCategoryById;
+using Application.Operations.Hashtags.Queries.GetHashtags;
+using Application.Operations.PostHashtag.Queries.GetPostHashtagsByPostId;
+using Application.Operations.Posts.Queries.GetPostTranslationByTitle;
+using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
+using Application.Operations.Users.Queries.GetUserById;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,67 +19,62 @@ namespace WebUI.Pages
 
         public PostDto? Post { get; set; }
 
-        [BindProperty]
-        public short LanguageId { get; set; }
+        public PostTranslationDto? PostTranslation { get; set; }
+
+        public UserDto? User { get; set; }
+
+        public List<CategoryDto>? Categories { get; set; }
 
         [BindProperty]
-        public long PostId { get; set; }
+        public string? CategoryTitle { get; set; }
 
-        public List<PostTranslationDto>? PostTranslations { get; set; }
+        public List<PostHashtagDto>? PostHashtags { get; set; }
 
-        public List<LanguageDto>? Languages { get; set; }
+        public List<HashtagDto>? Hashtags { get; set; }
 
-        public List<PostDto>? Posts { get; set; }
-
-        public List<UserDto> Users { get; set; }
+        public HashtagDto? Hashtag { get; set; }
 
         public SingleModel(IMediator mediator)
         {
             _mediator = mediator;
-            PostTranslations = new List<PostTranslationDto>();
         }
 
-        //public async Task OnGetAsync(long id, short languageId)
-        //{
-        //    // get post by id
-        //    Post = await _mediator.Send(new GetPostByIdQuery(id));
+        public async Task OnGetAsync(string title)
+        {
+            
+            Post = await _mediator.Send(new GetPostByTitleQuery(title));
 
-        //    Posts = await _mediator.Send(new GetPostsQuery());
+            if (Post.CategoryId != null)
+            {
+                CategoryDto category = await _mediator.Send(new GetCategoryByIdQuery() { Id = (short)Post.CategoryId });
 
-        //    //get languages
-        //    Languages = await _mediator.Send(new GetLanguagesQuery());
+                CategoryTitle = category.Description;
+            }
+            else
+            {
+                CategoryTitle = null;
+            }
 
-        //    Users = await _mediator.Send(new GetUsersQuery());
+            PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageCodeAndNewsIdQuery() { NewsId = Post.Id, LanguageCode = "en" });
 
+            Categories = await _mediator.Send(new GetCategoriesQuery());
 
-        //    if (languageId != 0)
-        //    {
-        //        try
-        //        {
-        //            var translation = await _mediator.Send(new GetPostTranslationByLanguageIdAndNewsIdQuery() { LanguageId = languageId, NewsId = id });
+            PostHashtags = await _mediator.Send(new GetPostHashtagsByPostIdQuery(PostTranslation.Id));
 
-        //            if (translation != null)
-        //            {
-        //                PostTranslations.Add(translation);
-        //            }
-        //            else
-        //            {
-        //                PostTranslations = null;
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine($"An error occurred while fetching the category translation: {e}");
+            Hashtags = await _mediator.Send(new GetHashtagsQuery());
 
-        //            // Display a user-friendly message
-        //            PostTranslations = null;
-        //            ModelState.AddModelError(string.Empty, "An error occurred while fetching the category translation. Please try again later.");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        PostTranslations = await _mediator.Send(new GetPostTranslationsByNewsIdQuery { NewsId = id });
-        //    }
-        //}
+            int userId; // This variable will hold the actual user ID
+
+            if (PostTranslation.AuthorId.HasValue)
+            {
+                userId = PostTranslation.AuthorId.Value; // Extract the value from the nullable int
+            }
+            else
+            {
+                userId = -1; // For example, using -1 as a placeholder
+            }
+
+            User = await _mediator.Send(new GetUserByIdQuery(userId));
+        }
     }
 }

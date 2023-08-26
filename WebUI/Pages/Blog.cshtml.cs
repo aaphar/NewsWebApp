@@ -2,7 +2,8 @@ using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Posts.Queries.GetPosts;
-using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageIdAndNewsId;
+using Application.Operations.Posts.Queries.GetPostsByCategoryId;
+using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,7 +17,7 @@ namespace WebUI.Pages
         public List<LanguageDto>? Languages { get; set; }
 
         [BindProperty]
-        public short SelectedLanguageId { get; set; }
+        public string SelectedLanguageCode { get; set; }
 
         public List<PostDto>? Posts { get; set; }
 
@@ -36,32 +37,37 @@ namespace WebUI.Pages
             _mediator = mediator;
         }
 
-        public async Task OnGetAsync(short language, int pageIndex = 1)
+        public async Task OnGetAsync(string language, int pageIndex = 1)
         {
-            SelectedLanguageId = language;
+            SelectedLanguageCode = language;
             Categories = await _mediator.Send(new GetCategoriesQuery());
+
+            for (int i = 0; i < Categories.Count; i++)
+            {
+                Categories[i].Posts = await _mediator.Send(new GetPostsByCategoryIdQuery(Categories[i].Id));
+            }
 
             Languages = await _mediator.Send(new GetLanguagesQuery());
 
             if (Languages != null && Languages.Count > 0)
             {
-                if (language == 0)
+                if (language == null)
                 {
-                    SelectedLanguageId = Languages[0].Id; // Set the default selected language            
+                    SelectedLanguageCode = Languages[0].LanguageCode; // Set the default selected language            
                 }
             }
 
             Posts = await _mediator.Send(new GetPostsQuery());
-                        
+
             // Fetch post translations for each post
             for (int i = Posts.Count - 1; i >= 0; i--)
             {
                 var post = Posts[i];
                 try
                 {
-                    post.PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageIdAndNewsIdQuery
+                    post.PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageCodeAndNewsIdQuery
                     {
-                        LanguageId = language != 0 ? language : SelectedLanguageId,
+                        LanguageCode = language != null ? language : SelectedLanguageCode,
                         NewsId = post.Id
                     });
                 }
@@ -84,7 +90,7 @@ namespace WebUI.Pages
         public Task<IActionResult> OnPostAsync()
         {
             // Reload the page with the selected LanguageId
-            return Task.FromResult<IActionResult>(RedirectToPage("/blog", new { language = SelectedLanguageId, pageIndex = 1 }));
+            return Task.FromResult<IActionResult>(RedirectToPage("/blog", new { language = SelectedLanguageCode, pageIndex = 1 }));
         }
     }
 }

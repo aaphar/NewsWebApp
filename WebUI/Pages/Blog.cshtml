@@ -100,19 +100,20 @@
                                 <!-- Language Dropdown -->
                                 <div class="language-dropdown">
                                     <label for="language-select">Select Language:</label>
-                                    <select asp-for="SelectedLanguageId" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
+                                    <select asp-for="SelectedLanguageCode" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
                                         @{
-                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.Id == Model.SelectedLanguageId);
+                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.LanguageCode == Model.SelectedLanguageCode);
+
                                             if (selectedLanguage != null)
                                             {
-                                                <option value="@selectedLanguage.Id">@selectedLanguage.Title</option>
+                                                <option value="@selectedLanguage.LanguageCode">@selectedLanguage.Title</option>
                                             }
 
                                             foreach (var language in Model.Languages)
                                             {
-                                                if (selectedLanguage == null || language.Id != selectedLanguage.Id)
+                                                if (selectedLanguage == null || language.LanguageCode != selectedLanguage.LanguageCode)
                                                 {
-                                                    <option value="@language.Id">@language.Title</option>
+                                                    <option value="@language.LanguageCode">@language.Title</option>
                                                 }
                                             }
                                         }
@@ -120,7 +121,7 @@
                                 </div>
                             </form>
                         </div>
-                                                
+
                     </div>
                 </div>
             </div>
@@ -152,7 +153,7 @@
                             {
                                 if (post.PostTranslation != null)
                                 {
-                                    string categoryName = Model?.Categories?.FirstOrDefault(r => r.Id == post.Id)?.Description;
+                                    string categoryName = Model?.Categories?.FirstOrDefault(r => r.Id == post.CategoryId)?.Description;
                                     // Regular expression pattern to match the <img> tag
                                     string pattern = @"<img\s+src\s*=\s*""[^""]*""\s*/?>";
 
@@ -162,7 +163,11 @@
                                     // Trim context to 200 characters and handle HTML
                                     string trimmedContext = context.Length > 200 ? context.Substring(0, 200) + "..." : context;
 
+                                    string pTitle = post.PostTranslation.Title.Replace(" ", "-");
+
                                     <div class="blog-entry d-flex blog-entry-search-item">
+
+
                                         <a href="single" class="img-link me-4">
                                             <img src="@post.ImagePath" alt="Image" class="img-fluid">
                                         </a>
@@ -170,9 +175,16 @@
                                         <input hidden asp-for="CurrentPostId" value="@post.Id" />
 
                                         <div>
-                                            <span class="date">@post?.PostTranslation?.PublishDate?.ToString("dd MMMM"); <a href="@post.CategoryId">@categoryName</a></span>                                        <h2><a href="single">@post?.PostTranslation.Title</a></h2>
-                                            <p>@Html.Raw(trimmedContext)</p>
-                                            <p><a href="single" class="btn btn-sm btn-outline-primary">Read More</a></p>
+                                            <form method="post">
+                                                <span class="date">
+                                                    @post?.PostTranslation?.PublishDate?.ToString("dd MMMM");
+                                                    <a href="@post.CategoryId">@categoryName</a>
+                                                </span>
+                                                <h2><a asp-page="/Single" asp-route-title="@pTitle">@post?.PostTranslation.Title</a></h2>
+                                                <p>@Html.Raw(trimmedContext)</p>
+                                                <p><a asp-page="/Single" asp-route-title="@pTitle" class="btn btn-sm btn-outline-primary">Read More</a></p>
+
+                                            </form>
                                         </div>
                                     </div>
                                 }
@@ -186,7 +198,7 @@
                             <div class="custom-pagination">
                                 @for (int i = 1; i <= Math.Ceiling((double)Model.TotalPostCount / pageSize); i++)
                                 {
-                                    <a href="@(Url.Page("/blog", new { language = Model.SelectedLanguageId, pageIndex = i }))" class="@(i == Model.CurrentPageIndex ? "active" : "")">@i</a>
+                                    <a href="@(Url.Page("/blog", new { language = Model.SelectedLanguageCode, pageIndex = i }))" class="@(i == Model.CurrentPageIndex ? "active" : "")">@i</a>
                                 }
                             </div>
                         </div>
@@ -251,11 +263,12 @@
                     <div class="sidebar-box">
                         <h3 class="heading">Categories</h3>
                         <ul class="categories">
-                            <li><a href="#">Food <span>(12)</span></a></li>
-                            <li><a href="#">Travel <span>(22)</span></a></li>
-                            <li><a href="#">Lifestyle <span>(37)</span></a></li>
-                            <li><a href="#">Business <span>(42)</span></a></li>
-                            <li><a href="#">Adventure <span>(14)</span></a></li>
+                            @{
+                                foreach (CategoryDto category in Model.Categories)
+                                {
+                                    <li><a href="#">@category.Description <span>(@category.Posts.Count)</span></a></li>
+                                }
+                            }
                         </ul>
                     </div>
                     <!-- END sidebar-box -->

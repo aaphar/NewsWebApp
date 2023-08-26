@@ -12,5 +12,10 @@ namespace Domain.Exceptions
             : base($"The Language with the ID = {id} was not found")
         {
         }
+
+        public LanguageNotFoundException(string? Code)
+            : base($"The Language with the ID = {Code} was not found")
+        {
+        }
     }
 }
