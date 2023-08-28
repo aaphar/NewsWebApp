@@ -84,7 +84,7 @@ namespace WebUI.Pages.admin.categories
 
                 CreateCategoryCommand createCategoryCommand = new()
                 {
-                    Description = TranslationTitle,
+                    Description = TranslationTitle?.Substring(0, 1).ToUpper() + TranslationTitle?.Substring(1).ToLower(),
                     AuthorId=AuthorId
                 };
 

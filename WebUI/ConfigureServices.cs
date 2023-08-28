@@ -23,7 +23,11 @@ namespace WebUI
             services.AddRazorPages(options =>
             {
                 options.Conventions.AddPageRoute("/Single", "{title}");
+                options.Conventions.AddPageRoute("/Blog", "{lang}/Blog");
+
             });
+
+            
 
             services.AddControllers();
 

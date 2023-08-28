@@ -16,9 +16,20 @@ namespace WebUI
 
             builder.Services.AddRazorPages(options =>
             {
-                options.Conventions.AddPageRoute("/Single", "{title}");
+                options.Conventions.AddPageRoute("/Single", "{lang}/{title}");
+                options.Conventions.AddPageRoute("/Blog", "{lang}/Blog");
             });
 
+
+            //builder.Services.AddRazorPages(options =>
+            //{
+            //    options.Conventions.AddPageRoute("/Single", "{title}");
+            //});
+
+            builder.Services.AddSession(options =>
+            {
+                // Configure session options here if needed
+            });
 
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -33,14 +44,8 @@ namespace WebUI
                 app.UseHsts();
             }
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "languagePage",
-            //        pattern: "{language}/{controller}/{pageIndex:int}",
-            //        defaults: new { action = "Index" }); // Adjust the action as needed
-            //});
-
+            app.UseMiddleware<AutomaticRedirectionMiddleware>(); // Your existing middleware
+            app.UseMiddleware<AdminAuthenticationMiddleware>(); // Your existing middleware
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -50,12 +55,13 @@ namespace WebUI
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<AdminAuthenticationMiddleware>();
+           
 
             app.MapControllers();
 
             app.MapRazorPages();
 
+            app.UseSession();
             app.Run();
         }
     }

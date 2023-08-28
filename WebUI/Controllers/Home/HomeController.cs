@@ -69,6 +69,15 @@ namespace WebUI.Controllers.Home
             return Json(rUpload);
         }
 
+        [HttpPost]
+        public IActionResult SetLanguage([FromBody] LanguageRequest request)
+        {
+            // Store the selected language code in session
+            HttpContext.Session.SetString("SelectedLanguage", request.LanguageCode);
+
+            return Ok();
+        }
+
         public IActionResult Index()
         {
             return View();

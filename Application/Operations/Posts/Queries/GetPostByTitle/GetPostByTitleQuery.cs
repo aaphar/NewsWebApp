@@ -27,9 +27,17 @@ public class GetPostByTitleQueryHandler : IRequestHandler<GetPostByTitleQuery, P
     {
         string title = request.Title.Replace("-", " ");
 
+        var postTranslation = await _context.PostTranslations
+            .FirstOrDefaultAsync(p => p.Title.ToLower() == title.ToLower());
+
+        if (postTranslation == null)
+        {
+            return null;
+        }
+
         var post = await _context.Posts
             .Include(p => p.PostTranslations)
-            .FirstOrDefaultAsync(p => p.Title.ToLower() == title.ToLower());
+            .FirstOrDefaultAsync(p => p.Id == postTranslation.NewsId);
 
         return _mapper.Map<PostDto>(post);
     }

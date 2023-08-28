@@ -17,7 +17,7 @@ namespace WebUI.Pages
         public List<LanguageDto>? Languages { get; set; }
 
         [BindProperty]
-        public string SelectedLanguageCode { get; set; }
+        public string? SelectedLanguageCode { get; set; }
 
         public List<PostDto>? Posts { get; set; }
 
@@ -37,24 +37,34 @@ namespace WebUI.Pages
             _mediator = mediator;
         }
 
-        public async Task OnGetAsync(string language, int pageIndex = 1)
+        public async Task OnGetAsync(int pageIndex = 1)
         {
-            SelectedLanguageCode = language;
-            Categories = await _mediator.Send(new GetCategoriesQuery());
-
-            for (int i = 0; i < Categories.Count; i++)
-            {
-                Categories[i].Posts = await _mediator.Send(new GetPostsByCategoryIdQuery(Categories[i].Id));
-            }
-
             Languages = await _mediator.Send(new GetLanguagesQuery());
+
+            // Get the language code from the URL path
+            var pathSegments = HttpContext.Request.Path.Value.Split('/');
+            var languageFromUrl = pathSegments.Length > 2 ? pathSegments[1] : null;
+
+            var languageFromSession = HttpContext.Session.GetString("SelectedLanguage");
+
+            var language = !string.IsNullOrEmpty(languageFromUrl) ? languageFromUrl : languageFromSession;
+
+            SelectedLanguageCode = language;
 
             if (Languages != null && Languages.Count > 0)
             {
                 if (language == null)
                 {
-                    SelectedLanguageCode = Languages[0].LanguageCode; // Set the default selected language            
+                    SelectedLanguageCode = Languages[0].LanguageCode; // Set the default selected language
+                    language = SelectedLanguageCode; // Set the language to the default code
                 }
+            }
+
+            Categories = await _mediator.Send(new GetCategoriesQuery());
+
+            for (int i = 0; i < Categories.Count; i++)
+            {
+                Categories[i].Posts = await _mediator.Send(new GetPostsByCategoryIdQuery(Categories[i].Id));
             }
 
             Posts = await _mediator.Send(new GetPostsQuery());
@@ -90,7 +100,7 @@ namespace WebUI.Pages
         public Task<IActionResult> OnPostAsync()
         {
             // Reload the page with the selected LanguageId
-            return Task.FromResult<IActionResult>(RedirectToPage("/blog", new { language = SelectedLanguageCode, pageIndex = 1 }));
+            return Task.FromResult<IActionResult>(RedirectToPage("/blog", new { pageIndex = 1 }));
         }
     }
 }

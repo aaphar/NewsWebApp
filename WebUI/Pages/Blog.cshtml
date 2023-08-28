@@ -43,15 +43,6 @@
 </head>
 <body>
 
-    <div class="site-mobile-menu site-navbar-target">
-        <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close">
-                <span class="icofont-close js-menu-toggle"></span>
-            </div>
-        </div>
-        <div class="site-mobile-menu-body"></div>
-    </div>
-
     <nav class="site-nav">
         <div class="container">
             <div class="menu-bg-wrap">
@@ -95,32 +86,32 @@
                                 <li><a href="category">Politics</a></li>
                             </ul>
                         </div>
+
+
                         <div class="col-2 text-end">
-                            <form method="post">
-                                <!-- Language Dropdown -->
-                                <div class="language-dropdown">
-                                    <label for="language-select">Select Language:</label>
-                                    <select asp-for="SelectedLanguageCode" id="language-select" asp-page-handler="OnPost" onchange="this.form.submit()">
-                                        @{
-                                            var selectedLanguage = Model.Languages.FirstOrDefault(r => r.LanguageCode == Model.SelectedLanguageCode);
+                            <div class="language-dropdown">
+                                <label for="language-select">Select Language:</label>
+                                <select id="language-select" onchange="changeLanguage()">
+                                    @{
+                                        var selectedLanguage = Model.Languages.FirstOrDefault(r => r.LanguageCode == Model.SelectedLanguageCode);
 
-                                            if (selectedLanguage != null)
-                                            {
-                                                <option value="@selectedLanguage.LanguageCode">@selectedLanguage.Title</option>
-                                            }
+                                        if (selectedLanguage != null)
+                                        {
+                                            <option value="@selectedLanguage.LanguageCode">@selectedLanguage.Title</option>
+                                        }
 
-                                            foreach (var language in Model.Languages)
+                                        foreach (var language in Model.Languages)
+                                        {
+                                            if (selectedLanguage == null || language.LanguageCode != selectedLanguage.LanguageCode)
                                             {
-                                                if (selectedLanguage == null || language.LanguageCode != selectedLanguage.LanguageCode)
-                                                {
-                                                    <option value="@language.LanguageCode">@language.Title</option>
-                                                }
+                                                <option value="@language.LanguageCode">@language.Title</option>
                                             }
                                         }
-                                    </select>
-                                </div>
-                            </form>
+                                    }
+                                </select>
+                            </div>
                         </div>
+
 
                     </div>
                 </div>
@@ -175,14 +166,14 @@
                                         <input hidden asp-for="CurrentPostId" value="@post.Id" />
 
                                         <div>
-                                            <form method="post">
+                                            <form method="post" action="/Home/SetLanguage">
                                                 <span class="date">
                                                     @post?.PostTranslation?.PublishDate?.ToString("dd MMMM");
                                                     <a href="@post.CategoryId">@categoryName</a>
                                                 </span>
-                                                <h2><a asp-page="/Single" asp-route-title="@pTitle">@post?.PostTranslation.Title</a></h2>
+                                                <h2><a asp-page="/Single" asp-route-lang="@(Model.SelectedLanguageCode ?? "en")" asp-route-title="@pTitle">@post?.PostTranslation.Title</a></h2>
                                                 <p>@Html.Raw(trimmedContext)</p>
-                                                <p><a asp-page="/Single" asp-route-title="@pTitle" class="btn btn-sm btn-outline-primary">Read More</a></p>
+                                                <p><a asp-page="/Single" asp-route-lang="@(Model.SelectedLanguageCode ?? "en")" asp-route-title="@pTitle" class="btn btn-sm btn-outline-primary">Read More</a></p>
 
                                             </form>
                                         </div>
@@ -198,7 +189,8 @@
                             <div class="custom-pagination">
                                 @for (int i = 1; i <= Math.Ceiling((double)Model.TotalPostCount / pageSize); i++)
                                 {
-                                    <a href="@(Url.Page("/blog", new { language = Model.SelectedLanguageCode, pageIndex = i }))" class="@(i == Model.CurrentPageIndex ? "active" : "")">@i</a>
+                                    <!-- Update this line -->
+                                    <a href="@(Url.Page("/blog", new { lang = Model.SelectedLanguageCode, pageIndex = i }))" class="@(i == Model.CurrentPageIndex ? "active" : "")">@i</a>
                                 }
                             </div>
                         </div>
@@ -419,6 +411,28 @@
     <script src="~/client/js/navbar.js"></script>
     <script src="~/client/js/counter.js"></script>
     <script src="~/client/js/custom.js"></script>
+
+    <script>
+
+        function changeLanguage() {
+            var selectedLanguageCode = document.getElementById("language-select").value;
+            var currentPath = window.location.pathname; // Get the current path
+            var newPath = currentPath.replace(/^\/\w+/, "/" + selectedLanguageCode); // Replace the existing language code in the path
+            window.location.href = newPath; // Redirect to the new URL
+
+            var selectedLanguageCode = document.getElementById("language-select").value;
+            var data = { languageCode: selectedLanguageCode };
+
+            // Send selected language to the server using AJAX
+            fetch('/SetLanguage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+        }
+    </script>
 
 </body>
 </html>
