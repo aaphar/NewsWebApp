@@ -1,4 +1,6 @@
-﻿namespace WebUI.Middleware
+﻿using System.Text.RegularExpressions;
+
+namespace WebUI.Middleware
 {
     public class AutomaticRedirectionMiddleware
     {
@@ -13,15 +15,15 @@
         {
             var requestPath = context.Request.Path;
 
-            // Check if the current path is the root URL without the language code
-            if (requestPath == "/blog")
-            {
-                // Redirect to the English version of the root URL
-                context.Response.Redirect("/en/blog");
-                return;
-            }
+			// Check if the current path is not already containing a language code
+			if (!Regex.IsMatch(requestPath, @"^/\w{2}/"))
+			{
+				// Redirect to the same path with a default language code (e.g., "en")
+				context.Response.Redirect($"/en{requestPath}");
+				return;
+			}
 
-            await _next(context);
+			await _next(context);
         }
     }
 }

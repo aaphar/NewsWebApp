@@ -8,6 +8,7 @@ using Application.Operations.Posts.Queries.GetPostTranslationByTitle;
 using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
 using Application.Operations.Users.Queries.GetUserById;
 using Domain.Entities;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -81,26 +82,41 @@ namespace WebUI.Pages
                 CategoryTitle = null;
             }
 
-            PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageCodeAndNewsIdQuery() { NewsId = Post.Id, LanguageCode = language });
+            try
+            {
+                PostTranslation = await _mediator.Send(new GetPostTranslationByLanguageCodeAndNewsIdQuery() 
+                { 
+                    NewsId = Post.Id, 
+                    LanguageCode = language 
+                });
+
+                int userId; // This variable will hold the actual user ID
+
+                if (PostTranslation.AuthorId.HasValue)
+                {
+                    userId = PostTranslation.AuthorId.Value; // Extract the value from the nullable int
+                }
+                else
+                {
+                    userId = -1; // For example, using -1 as a placeholder
+                }
+
+                User = await _mediator.Send(new GetUserByIdQuery(userId));
+            }
+            catch (PostNotFoundWithGivenLanguageException)
+            {
+                PostTranslation = new PostTranslationDto { ErrorMessage = "Translation not found." };
+            }
+            catch (Exception)
+            {
+                PostTranslation = new PostTranslationDto { ErrorMessage = "An error occurred while fetching translation." };
+            }
 
             Categories = await _mediator.Send(new GetCategoriesQuery());
 
             PostHashtags = await _mediator.Send(new GetPostHashtagsByPostIdQuery(PostTranslation.Id));
 
-            Hashtags = await _mediator.Send(new GetHashtagsQuery());
-
-            int userId; // This variable will hold the actual user ID
-
-            if (PostTranslation.AuthorId.HasValue)
-            {
-                userId = PostTranslation.AuthorId.Value; // Extract the value from the nullable int
-            }
-            else
-            {
-                userId = -1; // For example, using -1 as a placeholder
-            }
-
-            User = await _mediator.Send(new GetUserByIdQuery(userId));
+            Hashtags = await _mediator.Send(new GetHashtagsQuery());            
         }
     }
 }

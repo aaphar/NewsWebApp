@@ -84,15 +84,27 @@
 								<li><a href="category">Politics</a></li>
 							</ul>
 						</div>
+
 						<div class="col-2 text-end">
-							<!-- Language Dropdown -->
 							<div class="language-dropdown">
 								<label for="language-select">Select Language:</label>
-								<select id="language-select">
-									<option value="en">English</option>
-									<option value="fr">French</option>
-									<option value="es">Spanish</option>
-									<!-- Add more language options as needed -->
+								<select id="language-select" onchange="changeLanguage()">
+									@{
+										var selectedLanguage = Model.Languages.FirstOrDefault(r => r.LanguageCode == Model.SelectedLanguageCode);
+
+										if (selectedLanguage != null)
+										{
+											<option value="@selectedLanguage.LanguageCode">@selectedLanguage.Title</option>
+										}
+
+										foreach (var language in Model.Languages)
+										{
+											if (selectedLanguage == null || language.LanguageCode != selectedLanguage.LanguageCode)
+											{
+												<option value="@language.LanguageCode">@language.Title</option>
+											}
+										}
+									}
 								</select>
 							</div>
 						</div>

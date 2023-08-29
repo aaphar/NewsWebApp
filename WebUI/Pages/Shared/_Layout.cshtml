@@ -83,5 +83,28 @@
     </footer>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+
+        function changeLanguage() {
+            var selectedLanguageCode = document.getElementById("language-select").value;
+            var currentPath = window.location.pathname; // Get the current path
+            var newPath = currentPath.replace(/^\/\w+/, "/" + selectedLanguageCode); // Replace the existing language code in the path
+
+            window.location.href = newPath; // Redirect to the new URL
+
+            var selectedLanguageCode = document.getElementById("language-select").value;
+            var data = { languageCode: selectedLanguageCode };
+
+            // Send selected language to the server using AJAX
+            fetch('/SetLanguage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+        }
+    </script>
 </body>
 </html>

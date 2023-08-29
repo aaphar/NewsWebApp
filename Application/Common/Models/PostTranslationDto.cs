@@ -23,5 +23,6 @@ namespace Application.Common.Models
         public long NewsId { get; set; }
 
         public int? AuthorId { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

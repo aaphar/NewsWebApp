@@ -43,8 +43,7 @@ public class GetPostTranslationByLanguageCodeAndNewsIdQueryHandler : IRequestHan
 
         if (translation is null)
         {
-            throw new LanguageNotFoundException(language.Id);
-            throw new PostNotFoundException(request.NewsId);
+            throw new PostNotFoundWithGivenLanguageException(request.NewsId, request.LanguageCode);
         }
 
         var postTranslationDto = _mapper.Map<PostTranslationDto>(translation);

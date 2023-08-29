@@ -15,10 +15,9 @@ namespace WebUI
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddRazorPages(options =>
-            {
-                options.Conventions.AddPageRoute("/Single", "{lang}/{title}");
-                options.Conventions.AddPageRoute("/Blog", "{lang}/Blog");
-            });
+            {               
+				options.Conventions.Add(new CulturePageRouteModelConvention());
+			});
 
 
             //builder.Services.AddRazorPages(options =>
