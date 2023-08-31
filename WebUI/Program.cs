@@ -17,7 +17,7 @@ namespace WebUI
             builder.Services.AddRazorPages(options =>
             {               
 				options.Conventions.Add(new CulturePageRouteModelConvention());
-			});
+            });
 
 
             //builder.Services.AddRazorPages(options =>

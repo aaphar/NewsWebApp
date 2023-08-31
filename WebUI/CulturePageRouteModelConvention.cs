@@ -13,8 +13,16 @@ namespace WebUI
                 // Check if the template starts with "admin/authentication/Logout"
                 if (!template.StartsWith("admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Add a required route parameter for the language code
-                    selector.AttributeRouteModel.Template = "{lang}/" + template;
+                    if (template.Contains("Single"))
+                    {
+                        // Handle the "Single" page
+                        selector.AttributeRouteModel.Template = "{lang}/{title}";
+                    }
+                    else
+                    {
+                        // Handle other pages
+                        selector.AttributeRouteModel.Template = "{lang}/" + template;
+                    }
                 }
             }
 		}
