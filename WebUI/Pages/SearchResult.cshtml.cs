@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebUI.Pages
 {
-    public class Search_resultModel : PageModel
+    public class SearchResultModel : PageModel
     {
 		private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@ namespace WebUI.Pages
 		[BindProperty]
 		public string? SelectedLanguageCode { get; set; }
 
-        public Search_resultModel(IMediator mediator)
+        public SearchResultModel(IMediator mediator)
 		{
 			_mediator = mediator;
 		}
@@ -33,6 +33,20 @@ namespace WebUI.Pages
 			var language = !string.IsNullOrEmpty(languageFromUrl) ? languageFromUrl : languageFromSession;
 
 			SelectedLanguageCode = language;
-		}
+
+
+            // Handle potential null values
+            if (Languages == null)
+            {
+                Languages = new List<LanguageDto>(); // Initialize an empty list or handle accordingly
+            }
+
+            if (SelectedLanguageCode == null)
+            {
+                // Handle the case where no language code is available
+                // For example, you might set a default language code here
+                SelectedLanguageCode = "en";
+            }
+        }
     }
 }

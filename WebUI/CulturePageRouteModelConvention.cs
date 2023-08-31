@@ -10,9 +10,13 @@ namespace WebUI
 			{
 				var template = selector.AttributeRouteModel.Template;
 
-				// Add a required route parameter for the language code
-				selector.AttributeRouteModel.Template = "{lang}/" + template;
-			}
+                // Check if the template starts with "admin/authentication/Logout"
+                if (!template.StartsWith("admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Add a required route parameter for the language code
+                    selector.AttributeRouteModel.Template = "{lang}/" + template;
+                }
+            }
 		}
 	}
 }

@@ -47,16 +47,13 @@
         <div class="container">
             <div class="menu-bg-wrap">
                 <div class="site-navigation">
+
                     <div class="row g-0 align-items-center">
                         <div class="col-2">
                             <a href="index" class="logo m-0 float-start">Blogy<span class="text-primary">.</span></a>
                         </div>
 
                         <div class="col-8 text-center">
-                            <form action="#" class="search-form d-inline-block d-lg-none">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="bi-search"></span>
-                            </form>
 
                             <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu mx-auto">
                                 <li><a href="index">Home</a></li>
@@ -65,7 +62,7 @@
                                     <ul class="dropdown">
 
                                         @*when user search for something redirect them to this page*@
-                                        <li><a href="search-result">Search Result</a></li>
+                                        <li><a href="SearchResult">Search Result</a></li>
 
                                         <li><a href="blog">Blog</a></li>
                                         <li><a href="category">Category</a></li>
@@ -81,7 +78,7 @@
 
                         <div class="col-2 text-end">
                             <div class="language-dropdown">
-                                <label for="language-select">Select Language:</label>
+                                <label for="language-select">Language:</label>
                                 <select id="language-select" onchange="changeLanguage()">
                                     @{
                                         var selectedLanguage = Model.Languages.FirstOrDefault(r => r.LanguageCode == Model.SelectedLanguageCode);
@@ -103,15 +100,21 @@
                             </div>
                         </div>
 
+                        <!-- Search Form (Always Visible) -->
+
+                        <div class="col-8">
+                            <form id="searchForm" class="search-form d-inline-block">
+                                <input id="searchTerm" type="text" name="searchTerm" class="form-control" placeholder="Search...">
+                                <span class="bi-search"></span>
+                            </form>
+                        </div>
+
                         <div class="col-2 text-end">
                             <a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light">
                                 <span></span>
                             </a>
-                            <form action="#" class="search-form d-none d-lg-inline-block">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="bi-search"></span>
-                            </form>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -742,6 +745,13 @@
     <script src="~/client/js/counter.js"></script>
     <script src="~/client/js/custom.js"></script>
 
-
+   @* <script>
+        document.getElementById("searchTerm").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission
+                document.getElementById("searchForm").submit(); // Submit the form
+            }
+        });
+    </script>*@
 </body>
 </html>

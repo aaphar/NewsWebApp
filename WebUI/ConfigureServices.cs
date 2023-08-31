@@ -8,9 +8,6 @@ namespace WebUI
     {
         public static IServiceCollection AddWebUIServices(IServiceCollection services)
         {
-            // Register application services
-            //services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<IPostService, PostService>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
             // Other dependencies specific to the presentation layer

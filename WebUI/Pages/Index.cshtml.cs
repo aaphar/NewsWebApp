@@ -1,5 +1,6 @@
 ﻿using Application.CommandQueries.Language.Queries.GetLanguages;
 using Application.Common.Models;
+using Application.Operations.PostTranslations.Queries.GetPostSearchsByTitle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,6 +15,9 @@ namespace WebUI.Pages
 
 		[BindProperty]
 		public string? SelectedLanguageCode { get; set; }
+		
+		[BindProperty]
+		public string? SearchTerm { get; set; }
 
 		public IndexModel(IMediator mediator)
 		{
@@ -34,5 +38,5 @@ namespace WebUI.Pages
 
 			SelectedLanguageCode = language;
 		}
-	}
+    }
 }

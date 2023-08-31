@@ -9,7 +9,8 @@ namespace Application.Operations.Posts.Queries.GetPostTranslationByTitle;
 
 public record GetPostByTitleQuery(string Title) : IRequest<PostDto>;
 
-public class GetPostByTitleQueryHandler : IRequestHandler<GetPostByTitleQuery, PostDto>
+public class GetPostByTitleQueryHandler 
+    : IRequestHandler<GetPostByTitleQuery, PostDto>
 {
     private readonly IApplicationDbContext _context;
 
