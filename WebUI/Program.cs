@@ -53,8 +53,7 @@ namespace WebUI
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-           
+                      
 
             app.MapControllers();
 

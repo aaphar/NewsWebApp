@@ -37,6 +37,7 @@ public class GetPostTranslationByLanguageCodeAndNewsIdQueryHandler : IRequestHan
         LanguageDto language = await _mediator.Send(new GetLanguageByCodeQuery(request.LanguageCode));
 
         var translation = await _context.PostTranslations
+            .Include(p=>p.Author)
             .Include(p => p.PostHashtags)
             .FirstOrDefaultAsync(p => p.LanguageId == language.Id
             && p.NewsId == request.NewsId);

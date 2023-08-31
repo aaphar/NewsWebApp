@@ -2,7 +2,6 @@ using Application.Common.Models;
 using Application.Operations.Categories.Queries.GetCategories;
 using Application.Operations.Posts.Commands.UpdatePost;
 using Application.Operations.Posts.Queries.GetPostById;
-using Application.Operations.PostTranslations.Queries.GetPostTranslationByLanguageCodeAndNewsId;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

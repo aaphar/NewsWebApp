@@ -24,5 +24,6 @@ namespace Application.Common.Models
 
         public int? AuthorId { get; set; }
         public string ErrorMessage { get; set; }
+        public UserDto User { get; set; }
     }
 }

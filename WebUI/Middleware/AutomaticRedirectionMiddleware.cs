@@ -10,11 +10,15 @@ namespace WebUI.Middleware
         private readonly List<string> _excludedPaths = new List<string>
         {
             "/admin",
+            "/Home",
             "/upload",
             "/images",
             "/css",
             "/js",
-            "/ckeditor/ckeditor.js" // Exclude CKEditor JS from redirection
+            "/ckeditor5",
+            "/ckeditor/ckeditor.js",
+            "/assets",
+            "/vendor",
             // Add other paths as needed
         };
 

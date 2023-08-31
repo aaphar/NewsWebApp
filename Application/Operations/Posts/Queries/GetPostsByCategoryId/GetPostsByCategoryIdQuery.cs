@@ -25,6 +25,7 @@ public class GetPostsByCategoryIdQueryHandler : IRequestHandler<GetPostsByCatego
     public async Task<List<PostDto>> Handle(GetPostsByCategoryIdQuery request, CancellationToken cancellationToken)
     {
         var posts = await _context.Posts
+            .Include(p => p.PostTranslations)
             .Where(p => p.CategoryId == request.CategoryId)
             .ToListAsync(cancellationToken);
 
