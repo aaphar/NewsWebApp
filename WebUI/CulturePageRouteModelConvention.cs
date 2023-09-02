@@ -10,21 +10,26 @@ namespace WebUI
 			{
 				var template = selector.AttributeRouteModel.Template;
 
-                // Check if the template starts with "admin/authentication/Logout"
-                if (!template.StartsWith("admin", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (template.Contains("Single"))
-                    {
-                        // Handle the "Single" page
-                        selector.AttributeRouteModel.Template = "{lang}/{title}";
-                    }
-                    else
-                    {
-                        // Handle other pages
-                        selector.AttributeRouteModel.Template = "{lang}/" + template;
-                    }
-                }
-            }
+				// Check if the template starts with "admin/authentication/Logout"
+				if (!template.StartsWith("admin", StringComparison.OrdinalIgnoreCase))
+				{
+					if (template.Contains("Single"))
+					{
+						// Handle the "Single" page
+						selector.AttributeRouteModel.Template = "{lang}/{title}";
+					}
+					else if (template.Contains("Category"))
+					{
+						// Handle the "Single" page
+						selector.AttributeRouteModel.Template = "{lang}/category={title}";
+					}
+					else
+					{
+						// Handle other pages
+						selector.AttributeRouteModel.Template = "{lang}/" + template;
+					}
+				}
+			}
 		}
 	}
 }

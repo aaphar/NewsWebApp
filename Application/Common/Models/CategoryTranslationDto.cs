@@ -16,5 +16,6 @@ namespace Application.Common.Models
         public short? LanguageId { get; set; }
 
         public short? CategoryId { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -21,8 +21,6 @@ namespace WebUI.Pages
 
         public List<PostDto>? Posts { get; set; }
 
-        [BindProperty]
-        public long CurrentPostId { get; set; }
 
         public PostTranslationDto? PostTranslation { get; set; }
 

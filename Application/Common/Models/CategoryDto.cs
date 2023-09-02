@@ -6,5 +6,6 @@
         public string? Description { get; set; }
 
         public ICollection<PostDto> Posts { get; set; }
+        public CategoryTranslationDto CategoryTranslation { get; set; }
     }
 }

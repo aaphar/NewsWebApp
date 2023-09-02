@@ -13,6 +13,7 @@
         public DateTime? InsertDate { get; set; }
 
         public short? CategoryId { get; set; }
+
         public PostTranslationDto PostTranslation { get; set; }
     }
 }
